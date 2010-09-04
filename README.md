@@ -11,7 +11,8 @@ on ASM.
 ###Example
 Base for our Examples is the Example interface...
 
-public interface Example {
+public interface Example
+{
 	String sayHello();
 }
 
@@ -39,7 +40,8 @@ so it can be, that the Packages get ignored.
 To use our AutoBind-Annotation you just have to annotate our Implementation...
 
 @AutoBind
-public class ExampleImpl implements Example {
+public class ExampleImpl implements Example 
+{
 	@Override
 	public String sayHello() {
 		return "yeahhh!!!";
@@ -61,7 +63,8 @@ you have to set the name-Attribute...
 If have enough to register every Guice-Module by your own, you just can annotate it with the GuiceModule-Annotation and the Startup/Scanner-Module will install it.
 
 @GuiceModule
-public class ExampleModule extends AbstractModule {
+public class ExampleModule extends AbstractModule
+{
 	@Override
 	protected void configure() {
 		bind(Example.class).to(ExampleImpl.class);
