@@ -13,6 +13,13 @@ import com.google.inject.Module;
 
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 
+/**
+ * Annotate a Module with the GuiceModule-Annotation and
+ * it will be installed automatically.
+ * 
+ * @author Daniel Manzke
+ *
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
 public @interface GuiceModule {

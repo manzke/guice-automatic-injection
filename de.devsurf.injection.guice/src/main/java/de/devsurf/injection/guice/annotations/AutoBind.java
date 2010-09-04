@@ -15,6 +15,21 @@ import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 
+/**
+ * Annotate a Class which should be binded automatically. The Classpath Scanner,
+ * will check for these classes. If the name()-Attribute is set (default is ""), 
+ * the class will be bound to the implemented interfaces and a named annotation.
+ * 
+ * You can overwrite the interfaces, which should be used for binding the class. 
+ * If bind()-Attribute is not set, the implemented interfaces will be used. If set
+ * they will be ignored and overwritten.
+ * 
+ * If you annotate your class with {@link com.google.inject.Singleton} or {@link javax.inject.Singleton}
+ * they will be also bound to the Singleton-Scope.
+ * 
+ * @author Daniel Manzke
+ *
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
 public @interface AutoBind {

@@ -7,6 +7,15 @@ import com.google.inject.name.Names;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.ScannerModule;
 
+/**
+ * The StartupModule is used for creating an initial Injector, which is used 
+ * for binding and instantiating the Scanning module. Due the fact that we have
+ * multiple Scanner Implementations, you have to pass the Class for the Scanner 
+ * and the Packages which should be scanned. 
+ * 
+ * @author Daniel Manzke
+ *
+ */
 public class StartupModule extends AbstractModule{
 	private String[] _packages;
 	private Class<? extends ClasspathScanner> _scanner;
