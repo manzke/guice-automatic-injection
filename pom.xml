@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.devsurf.injection.guice</groupId>
+	<artifactId>automatic-injection</artifactId>
+	<packaging>pom</packaging>
+	<name>Guice Automatic Injection</name>
+	
+	<version>0.0.1-SNAPSHOT</version>
+	<description>Goolge Guice-Extension which add the support for Classpath Scanner and auto registration for Guice-Modules and Beans. ASM, Reflections/Javassit or a Sonatype-Guice-Extension can be used as Classpath Scanner.</description>
+	<url>http://github.com/manzke/guice-automatic-injection</url>
+	<inceptionYear>2010</inceptionYear>
+
+	<modules>
+		<module>de.devsurf.injection.guice</module>
+		<module>de.devsurf.injection.scanner.asm</module>
+		<module>de.devsurf.injection.scanner.reflections</module>
+		<module>de.devsurf.injection.scanner.sonatype</module>
+	</modules>
+	
+	<developers>
+		<developer>
+			<name>Daniel Manzke</name>
+			<email>daniel.manzke@googlemail.com</email>
+			<url>http://www.devsurf.mp</url>
+			<roles>
+				<role>Developer</role>
+				<role>Contributor</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>http://github.com/manzke/guice-automatic-injection/tree/${scm.branch}</url>
+		<connection>scm:git:git://github.com/manzke/guice-automatic-injection.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:manzke/guice-automatic-injection.git</developerConnection>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<properties>
+		<scm.branch>master</scm.branch>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
