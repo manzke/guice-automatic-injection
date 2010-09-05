@@ -4,7 +4,7 @@ Google Guice-Extension for automatic Modules and Beans Binding:
 
 ##Automatic-Injection
 
-This is the Core module which defines the Interfaces used to create Classpath Scanner implementations.
+This is the Core module which defines the Interfaces used to create Classpath Scanner implementations and dynamic Binders.
 Existing implementations are Reflections/Javassit, a Sonatype-Extension and my own implementation based 
 on ASM.
 
@@ -27,7 +27,7 @@ Base for our Examples is the Example interface...
 		}
 	}
 
-...our Example Application also shows, how to use the automatic Injection.
+...which shows, how to use the automatic Injection.
 
 First of all you have to create a StartupModule and pass the Class of the ClasspathScanner you want to use. As 
 a second Parameter you can specify which Packages should be scanned. Not all Scanner will support this feature,
@@ -56,7 +56,7 @@ you have to set the name-Attribute...
 ...by passing the Interfaces to the bind()-Attribute.
 
 ####GuiceModule-Example
-If have enough to register every Guice-Module by your own, you just can annotate it with the GuiceModule-Annotation and the Startup/Scanner-Module will install it.
+If you have enough to register every Guice-Module by your own, just annotate it with the @GuiceModule and the Startup/Scanner-Module will install it.
 
 	@GuiceModule
 	public class ExampleModule extends AbstractModule {
