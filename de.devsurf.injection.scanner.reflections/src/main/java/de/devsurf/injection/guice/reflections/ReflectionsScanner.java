@@ -41,17 +41,24 @@ import com.google.inject.name.Named;
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
+/**
+ * {@link ClasspathScanner} Implementation which uses the Reflections-API. This
+ * Implementation scans all passed packages multithreaded.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public class ReflectionsScanner implements ClasspathScanner {
 	private LinkedList<AnnotationListener> _listeners;
 	private LinkedList<Pattern> packagePatterns;
 	private String[] _packages;
 
 	@Inject
-	public ReflectionsScanner(@Named("packages")String... packages) {
+	public ReflectionsScanner(@Named("packages") String... packages) {
 		_listeners = new LinkedList<AnnotationListener>();
 		_packages = packages;
 		this.packagePatterns = new LinkedList<Pattern>();
-		for(String p : packages){
+		for (String p : packages) {
 			includePackage(p);
 		}
 	}
@@ -66,8 +73,8 @@ public class ReflectionsScanner implements ClasspathScanner {
 	}
 
 	@Override
-	public void includePackage(final String packageName){
-		String pattern = ".*"+packageName.replace(".", "\\.")+".*";
+	public void includePackage(final String packageName) {
+		String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
 		packagePatterns.add(Pattern.compile(pattern));
 	}
 
@@ -78,24 +85,22 @@ public class ReflectionsScanner implements ClasspathScanner {
 	@Override
 	public void scan() throws IOException {
 		Set<URL> urls = new LinkedHashSet<URL>();
-		for(String p : _packages){
+		for (String p : _packages) {
 			urls.addAll(ClasspathHelper.getUrlsForPackagePrefix(p));
 		}
-		new Reflections(new ConfigurationBuilder()
-				.setScanners(new AnnotationScanner())
-				.filterInputsBy(new Predicate<String>() {
+		new Reflections(new ConfigurationBuilder().setScanners(
+				new AnnotationScanner()).filterInputsBy(
+				new Predicate<String>() {
 					@Override
 					public boolean apply(String input) {
 						return matches(input);
 					}
-				})
-				.setUrls(urls)
-				.useParallelExecutor());
+				}).setUrls(urls).useParallelExecutor());
 	}
-	
-	private boolean matches(String name){
-		for(Pattern pattern : packagePatterns){
-			if(pattern.matcher(name).matches()){
+
+	private boolean matches(String name) {
+		for (Pattern pattern : packagePatterns) {
+			if (pattern.matcher(name).matches()) {
 				return true;
 			}
 		}
@@ -105,15 +110,17 @@ public class ReflectionsScanner implements ClasspathScanner {
 	private class AnnotationScanner extends AbstractScanner {
 		@SuppressWarnings("unchecked")
 		public void scan(final Object cls) {
-			ClassFile classFile = (ClassFile)cls;
-			AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute)classFile.getAttribute(AnnotationsAttribute.visibleTag);
-			if(annotationsAttribute == null){
+			ClassFile classFile = (ClassFile) cls;
+			AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
+					.getAttribute(AnnotationsAttribute.visibleTag);
+			if (annotationsAttribute == null) {
 				return;
 			}
-			
+
 			Class<Object> objectClass;
 			try {
-				objectClass = (Class<Object>) Class.forName(classFile.getName());
+				objectClass = (Class<Object>) Class
+						.forName(classFile.getName());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				return;
@@ -123,8 +130,10 @@ public class ReflectionsScanner implements ClasspathScanner {
 			for (Annotation annotation : annotationsAttribute.getAnnotations()) {
 				Class<java.lang.annotation.Annotation> annotationClass;
 				try {
-					annotationClass = (Class<java.lang.annotation.Annotation>) Class.forName(annotation.getTypeName());
-					map.put(annotationClass.getName(), objectClass.getAnnotation(annotationClass));
+					annotationClass = (Class<java.lang.annotation.Annotation>) Class
+							.forName(annotation.getTypeName());
+					map.put(annotationClass.getName(), objectClass
+							.getAnnotation(annotationClass));
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 					continue;

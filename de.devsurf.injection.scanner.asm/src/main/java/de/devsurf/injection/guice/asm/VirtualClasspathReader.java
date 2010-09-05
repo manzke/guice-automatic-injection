@@ -38,57 +38,64 @@ import com.google.inject.name.Named;
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
-public class VirtualClasspathReader implements ClasspathScanner{
+/**
+ * This Implementation only uses the ASM-API to read all recognized classes. It
+ * doesn't depend on any further 3rd-Party libraries.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+public class VirtualClasspathReader implements ClasspathScanner {
 	private File[] classPath;
 	private LinkedList<Pattern> packagePatterns;
 	private int count;
 	private AnnotationCollector collector;
 
 	@Inject
-	public VirtualClasspathReader(@Named("packages")String... packages) {
+	public VirtualClasspathReader(@Named("packages") String... packages) {
 		this.collector = new AnnotationCollector();
 		this.packagePatterns = new LinkedList<Pattern>();
-		for(String p : packages){
+		for (String p : packages) {
 			includePackage(p);
 		}
 	}
-	
+
 	@Override
 	public void addAnnotationListener(AnnotationListener listener) {
 		collector.addListener(listener);
 	}
-	
+
 	@Override
 	public void removeAnnotationListener(AnnotationListener listener) {
 	}
-	
+
 	@Override
-	public void includePackage(final String packageName){
-		String pattern = ".*"+packageName.replace(".", "\\\\")+".*";
+	public void includePackage(final String packageName) {
+		String pattern = ".*" + packageName.replace(".", "\\\\") + ".*";
 		packagePatterns.add(Pattern.compile(pattern));
 	}
-	
+
 	@Override
 	public void excludePackage(final String packageName) {
-		//TODO
+		// TODO
 	}
 
 	public void scan() throws IOException {
-		this.classPath = findClassPaths();	
-		for(File entry : classPath){
-			if(entry.isDirectory()){
+		this.classPath = findClassPaths();
+		for (File entry : classPath) {
+			if (entry.isDirectory()) {
 				visitFolder(entry);
-			}else{
-				if(entry.getName().endsWith(".class")){
-					visitClass(new FileInputStream(entry));	
-				}else if(entry.getName().endsWith(".jar")){
+			} else {
+				if (entry.getName().endsWith(".class")) {
+					visitClass(new FileInputStream(entry));
+				} else if (entry.getName().endsWith(".jar")) {
 					visitJar(entry);
 				}
 			}
 		}
-		System.out.println("Scanned "+count+" files.");
+		System.out.println("Scanned " + count + " files.");
 	}
-	
+
 	private void visitFolder(File folder) throws IOException {
 		boolean matches = matches(folder.getAbsolutePath());
 		File[] files = folder.listFiles();
@@ -96,37 +103,38 @@ public class VirtualClasspathReader implements ClasspathScanner{
 			if (file.isDirectory()) {
 				visitFolder(file);
 			} else {
-				if(file.getName().endsWith(".class") && matches){
-					visitClass(new FileInputStream(file));	
-				}else if(file.getName().endsWith(".jar")){
+				if (file.getName().endsWith(".class") && matches) {
+					visitClass(new FileInputStream(file));
+				} else if (file.getName().endsWith(".jar")) {
 					visitJar(file);
 				}
 			}
 		}
 	}
-	
-	private void visitJar(File file) throws IOException{
+
+	private void visitJar(File file) throws IOException {
 		JarFile jarFile = new JarFile(file);
 		Enumeration<JarEntry> jarEntries = jarFile.entries();
-		for(JarEntry jarEntry=null;jarEntries.hasMoreElements();){
+		for (JarEntry jarEntry = null; jarEntries.hasMoreElements();) {
 			count++;
 			jarEntry = jarEntries.nextElement();
 			String name = jarEntry.getName();
-			if(!jarEntry.isDirectory() && name.endsWith(".class") && matches(name)){
+			if (!jarEntry.isDirectory() && name.endsWith(".class")
+					&& matches(name)) {
 				visitClass(jarFile.getInputStream(jarEntry));
-			}			
+			}
 		}
 	}
-	
+
 	private void visitClass(InputStream in) throws IOException {
 		count++;
 		ClassReader reader = new ClassReader(new BufferedInputStream(in));
 		reader.accept(collector, 1);
 	}
-	
-	private boolean matches(String name){
-		for(Pattern pattern : packagePatterns){
-			if(pattern.matcher(name).matches()){
+
+	private boolean matches(String name) {
+		for (Pattern pattern : packagePatterns) {
+			if (pattern.matcher(name).matches()) {
 				return true;
 			}
 		}

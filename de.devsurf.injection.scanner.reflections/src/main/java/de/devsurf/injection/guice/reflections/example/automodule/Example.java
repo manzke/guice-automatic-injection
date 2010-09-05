@@ -16,6 +16,12 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.reflections.example.automodule;
 
+/**
+ * Interface which is used to bind an implementation too.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public interface Example {
 	String sayHello();
 }

@@ -30,23 +30,29 @@ import de.devsurf.injection.guice.StartupModule;
 import de.devsurf.injection.guice.asm.VirtualClasspathReader;
 
 public class Injection {
-	private static final String packages = System.getProperty("injection-packages", "de.devsurf");
-	private static final String delimiter = System.getProperty("injection-delimiter", ";");
+	private static final String packages = System.getProperty(
+			"injection-packages", "de.devsurf");
+	private static final String delimiter = System.getProperty(
+			"injection-delimiter", ";");
 	private static final Injector injector;
 
 	static {
 		List<String> tokens = new ArrayList<String>();
 		StringTokenizer tok = new StringTokenizer(packages, delimiter);
-		while(tok.hasMoreTokens()){
+		while (tok.hasMoreTokens()) {
 			tokens.add(tok.nextToken());
 		}
-		
-		Injector startupInjector = Guice.createInjector(new StartupModule(VirtualClasspathReader.class, tokens.toArray(new String[tokens.size()])));
-		DynamicModule dynamicModule = startupInjector.getInstance(DynamicModule.class);
-    	injector = startupInjector.createChildInjector(dynamicModule);
+
+		Injector startupInjector = Guice.createInjector(new StartupModule(
+				VirtualClasspathReader.class, tokens.toArray(new String[tokens
+						.size()])));
+		DynamicModule dynamicModule = startupInjector
+				.getInstance(DynamicModule.class);
+		injector = startupInjector.createChildInjector(dynamicModule);
 	}
 
-	public static <T> T lookup(Class<T> key, String hint) throws NotFoundException {
+	public static <T> T lookup(Class<T> key, String hint)
+			throws NotFoundException {
 		try {
 			return injector.getInstance(Key.get(key, Names.named(hint)));
 		} catch (ConfigurationException e) {
@@ -61,8 +67,8 @@ public class Injection {
 			throw new NotFoundException(e);
 		}
 	}
-	
-	public static class NotFoundException extends Exception{
+
+	public static class NotFoundException extends Exception {
 
 		private static final long serialVersionUID = -4018335662382124388L;
 
@@ -81,6 +87,6 @@ public class Injection {
 		public NotFoundException(Throwable cause) {
 			super(cause);
 		}
-		
+
 	}
 }

@@ -17,12 +17,23 @@
 package de.devsurf.injection.guice.sonatype.example.autobind.names;
 
 import de.devsurf.injection.guice.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.sonatype.SonatypeScanner;
 
-@AutoBind(name="Example")
+/**
+ * This class implements the Example interface and uses the {@link AutoBind}-
+ * Annotation, so it will be recognized by the {@link ClasspathScanner} and
+ * bound to the Name "Example". In this Example the {@link SonatypeScanner} is
+ * used.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+@AutoBind(name = "Example")
 public class ExampleImpl implements Example {
 	@Override
 	public String sayHello() {
 		return "yeahhh!!!";
-		
+
 	}
 }

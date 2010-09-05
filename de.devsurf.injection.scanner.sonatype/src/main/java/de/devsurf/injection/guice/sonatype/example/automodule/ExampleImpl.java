@@ -16,6 +16,17 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.sonatype.example.automodule;
 
+import de.devsurf.injection.guice.sonatype.SonatypeScanner;
+
+/**
+ * This class implements the Example interface and is not annotated like the
+ * other Examples, due the fact, that the {@link ExampleModule} will bind it
+ * manually. In this Example the {@link SonatypeScanner} is used, to find the
+ * {@link ExampleModule} and automatically install it.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public class ExampleImpl implements Example {
 	@Override
 	public String sayHello() {

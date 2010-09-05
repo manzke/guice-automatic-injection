@@ -18,20 +18,23 @@ package de.devsurf.injection.guice.scanner;
 
 import java.io.IOException;
 
-
 /**
- * Interface which is used to create ClasspathScanner implementations.
- * Our StartupModule will bind your chosen Implementation to this interface.
- * You choose which ClasspathScanner should be used, by passing the Class
- * to the StartupModule constructor.
+ * Interface which is used to create ClasspathScanner implementations. Our
+ * StartupModule will bind your chosen Implementation to this interface. You
+ * choose which ClasspathScanner should be used, by passing the Class to the
+ * StartupModule constructor.
  * 
  * @author Daniel Manzke
- *
+ * 
  */
 public interface ClasspathScanner {
 	void scan() throws IOException;
+
 	void addAnnotationListener(AnnotationListener listener);
+
 	void removeAnnotationListener(AnnotationListener listener);
+
 	void includePackage(String packageName);
+
 	void excludePackage(String packageName);
 }

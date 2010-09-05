@@ -30,13 +30,20 @@ import org.sonatype.guice.bean.scanners.QualifiedTypeVisitor;
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
+/**
+ * {@link ClasspathScanner} Implementation which uses the Google Guice-Extension which
+ * is provided by Sonatype. This Implementation scans all provided packages.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public class SonatypeScanner implements ClasspathScanner {
 	private LinkedList<AnnotationListener> _listeners;
-	
+
 	public SonatypeScanner() {
 		_listeners = new LinkedList<AnnotationListener>();
 	}
-	
+
 	@Override
 	public void addAnnotationListener(AnnotationListener listener) {
 		_listeners.add(listener);
@@ -61,9 +68,12 @@ public class SonatypeScanner implements ClasspathScanner {
 		scanner.accept(new QualifiedTypeVisitor(new QualifiedTypeListener() {
 			@SuppressWarnings("unchecked")
 			@Override
-			public void hear(Annotation qualifier, Class<?> qualifiedType, Object source) {
-				for(AnnotationListener listener : _listeners){
-					listener.found((Class<Object>) qualifiedType, Collections.singletonMap(qualifier.annotationType().getName(), qualifier));
+			public void hear(Annotation qualifier, Class<?> qualifiedType,
+					Object source) {
+				for (AnnotationListener listener : _listeners) {
+					listener.found((Class<Object>) qualifiedType, Collections
+							.singletonMap(qualifier.annotationType().getName(),
+									qualifier));
 				}
 			}
 		}));

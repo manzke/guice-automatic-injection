@@ -19,16 +19,16 @@ package de.devsurf.injection.guice.scanner;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-
 /**
- * This Interface is used, if you want get informed, for Classes with Annotations.
- * This is used for creating Classes for the automatic Module installation 
- * or the automatic Bean binding.
+ * This Interface is used, if you want get informed, for Classes with
+ * Annotations. This is used for creating Classes for the automatic Module
+ * installation or the automatic Bean binding.
  * 
- * You will get the Class for the annotated one and a Proxy of the attached Annotations. 
- *  
+ * You will get the Class for the annotated one and a Proxy of the attached
+ * Annotations.
+ * 
  * @author Daniel Manzke
- *
+ * 
  */
 public interface AnnotationListener {
 	void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);

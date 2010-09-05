@@ -19,7 +19,17 @@ package de.devsurf.injection.guice.sonatype.example.automodule;
 import com.google.inject.AbstractModule;
 
 import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.sonatype.SonatypeScanner;
 
+/**
+ * This is a GuiceModule, which bind the {@link ExampleImpl} to the
+ * {@link Example} interface and it will be recognized by the
+ * {@link SonatypeScanner}, due the fact that it is annotated with the
+ * {@link GuiceModule}.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @GuiceModule
 public class ExampleModule extends AbstractModule {
 	@Override

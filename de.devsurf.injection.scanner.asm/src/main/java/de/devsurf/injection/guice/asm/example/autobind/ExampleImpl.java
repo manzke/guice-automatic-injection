@@ -17,7 +17,17 @@
 package de.devsurf.injection.guice.asm.example.autobind;
 
 import de.devsurf.injection.guice.annotations.AutoBind;
+import de.devsurf.injection.guice.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
+/**
+ * This class implements the Example interface and uses the {@link AutoBind}-
+ * Annotation, so it will be recognized by the {@link ClasspathScanner}. In this
+ * Example the {@link VirtualClasspathReader} is used.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @AutoBind
 public class ExampleImpl implements Example {
 	@Override

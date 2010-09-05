@@ -25,16 +25,33 @@ import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.StartupModule;
+import de.devsurf.injection.guice.annotations.AutoBind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.sonatype.SonatypeScanner;
 
-public class ExampleApp 
-{
-    public static void main( String[] args ) throws IOException
-    {
-    	Injector injector = Guice.createInjector(new StartupModule(SonatypeScanner.class, "de.devsurf"));
-    	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-    	injector = injector.createChildInjector(dynamicModule);
-    	
-    	System.out.println(injector.getInstance(Key.get(Example.class, Names.named("Example"))).sayHello());
-    }
+/**
+ * Example Application, which creates a new Injector with the help of the
+ * provided {@link StartupModule}. It passes the {@link SonatypeScanner} class
+ * for the {@link ClasspathScanner} and the packages (de.devsurf) which should
+ * be scanned. The {@link StartupModule} binds these parameter, so we are able
+ * to create and inject our {@link DynamicModule}. This Module uses the
+ * {@link ClasspathScanner} to explore the Classpath and scans for Annotations.
+ * 
+ * All recognized Classes annotated with {@link GuiceModule} are installed in
+ * the child injector and with {@link AutoBind} are automatically bound.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+public class ExampleApp {
+	public static void main(String[] args) throws IOException {
+		Injector injector = Guice.createInjector(new StartupModule(
+				SonatypeScanner.class, "de.devsurf"));
+		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
+		injector = injector.createChildInjector(dynamicModule);
+
+		System.out.println(injector.getInstance(
+				Key.get(Example.class, Names.named("Example"))).sayHello());
+	}
 }
