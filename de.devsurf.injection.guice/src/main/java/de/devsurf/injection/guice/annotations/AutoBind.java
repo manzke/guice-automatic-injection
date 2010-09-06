@@ -23,13 +23,11 @@ import java.util.Map;
 
 import javax.inject.Qualifier;
 
-import com.google.inject.Binder;
-import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
 /**
  * Annotate a Class which should be binded automatically. The Classpath Scanner,
@@ -54,14 +52,7 @@ public @interface AutoBind {
 
 	Class<? extends Object>[] bind() default {};
 
-	public class AutoBindListener implements AnnotationListener {
-		private final Binder _binder;
-
-		@Inject
-		public AutoBindListener(Binder binder) {
-			_binder = binder;
-		}
-
+	public class AutoBindListener extends GuiceAnnotationListener {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void found(Class<Object> annotatedClass,

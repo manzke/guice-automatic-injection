@@ -17,6 +17,7 @@
 package de.devsurf.injection.guice.asm;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -73,6 +74,14 @@ public class AnnotationCollector implements ClassVisitor {
 
 	public void addListener(AnnotationListener listener) {
 		_listeners.add(listener);
+	}
+	
+	public void removerListener(AnnotationListener listener) {
+		_listeners.remove(listener);
+	}
+	
+	public List<AnnotationListener> getListeners(){
+		return new ArrayList<AnnotationListener>(_listeners);
 	}
 
 	@Override

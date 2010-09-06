@@ -23,11 +23,9 @@ import java.util.Map;
 
 import javax.inject.Qualifier;
 
-import com.google.inject.Binder;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
 /**
  * Annotate a Module with the GuiceModule-Annotation and it will be installed
@@ -39,14 +37,7 @@ import de.devsurf.injection.guice.scanner.AnnotationListener;
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
 public @interface GuiceModule {
-	public class GuiceModuleListener implements AnnotationListener {
-		private final Binder _binder;
-
-		@Inject
-		public GuiceModuleListener(Binder binder) {
-			_binder = binder;
-		}
-
+	public class GuiceModuleListener extends GuiceAnnotationListener {
 		@Override
 		public void found(Class<Object> annotatedClass,
 				Map<String, Annotation> annotations) {

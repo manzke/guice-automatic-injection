@@ -18,9 +18,11 @@ package de.devsurf.injection.guice.reflections;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -54,8 +56,8 @@ public class ReflectionsScanner implements ClasspathScanner {
 	private String[] _packages;
 
 	@Inject
-	public ReflectionsScanner(@Named("packages") String... packages) {
-		_listeners = new LinkedList<AnnotationListener>();
+	public ReflectionsScanner(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
+		_listeners = new LinkedList<AnnotationListener>(listeners);
 		_packages = packages;
 		this.packagePatterns = new LinkedList<Pattern>();
 		for (String p : packages) {
@@ -67,7 +69,17 @@ public class ReflectionsScanner implements ClasspathScanner {
 	public void addAnnotationListener(AnnotationListener listener) {
 		_listeners.add(listener);
 	}
-
+	
+	@Override
+	public void removeAnnotationListener(AnnotationListener listener) {
+		_listeners.remove(listener);
+	}
+	
+	@Override
+	public List<AnnotationListener> getAnnotationListeners() {
+		return new ArrayList<AnnotationListener>(_listeners);
+	}
+	
 	@Override
 	public void excludePackage(String packageName) {
 	}
@@ -76,10 +88,6 @@ public class ReflectionsScanner implements ClasspathScanner {
 	public void includePackage(final String packageName) {
 		String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
 		packagePatterns.add(Pattern.compile(pattern));
-	}
-
-	@Override
-	public void removeAnnotationListener(AnnotationListener listener) {
 	}
 
 	@Override

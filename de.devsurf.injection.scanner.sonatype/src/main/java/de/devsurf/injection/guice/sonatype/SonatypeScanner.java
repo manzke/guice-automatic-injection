@@ -18,14 +18,20 @@ package de.devsurf.injection.guice.sonatype;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import org.sonatype.guice.bean.reflect.ClassSpace;
 import org.sonatype.guice.bean.reflect.URLClassSpace;
 import org.sonatype.guice.bean.scanners.ClassSpaceScanner;
 import org.sonatype.guice.bean.scanners.QualifiedTypeListener;
 import org.sonatype.guice.bean.scanners.QualifiedTypeVisitor;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
@@ -39,14 +45,27 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  */
 public class SonatypeScanner implements ClasspathScanner {
 	private LinkedList<AnnotationListener> _listeners;
+	private String[] _packages;
 
-	public SonatypeScanner() {
-		_listeners = new LinkedList<AnnotationListener>();
+	@Inject
+	public SonatypeScanner(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
+		_listeners = new LinkedList<AnnotationListener>(listeners);
+		_packages = packages;
 	}
 
 	@Override
 	public void addAnnotationListener(AnnotationListener listener) {
 		_listeners.add(listener);
+	}
+	
+	@Override
+	public void removeAnnotationListener(AnnotationListener listener) {
+		_listeners.remove(listener);
+	}
+	
+	@Override
+	public List<AnnotationListener> getAnnotationListeners() {
+		return new ArrayList<AnnotationListener>(_listeners);
 	}
 
 	@Override
@@ -55,10 +74,6 @@ public class SonatypeScanner implements ClasspathScanner {
 
 	@Override
 	public void includePackage(String packageName) {
-	}
-
-	@Override
-	public void removeAnnotationListener(AnnotationListener listener) {
 	}
 
 	@Override

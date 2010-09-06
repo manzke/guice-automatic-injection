@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -52,11 +53,15 @@ public class VirtualClasspathReader implements ClasspathScanner {
 	private AnnotationCollector collector;
 
 	@Inject
-	public VirtualClasspathReader(@Named("packages") String... packages) {
+	public VirtualClasspathReader(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
 		this.collector = new AnnotationCollector();
 		this.packagePatterns = new LinkedList<Pattern>();
 		for (String p : packages) {
 			includePackage(p);
+		}
+		
+		for(AnnotationListener listener : listeners){
+			addAnnotationListener(listener);	
 		}
 	}
 
@@ -67,6 +72,12 @@ public class VirtualClasspathReader implements ClasspathScanner {
 
 	@Override
 	public void removeAnnotationListener(AnnotationListener listener) {
+		collector.removerListener(listener);
+	}
+	
+	@Override
+	public List<AnnotationListener> getAnnotationListeners() {
+		return collector.getListeners();
 	}
 
 	@Override

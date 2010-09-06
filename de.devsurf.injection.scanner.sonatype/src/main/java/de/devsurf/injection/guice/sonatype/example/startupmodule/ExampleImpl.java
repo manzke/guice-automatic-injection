@@ -14,30 +14,24 @@
  * governing permissions and limitations under the License.
  * 
  ******************************************************************************/
-package de.devsurf.injection.guice.scanner;
+package de.devsurf.injection.guice.sonatype.example.startupmodule;
 
-import java.io.IOException;
-import java.util.List;
+import de.devsurf.injection.guice.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
 /**
- * Interface which is used to create ClasspathScanner implementations. Our
- * StartupModule will bind your chosen Implementation to this interface. You
- * choose which ClasspathScanner should be used, by passing the Class to the
- * StartupModule constructor.
+ * This class implements the Example interface and uses the {@link AutoBind}-
+ * Annotation, so it will be recognized by the {@link ClasspathScanner} and
+ * bound to the Name "Example". In this Example the
+ * {@link VirtualClasspathReader} is used.
  * 
  * @author Daniel Manzke
  * 
  */
-public interface ClasspathScanner {
-	void scan() throws IOException;
-
-	void addAnnotationListener(AnnotationListener listener);
-
-	void removeAnnotationListener(AnnotationListener listener);
-	
-	List<AnnotationListener> getAnnotationListeners();
-
-	void includePackage(String packageName);
-
-	void excludePackage(String packageName);
+@AutoBind
+public class ExampleImpl implements Example {
+	@Override
+	public String sayHello() {
+		return "yeahhh!!!";
+	}
 }

@@ -17,6 +17,7 @@
 package de.devsurf.injection.guice.scanner;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.inject.Binder;
 import com.google.inject.Inject;
@@ -44,10 +45,12 @@ public class ScannerModule implements DynamicModule {
 
 	@Override
 	public void configure(Binder binder) {
-		_scanner.addAnnotationListener(new GuiceModule.GuiceModuleListener(
-				binder));
-		_scanner.addAnnotationListener(new AutoBind.AutoBindListener(binder));
-
+		List<AnnotationListener> listeners = _scanner.getAnnotationListeners();
+		for(AnnotationListener listener : listeners){
+			if(listener instanceof GuiceAnnotationListener){
+				((GuiceAnnotationListener)listener).setBinder(binder);
+			}
+		}
 		try {
 			_scanner.scan();
 		} catch (IOException e) {

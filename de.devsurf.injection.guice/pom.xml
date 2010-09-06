@@ -9,5 +9,5 @@
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>automatic-injection</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</parent>	
+	</parent>
 </project>

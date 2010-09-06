@@ -14,30 +14,14 @@
  * governing permissions and limitations under the License.
  * 
  ******************************************************************************/
-package de.devsurf.injection.guice.scanner;
-
-import java.io.IOException;
-import java.util.List;
+package de.devsurf.injection.guice.sonatype.example.startupmodule;
 
 /**
- * Interface which is used to create ClasspathScanner implementations. Our
- * StartupModule will bind your chosen Implementation to this interface. You
- * choose which ClasspathScanner should be used, by passing the Class to the
- * StartupModule constructor.
+ * Interface which is used to bind an implementation too.
  * 
  * @author Daniel Manzke
  * 
  */
-public interface ClasspathScanner {
-	void scan() throws IOException;
-
-	void addAnnotationListener(AnnotationListener listener);
-
-	void removeAnnotationListener(AnnotationListener listener);
-	
-	List<AnnotationListener> getAnnotationListeners();
-
-	void includePackage(String packageName);
-
-	void excludePackage(String packageName);
+public interface Example {
+	String sayHello();
 }

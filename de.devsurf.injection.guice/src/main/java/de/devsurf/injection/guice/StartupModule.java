@@ -18,16 +18,21 @@ package de.devsurf.injection.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
+import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
+import de.devsurf.injection.guice.annotations.AutoBind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.ScannerModule;
 
 /**
- * The StartupModule is used for creating an initial Injector, which is used for
- * binding and instantiating the Scanning module. Due the fact that we have
- * multiple Scanner Implementations, you have to pass the Class for the Scanner
- * and the Packages which should be scanned.
+ * The StartupModule is used for creating an initial Injector, which binds and
+ * instantiates the Scanning module. Due the fact that we have multiple Scanner
+ * Implementations, you have to pass the Class for the Scanner and the Packages
+ * which should be scanned. You can override the bindAnnotationListeners-Method,
+ * to add your own {@link AnnotationListener}.
  * 
  * @author Daniel Manzke
  * 
@@ -48,5 +53,13 @@ public class StartupModule extends AbstractModule {
 		bind(TypeLiteral.get(String[].class)).annotatedWith(
 				Names.named("packages")).toInstance(_packages);
 		bind(DynamicModule.class).to(ScannerModule.class);
+		bindAnnotationListeners();
+	}
+
+	protected void bindAnnotationListeners() {
+		Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(
+				binder(), AnnotationListener.class);
+		listeners.addBinding().to(GuiceModule.GuiceModuleListener.class);
+		listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	}
 }
