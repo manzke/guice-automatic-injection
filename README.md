@@ -1,6 +1,8 @@
 #guice-automatic-injection
 
-Google Guice-Extension for automatic Modules and Beans Binding:
+Google Guice-Extension for automatic Modules and Beans Binding.
+
+Blog-Entry: http://devsurf.wordpress.com/2010/09/06/google-guice-classpath-scanning-and-automatic-beans-binding-and-module-installation/
 
 ##Automatic-Injection
 
