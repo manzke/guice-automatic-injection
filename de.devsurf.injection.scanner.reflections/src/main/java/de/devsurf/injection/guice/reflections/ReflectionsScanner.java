@@ -103,7 +103,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 					public boolean apply(String input) {
 						return matches(input);
 					}
-				}).setUrls(urls));//TODO .useParallelExecutor());
+				}).setUrls(urls).useParallelExecutor());
 	}
 
 	private boolean matches(String name) {
@@ -149,7 +149,9 @@ public class ReflectionsScanner implements ClasspathScanner {
 			}
 
 			for (AnnotationListener listener : _listeners) {
-				listener.found(objectClass, map);
+//				synchronized(listener){
+					listener.found(objectClass, map);	
+//				}
 			}
 		}
 	}

@@ -74,15 +74,17 @@ public @interface AutoBind {
 						: (Class<Object>[]) annotatedClass.getInterfaces());
 				for (Class<Object> interf : interfaces) {
 					ScopedBindingBuilder builder;
-					if (nameIt) {
-						builder = _binder.bind(interf).annotatedWith(
-								Names.named(annotation.name())).to(
-								annotatedClass);
-					} else {
-						builder = _binder.bind(interf).to(annotatedClass);
-					}
-					if (asSingleton) {
-						builder.in(Scopes.SINGLETON);
+					synchronized (_binder) {
+						if (nameIt) {
+							builder = _binder.bind(interf).annotatedWith(
+									Names.named(annotation.name())).to(
+									annotatedClass);
+						} else {
+							builder = _binder.bind(interf).to(annotatedClass);
+						}
+						if (asSingleton) {
+							builder.in(Scopes.SINGLETON);
+						}
 					}
 				}
 			}

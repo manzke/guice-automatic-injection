@@ -43,7 +43,9 @@ public @interface GuiceModule {
 				Map<String, Annotation> annotations) {
 			if (annotations.containsKey(GuiceModule.class.getName())) {
 				try {
-					_binder.install((Module) annotatedClass.newInstance());
+					synchronized (_binder) {
+						_binder.install((Module) annotatedClass.newInstance());	
+					}
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
