@@ -37,7 +37,7 @@ import de.devsurf.injection.guice.scanner.ScannerModule;
  * @author Daniel Manzke
  * 
  */
-public class StartupModule extends AbstractModule {
+public abstract class StartupModule extends AbstractModule {
 	private String[] _packages;
 	private Class<? extends ClasspathScanner> _scanner;
 
@@ -56,10 +56,23 @@ public class StartupModule extends AbstractModule {
 		bindAnnotationListeners();
 	}
 
-	protected void bindAnnotationListeners() {
-		Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(
-				binder(), AnnotationListener.class);
-		listeners.addBinding().to(GuiceModule.GuiceModuleListener.class);
-		listeners.addBinding().to(AutoBind.AutoBindListener.class);
+	protected abstract void bindAnnotationListeners();
+	
+	public static StartupModule create(Class<? extends ClasspathScanner> scanner, String... packages){
+		return new DefaultStartupModule(scanner, packages);
+	}
+	
+	public static class DefaultStartupModule extends StartupModule {
+
+		public DefaultStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
+			super(scanner, packages);
+		}
+		
+		@Override
+		protected void bindAnnotationListeners() {
+			Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(), AnnotationListener.class);
+			listeners.addBinding().to(AutoBind.AutoBindListener.class);
+			listeners.addBinding().to(GuiceModule.GuiceModuleListener.class);
+		}
 	}
 }

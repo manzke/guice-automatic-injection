@@ -43,7 +43,7 @@ public class Injection {
 			tokens.add(tok.nextToken());
 		}
 
-		Injector startupInjector = Guice.createInjector(new StartupModule(
+		Injector startupInjector = Guice.createInjector(StartupModule.create(
 				VirtualClasspathReader.class, tokens.toArray(new String[tokens
 						.size()])));
 		DynamicModule dynamicModule = startupInjector

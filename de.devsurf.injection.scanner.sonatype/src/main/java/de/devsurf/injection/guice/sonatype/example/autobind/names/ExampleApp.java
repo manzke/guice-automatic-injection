@@ -29,6 +29,7 @@ import de.devsurf.injection.guice.annotations.AutoBind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.sonatype.SonatypeScanner;
+import de.devsurf.injection.guice.sonatype.example.autobind.ExampleStartupModule;
 
 /**
  * Example Application, which creates a new Injector with the help of the
@@ -46,7 +47,7 @@ import de.devsurf.injection.guice.sonatype.SonatypeScanner;
  */
 public class ExampleApp {
 	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(new StartupModule(
+		Injector injector = Guice.createInjector(new ExampleStartupModule(
 				SonatypeScanner.class, "de.devsurf"));
 		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 		injector = injector.createChildInjector(dynamicModule);
