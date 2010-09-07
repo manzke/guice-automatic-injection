@@ -18,8 +18,8 @@ package de.devsurf.injection.guice.asm.example.automodule;
 
 import com.google.inject.AbstractModule;
 
-import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
 /**
  * This is a GuiceModule, which bind the {@link ExampleImpl} to the

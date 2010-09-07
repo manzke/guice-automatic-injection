@@ -4,6 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.inject.Named;
+
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
@@ -13,9 +15,9 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.StartupModule;
-import de.devsurf.injection.guice.annotations.AutoBind;
 import de.devsurf.injection.guice.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.StartupModule;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 
 public class NamedAutobindTests {
     @Test
@@ -118,7 +120,8 @@ public class NamedAutobindTests {
 	String fireEvent();
     }
     
-    @AutoBind(name="testname")
+    @AutoBind
+    @Named("testname")
     public static class TestInterfaceImplementation implements TestInterface, SecondTestInterface{
 	public static final String TEST = "test";
 	public static final String EVENT = "event";

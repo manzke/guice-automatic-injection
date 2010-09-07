@@ -22,11 +22,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.StartupModule;
-import de.devsurf.injection.guice.annotations.AutoBind;
-import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.asm.VirtualClasspathReader;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.StartupModule;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 
 /**
  * Example Application, which creates a new Injector with the help of the

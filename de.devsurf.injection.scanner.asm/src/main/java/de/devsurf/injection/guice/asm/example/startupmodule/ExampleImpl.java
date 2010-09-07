@@ -16,9 +16,9 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.asm.example.startupmodule;
 
-import de.devsurf.injection.guice.annotations.AutoBind;
 import de.devsurf.injection.guice.asm.VirtualClasspathReader;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 
 /**
  * This class implements the Example interface and uses the {@link AutoBind}-

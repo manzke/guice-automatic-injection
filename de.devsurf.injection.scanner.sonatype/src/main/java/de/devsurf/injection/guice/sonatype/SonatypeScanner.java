@@ -17,18 +17,12 @@
 package de.devsurf.injection.guice.sonatype;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.sonatype.guice.bean.reflect.ClassSpace;
 import org.sonatype.guice.bean.reflect.URLClassSpace;
 import org.sonatype.guice.bean.scanners.ClassSpaceScanner;
-import org.sonatype.guice.bean.scanners.QualifiedTypeListener;
-import org.sonatype.guice.bean.scanners.QualifiedTypeVisitor;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -45,28 +39,29 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class SonatypeScanner implements ClasspathScanner {
-    private LinkedList<AnnotationListener> _listeners;
-    private String[] _packages;
+    private AnnotationCollector _collector;
 
     @Inject
     public SonatypeScanner(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
-	_listeners = new LinkedList<AnnotationListener>(listeners);
-	_packages = packages;
+	_collector = new AnnotationCollector();
+	for (AnnotationListener listener : listeners) {
+	    addAnnotationListener(listener);
+	}
     }
 
     @Override
     public void addAnnotationListener(AnnotationListener listener) {
-	_listeners.add(listener);
+	_collector.addListener(listener);
     }
 
     @Override
     public void removeAnnotationListener(AnnotationListener listener) {
-	_listeners.remove(listener);
+	_collector.removerListener(listener);
     }
 
     @Override
     public List<AnnotationListener> getAnnotationListeners() {
-	return new ArrayList<AnnotationListener>(_listeners);
+	return _collector.getListeners();
     }
 
     @Override
@@ -81,15 +76,16 @@ public class SonatypeScanner implements ClasspathScanner {
     public void scan() throws IOException {
 	ClassSpace space = new URLClassSpace(getClass().getClassLoader());
 	ClassSpaceScanner scanner = new ClassSpaceScanner(space);
-	scanner.accept(new QualifiedTypeVisitor(new QualifiedTypeListener() {
-	    @SuppressWarnings("unchecked")
-	    @Override
-	    public void hear(Annotation qualifier, Class<?> qualifiedType, Object source) {
-		for (AnnotationListener listener : _listeners) {
-		    listener.found((Class<Object>) qualifiedType, Collections.singletonMap(
-			qualifier.annotationType().getName(), qualifier));
-		}
-	    }
-	}));
+//	scanner.accept(new QualifiedTypeVisitor(new QualifiedTypeListener() {
+//	    @SuppressWarnings("unchecked")
+//	    @Override
+//	    public void hear(Annotation qualifier, Class<?> qualifiedType, Object source) {
+//		for (AnnotationListener listener : _listeners) {
+//		    listener.found((Class<Object>) qualifiedType, Collections.singletonMap(
+//			qualifier.annotationType().getName(), qualifier));
+//		}
+//	    }
+//	}));
+	scanner.accept(_collector);
     }
 }

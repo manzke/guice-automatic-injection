@@ -16,9 +16,11 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.asm.example.autobind.names;
 
-import de.devsurf.injection.guice.annotations.AutoBind;
+import javax.inject.Named;
+
 import de.devsurf.injection.guice.asm.VirtualClasspathReader;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 
 /**
  * This class implements the Example interface and uses the {@link AutoBind}-
@@ -29,7 +31,8 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * @author Daniel Manzke
  * 
  */
-@AutoBind(name = "Example")
+@AutoBind
+@Named("Example")
 public class ExampleImpl implements Example {
     @Override
     public String sayHello() {

@@ -16,9 +16,9 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.reflections.example.autobind;
 
-import de.devsurf.injection.guice.annotations.AutoBind;
 import de.devsurf.injection.guice.reflections.ReflectionsScanner;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 
 /**
  * This class implements the Example interface and uses the {@link AutoBind}-

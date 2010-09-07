@@ -18,7 +18,7 @@ package de.devsurf.injection.guice.reflections.example.startupmodule;
 
 import com.google.inject.AbstractModule;
 
-import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
 /**
  * This is a GuiceModule, which bind the {@link ExampleImpl} to the

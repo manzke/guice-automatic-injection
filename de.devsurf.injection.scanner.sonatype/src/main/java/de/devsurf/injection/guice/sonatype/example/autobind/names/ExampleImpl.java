@@ -16,8 +16,10 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.sonatype.example.autobind.names;
 
-import de.devsurf.injection.guice.annotations.AutoBind;
+import javax.inject.Named;
+
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.sonatype.SonatypeScanner;
 
 /**
@@ -29,11 +31,11 @@ import de.devsurf.injection.guice.sonatype.SonatypeScanner;
  * @author Daniel Manzke
  * 
  */
-@AutoBind(name = "Example")
+@AutoBind
+@Named("Example")
 public class ExampleImpl implements Example {
     @Override
     public String sayHello() {
 	return "yeahhh!!!";
-
     }
 }
