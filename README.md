@@ -81,5 +81,3 @@ If you have enough to register every Guice-Module by your own, just annotate it 
 	- use the Multibinding Extension
 - Extend the Sonatype-Scanner to recognize the submitted packages
 - Add parallel binding for Sonatype and pure Implementation
-
-
