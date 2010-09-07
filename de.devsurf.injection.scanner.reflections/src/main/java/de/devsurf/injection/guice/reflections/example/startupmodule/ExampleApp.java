@@ -30,10 +30,10 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
 /**
  * Example Application, which creates a new Injector with the help of our own
- * {@link ExampleStartupModule}. It passes the {@link ReflectionsScanner}
- * class for the {@link ClasspathScanner} and the packages (de.devsurf) which
- * should be scanned. The {@link StartupModule} binds these parameter, so we are
- * able to create and inject our {@link DynamicModule}. This Module uses the
+ * {@link ExampleStartupModule}. It passes the {@link ReflectionsScanner} class
+ * for the {@link ClasspathScanner} and the packages (de.devsurf) which should
+ * be scanned. The {@link StartupModule} binds these parameter, so we are able
+ * to create and inject our {@link DynamicModule}. This Module uses the
  * {@link ClasspathScanner} to explore the Classpath and scans for Annotations.
  * 
  * All recognized Classes annotated with {@link GuiceModule} are installed in
@@ -43,11 +43,11 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class ExampleApp {
-	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(new ExampleStartupModule(
-				ReflectionsScanner.class, "de.devsurf"));
-		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-		injector = injector.createChildInjector(dynamicModule);
-		System.out.println(injector.getInstance(Example.class).sayHello());
-	}
+    public static void main(String[] args) throws IOException {
+	Injector injector = Guice.createInjector(new ExampleStartupModule(ReflectionsScanner.class,
+	    "de.devsurf"));
+	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
+	injector = injector.createChildInjector(dynamicModule);
+	System.out.println(injector.getInstance(Example.class).sayHello());
+    }
 }

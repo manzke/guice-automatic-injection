@@ -28,8 +28,8 @@ import de.devsurf.injection.guice.reflections.ReflectionsScanner;
  * 
  */
 public class ExampleImpl implements Example {
-	@Override
-	public String sayHello() {
-		return "yeahhh!!!";
-	}
+    @Override
+    public String sayHello() {
+	return "yeahhh!!!";
+    }
 }

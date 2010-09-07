@@ -51,108 +51,104 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class ReflectionsScanner implements ClasspathScanner {
-	private LinkedList<AnnotationListener> _listeners;
-	private LinkedList<Pattern> packagePatterns;
-	private String[] _packages;
+    private LinkedList<AnnotationListener> _listeners;
+    private LinkedList<Pattern> packagePatterns;
+    private String[] _packages;
 
-	@Inject
-	public ReflectionsScanner(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
-		_listeners = new LinkedList<AnnotationListener>(listeners);
-		_packages = packages;
-		this.packagePatterns = new LinkedList<Pattern>();
-		for (String p : packages) {
-			includePackage(p);
+    @Inject
+    public ReflectionsScanner(Set<AnnotationListener> listeners,
+	    @Named("packages") String... packages) {
+	_listeners = new LinkedList<AnnotationListener>(listeners);
+	_packages = packages;
+	this.packagePatterns = new LinkedList<Pattern>();
+	for (String p : packages) {
+	    includePackage(p);
+	}
+    }
+
+    @Override
+    public void addAnnotationListener(AnnotationListener listener) {
+	_listeners.add(listener);
+    }
+
+    @Override
+    public void removeAnnotationListener(AnnotationListener listener) {
+	_listeners.remove(listener);
+    }
+
+    @Override
+    public List<AnnotationListener> getAnnotationListeners() {
+	return new ArrayList<AnnotationListener>(_listeners);
+    }
+
+    @Override
+    public void excludePackage(String packageName) {
+    }
+
+    @Override
+    public void includePackage(final String packageName) {
+	String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
+	packagePatterns.add(Pattern.compile(pattern));
+    }
+
+    @Override
+    public void scan() throws IOException {
+	Set<URL> urls = new LinkedHashSet<URL>();
+	for (String p : _packages) {
+	    urls.addAll(ClasspathHelper.getUrlsForPackagePrefix(p));
+	}
+	new Reflections(new ConfigurationBuilder().setScanners(new AnnotationScanner())
+	    .filterInputsBy(new Predicate<String>() {
+		@Override
+		public boolean apply(String input) {
+		    return matches(input);
 		}
-	}
+	    }).setUrls(urls).useParallelExecutor());
+    }
 
-	@Override
-	public void addAnnotationListener(AnnotationListener listener) {
-		_listeners.add(listener);
+    private boolean matches(String name) {
+	for (Pattern pattern : packagePatterns) {
+	    if (pattern.matcher(name).matches()) {
+		return true;
+	    }
 	}
-	
-	@Override
-	public void removeAnnotationListener(AnnotationListener listener) {
-		_listeners.remove(listener);
-	}
-	
-	@Override
-	public List<AnnotationListener> getAnnotationListeners() {
-		return new ArrayList<AnnotationListener>(_listeners);
-	}
-	
-	@Override
-	public void excludePackage(String packageName) {
-	}
+	return false;
+    }
 
-	@Override
-	public void includePackage(final String packageName) {
-		String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
-		packagePatterns.add(Pattern.compile(pattern));
-	}
+    private class AnnotationScanner extends AbstractScanner {
+	@SuppressWarnings("unchecked")
+	public void scan(final Object cls) {
+	    ClassFile classFile = (ClassFile) cls;
+	    AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
+		.getAttribute(AnnotationsAttribute.visibleTag);
+	    if (annotationsAttribute == null) {
+		return;
+	    }
 
-	@Override
-	public void scan() throws IOException {
-		Set<URL> urls = new LinkedHashSet<URL>();
-		for (String p : _packages) {
-			urls.addAll(ClasspathHelper.getUrlsForPackagePrefix(p));
+	    Class<Object> objectClass;
+	    try {
+		objectClass = (Class<Object>) Class.forName(classFile.getName());
+	    } catch (ClassNotFoundException e) {
+		e.printStackTrace();
+		return;
+	    }
+
+	    Map<String, java.lang.annotation.Annotation> map = new HashMap<String, java.lang.annotation.Annotation>();
+	    for (Annotation annotation : annotationsAttribute.getAnnotations()) {
+		Class<java.lang.annotation.Annotation> annotationClass;
+		try {
+		    annotationClass = (Class<java.lang.annotation.Annotation>) Class
+			.forName(annotation.getTypeName());
+		    map.put(annotationClass.getName(), objectClass.getAnnotation(annotationClass));
+		} catch (ClassNotFoundException e) {
+		    e.printStackTrace();
+		    continue;
 		}
-		new Reflections(new ConfigurationBuilder().setScanners(
-				new AnnotationScanner()).filterInputsBy(
-				new Predicate<String>() {
-					@Override
-					public boolean apply(String input) {
-						return matches(input);
-					}
-				}).setUrls(urls).useParallelExecutor());
+	    }
+
+	    for (AnnotationListener listener : _listeners) {
+		listener.found(objectClass, map);
+	    }
 	}
-
-	private boolean matches(String name) {
-		for (Pattern pattern : packagePatterns) {
-			if (pattern.matcher(name).matches()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private class AnnotationScanner extends AbstractScanner {
-		@SuppressWarnings("unchecked")
-		public void scan(final Object cls) {
-			ClassFile classFile = (ClassFile) cls;
-			AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
-					.getAttribute(AnnotationsAttribute.visibleTag);
-			if (annotationsAttribute == null) {
-				return;
-			}
-
-			Class<Object> objectClass;
-			try {
-				objectClass = (Class<Object>) Class
-						.forName(classFile.getName());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-				return;
-			}
-
-			Map<String, java.lang.annotation.Annotation> map = new HashMap<String, java.lang.annotation.Annotation>();
-			for (Annotation annotation : annotationsAttribute.getAnnotations()) {
-				Class<java.lang.annotation.Annotation> annotationClass;
-				try {
-					annotationClass = (Class<java.lang.annotation.Annotation>) Class
-							.forName(annotation.getTypeName());
-					map.put(annotationClass.getName(), objectClass
-							.getAnnotation(annotationClass));
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-					continue;
-				}
-			}
-
-			for (AnnotationListener listener : _listeners) {
-//				synchronized(listener){
-					listener.found(objectClass, map);	
-//				}
-			}
-		}
-	}
+    }
 }

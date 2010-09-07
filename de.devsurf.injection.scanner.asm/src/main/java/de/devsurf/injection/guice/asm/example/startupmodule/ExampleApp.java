@@ -43,11 +43,11 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class ExampleApp {
-	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(new ExampleStartupModule(
-				VirtualClasspathReader.class, "de.devsurf"));
-		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-		injector = injector.createChildInjector(dynamicModule);
-		System.out.println(injector.getInstance(Example.class).sayHello());
-	}
+    public static void main(String[] args) throws IOException {
+	Injector injector = Guice.createInjector(new ExampleStartupModule(
+	    VirtualClasspathReader.class, "de.devsurf"));
+	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
+	injector = injector.createChildInjector(dynamicModule);
+	System.out.println(injector.getInstance(Example.class).sayHello());
+    }
 }

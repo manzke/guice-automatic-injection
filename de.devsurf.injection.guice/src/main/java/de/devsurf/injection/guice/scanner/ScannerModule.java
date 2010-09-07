@@ -36,25 +36,25 @@ import de.devsurf.injection.guice.annotations.GuiceModule;
  * 
  */
 public class ScannerModule implements DynamicModule {
-	private ClasspathScanner _scanner;
+    private ClasspathScanner _scanner;
 
-	@Inject
-	public ScannerModule(ClasspathScanner scanner) {
-		_scanner = scanner;
-	}
+    @Inject
+    public ScannerModule(ClasspathScanner scanner) {
+	_scanner = scanner;
+    }
 
-	@Override
-	public void configure(Binder binder) {
-		List<AnnotationListener> listeners = _scanner.getAnnotationListeners();
-		for(AnnotationListener listener : listeners){
-			if(listener instanceof GuiceAnnotationListener){
-				((GuiceAnnotationListener)listener).setBinder(binder);
-			}
-		}
-		try {
-			_scanner.scan();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    @Override
+    public void configure(Binder binder) {
+	List<AnnotationListener> listeners = _scanner.getAnnotationListeners();
+	for (AnnotationListener listener : listeners) {
+	    if (listener instanceof GuiceAnnotationListener) {
+		((GuiceAnnotationListener) listener).setBinder(binder);
+	    }
 	}
+	try {
+	    _scanner.scan();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+    }
 }

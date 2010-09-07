@@ -31,9 +31,9 @@ import de.devsurf.injection.guice.sonatype.SonatypeScanner;
  */
 @AutoBind(name = "Example")
 public class ExampleImpl implements Example {
-	@Override
-	public String sayHello() {
-		return "yeahhh!!!";
+    @Override
+    public String sayHello() {
+	return "yeahhh!!!";
 
-	}
+    }
 }

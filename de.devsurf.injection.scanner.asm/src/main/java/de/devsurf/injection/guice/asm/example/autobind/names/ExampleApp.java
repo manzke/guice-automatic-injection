@@ -45,12 +45,12 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class ExampleApp {
-	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(StartupModule.create(
-				VirtualClasspathReader.class, ExampleApp.class.getPackage().getName()));
-		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-		injector = injector.createChildInjector(dynamicModule);
-		System.out.println(injector.getInstance(
-				Key.get(Example.class, Names.named("Example"))).sayHello());
-	}
+    public static void main(String[] args) throws IOException {
+	Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class,
+	    ExampleApp.class.getPackage().getName()));
+	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
+	injector = injector.createChildInjector(dynamicModule);
+	System.out.println(injector.getInstance(Key.get(Example.class, Names.named("Example")))
+	    .sayHello());
+    }
 }

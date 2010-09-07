@@ -37,21 +37,20 @@ import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
 public @interface GuiceModule {
-	public class GuiceModuleListener extends GuiceAnnotationListener {
-		@Override
-		public void found(Class<Object> annotatedClass,
-				Map<String, Annotation> annotations) {
-			if (annotations.containsKey(GuiceModule.class.getName())) {
-				try {
-					synchronized (_binder) {
-						_binder.install((Module) annotatedClass.newInstance());	
-					}
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-			}
+    public class GuiceModuleListener extends GuiceAnnotationListener {
+	@Override
+	public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+	    if (annotations.containsKey(GuiceModule.class.getName())) {
+		try {
+		    synchronized (_binder) {
+			_binder.install((Module) annotatedClass.newInstance());
+		    }
+		} catch (InstantiationException e) {
+		    e.printStackTrace();
+		} catch (IllegalAccessException e) {
+		    e.printStackTrace();
 		}
+	    }
 	}
+    }
 }

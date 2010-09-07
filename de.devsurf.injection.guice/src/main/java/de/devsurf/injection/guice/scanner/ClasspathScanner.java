@@ -29,15 +29,15 @@ import java.util.List;
  * 
  */
 public interface ClasspathScanner {
-	void scan() throws IOException;
+    void scan() throws IOException;
 
-	void addAnnotationListener(AnnotationListener listener);
+    void addAnnotationListener(AnnotationListener listener);
 
-	void removeAnnotationListener(AnnotationListener listener);
-	
-	List<AnnotationListener> getAnnotationListeners();
+    void removeAnnotationListener(AnnotationListener listener);
 
-	void includePackage(String packageName);
+    List<AnnotationListener> getAnnotationListeners();
 
-	void excludePackage(String packageName);
+    void includePackage(String packageName);
+
+    void excludePackage(String packageName);
 }

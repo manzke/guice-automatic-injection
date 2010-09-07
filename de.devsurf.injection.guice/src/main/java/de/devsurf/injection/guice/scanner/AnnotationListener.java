@@ -31,5 +31,5 @@ import java.util.Map;
  * 
  */
 public interface AnnotationListener {
-	void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);
+    void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);
 }

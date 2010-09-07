@@ -23,5 +23,5 @@ package de.devsurf.injection.guice.sonatype.example.startupmodule;
  * 
  */
 public interface Example {
-	String sayHello();
+    String sayHello();
 }

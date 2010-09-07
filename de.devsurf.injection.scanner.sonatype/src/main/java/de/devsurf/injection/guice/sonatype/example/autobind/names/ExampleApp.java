@@ -46,13 +46,13 @@ import de.devsurf.injection.guice.sonatype.example.autobind.ExampleStartupModule
  * 
  */
 public class ExampleApp {
-	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(new ExampleStartupModule(
-				SonatypeScanner.class, "de.devsurf"));
-		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-		injector = injector.createChildInjector(dynamicModule);
+    public static void main(String[] args) throws IOException {
+	Injector injector = Guice.createInjector(new ExampleStartupModule(SonatypeScanner.class,
+	    "de.devsurf"));
+	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
+	injector = injector.createChildInjector(dynamicModule);
 
-		System.out.println(injector.getInstance(
-				Key.get(Example.class, Names.named("Example"))).sayHello());
-	}
+	System.out.println(injector.getInstance(Key.get(Example.class, Names.named("Example")))
+	    .sayHello());
+    }
 }

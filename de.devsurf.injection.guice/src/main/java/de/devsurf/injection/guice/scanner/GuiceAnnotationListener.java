@@ -11,9 +11,9 @@ import com.google.inject.Binder;
  * 
  */
 public abstract class GuiceAnnotationListener implements AnnotationListener {
-	protected Binder _binder;
+    protected Binder _binder;
 
-	public void setBinder(Binder binder) {
-		_binder = binder;
-	}
+    public void setBinder(Binder binder) {
+	_binder = binder;
+    }
 }

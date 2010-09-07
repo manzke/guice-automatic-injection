@@ -43,12 +43,12 @@ import de.devsurf.injection.guice.sonatype.SonatypeScanner;
  * 
  */
 public class ExampleApp {
-	public static void main(String[] args) throws IOException {
-		Injector injector = Guice.createInjector(new ExampleStartupModule(
-				SonatypeScanner.class, ExampleApp.class.getPackage().getName()));
-		DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-		injector = injector.createChildInjector(dynamicModule);
+    public static void main(String[] args) throws IOException {
+	Injector injector = Guice.createInjector(new ExampleStartupModule(SonatypeScanner.class,
+	    ExampleApp.class.getPackage().getName()));
+	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
+	injector = injector.createChildInjector(dynamicModule);
 
-		System.out.println(injector.getInstance(Example.class).sayHello());
-	}
+	System.out.println(injector.getInstance(Example.class).sayHello());
+    }
 }
