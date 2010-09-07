@@ -2,7 +2,9 @@
 
 Google Guice-Extension for automatic Modules and Beans Binding.
 
-[Blog Entry](http://devsurf.wordpress.com/2010/09/06/google-guice-classpath-scanning-and-automatic-beans-binding-and-module-installation/)
+##Blog-Entries
+[Part 1](http://devsurf.wordpress.com/2010/09/06/google-guice-classpath-scanning-and-automatic-beans-binding-and-module-installation/)
+[Part 2](https://devsurf.wordpress.com/2010/09/07/guice-automatic-injection-binding-listeners-parallel-scanning/)
 
 [Ohloh.net](https://www.ohloh.net/p/guice-auto-injection)
 
@@ -73,6 +75,11 @@ If you have enough to register every Guice-Module by your own, just annotate it 
 		}
 	}
 
-
+##TODOs:
+- Multiple Bindings
+	- it should be possible to bind multiple classes to one interface
+	- use the Multibinding Extension
+- Extend the Sonatype-Scanner to recognize the submitted packages
+- Add parallel binding for Sonatype and pure Implementation
 
 
