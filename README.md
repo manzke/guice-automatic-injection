@@ -19,7 +19,7 @@ Base for our Examples is the Example interface...
 
 	public class ExampleApp {
 		public static void main( String[] args ) throws IOException {
-			Injector injector = Guice.createInjector(new StartupModule(VirtualClasspathReader.class, "de.devsurf"));
+			Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, "de.devsurf"));
 			DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 			injector = injector.createChildInjector(dynamicModule);
 
