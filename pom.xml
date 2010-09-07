@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.devsurf.injection.guice</groupId>
+	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>automatic-injection</artifactId>
 	<packaging>pom</packaging>
 	<name>Guice Automatic Injection</name>
@@ -13,10 +13,10 @@
 	<inceptionYear>2010</inceptionYear>
 
 	<modules>
-		<module>de.devsurf.injection.guice</module>
-		<module>de.devsurf.injection.scanner.asm</module>
-		<module>de.devsurf.injection.scanner.reflections</module>
-		<module>de.devsurf.injection.scanner.sonatype</module>
+		<module>core</module>
+		<module>asm</module>
+		<module>reflections</module>
+		<module>sonatype</module>
 	</modules>
 	
 	<developers>
