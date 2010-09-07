@@ -21,7 +21,6 @@
 			<artifactId>asm</artifactId>
 			<version>3.2</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>
