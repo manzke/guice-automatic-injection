@@ -81,3 +81,6 @@ If you have enough to register every Guice-Module by your own, just annotate it 
 	- use the Multibinding Extension
 - Extend the Sonatype-Scanner to recognize the submitted packages
 - Add parallel binding for Sonatype and pure Implementation
+- extending Logging
+	- use @InjectLogger (or implement it)
+- should we implement some like JavaConfig (but something with less weight/dependencies)
