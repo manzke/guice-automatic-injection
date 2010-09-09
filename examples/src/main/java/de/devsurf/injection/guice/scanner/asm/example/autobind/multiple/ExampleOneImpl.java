@@ -30,8 +30,8 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
  * @author Daniel Manzke
  * 
  */
-@AutoBind
 @MultiBinding
+@AutoBind
 public class ExampleOneImpl implements Example {
     @Override
     public String sayHello() {

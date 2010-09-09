@@ -17,9 +17,13 @@
 package de.devsurf.injection.guice.scanner.annotations;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Named;
 import javax.inject.Qualifier;
@@ -30,6 +34,7 @@ import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
+import de.devsurf.injection.guice.logger.InjectLogger;
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
 /**
@@ -50,10 +55,13 @@ import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
+@Target({ElementType.TYPE})
 public @interface AutoBind {
     Class<? extends Object>[] bind() default {};
 
     public class AutoBindListener extends GuiceAnnotationListener {
+	@InjectLogger Logger _logger;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
@@ -72,10 +80,15 @@ public @interface AutoBind {
 		boolean multiple = annotations.containsKey(MultiBinding.class.getName());
 		boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 		    .getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
+		
+		
 
 		Class<Object>[] interfaces = (overwriteInterfaces ? (Class<Object>[]) annotation
 		    .bind() : (Class<Object>[]) annotatedClass.getInterfaces());
 		for (Class<Object> interf : interfaces) {
+		    if(_logger.isLoggable(Level.FINE)){
+			_logger.fine(String.format("Binding Class %s to Interface %s. Named? %s Overwriting original Interfaces? %s Singleton? %s Multiple? %s", annotatedClass, interf, nameIt, overwriteInterfaces, asSingleton));
+		    }
 		    LinkedBindingBuilder builder;
 		    synchronized (_binder) {
 			if(multiple){

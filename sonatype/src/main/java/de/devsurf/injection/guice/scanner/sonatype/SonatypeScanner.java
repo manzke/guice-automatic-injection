@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.sonatype.guice.bean.reflect.ClassSpace;
@@ -41,6 +43,7 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class SonatypeScanner implements ClasspathScanner {
+    private Logger _logger = Logger.getLogger(SonatypeScanner.class.getName());
     private FilterAnnotationCollector _collector;
     private LinkedList<Pattern> _packagePatterns;
 
@@ -90,6 +93,9 @@ public class SonatypeScanner implements ClasspathScanner {
     @Override
     public void includePackage(String packageName) {
 	String pattern = ".*" + packageName + ".*";
+	if(_logger.isLoggable(Level.FINE)){
+	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+pattern);
+	}
 	_packagePatterns.add(Pattern.compile(pattern));
     }
 

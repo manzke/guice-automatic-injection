@@ -16,12 +16,17 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.scanner;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
+import com.google.inject.matcher.Matchers;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.DynamicModule;
+import de.devsurf.injection.guice.logger.LoggingTypeListener;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
@@ -38,6 +43,7 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 public abstract class StartupModule extends AbstractModule {
     private String[] _packages;
     private Class<? extends ClasspathScanner> _scanner;
+    private Logger _logger = Logger.getLogger(StartupModule.class.getName());
 
     public StartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	_packages = (packages == null ? new String[0] : packages);
@@ -46,10 +52,17 @@ public abstract class StartupModule extends AbstractModule {
 
     @Override
     protected void configure() {
+	if (_logger.isLoggable(Level.FINE)) {
+	    _logger.fine("Binding ClasspathScanner to " + _scanner.getName());
+	    for (String p : _packages) {
+		_logger.fine("Using Package " + p + " for scanning.");
+	    }
+	}
 	bind(ClasspathScanner.class).to(_scanner);
 	bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
 	    _packages);
 	bind(DynamicModule.class).to(ScannerModule.class);
+	bindListener(Matchers.any(), new LoggingTypeListener());
 	bindAnnotationListeners();
     }
 
@@ -68,6 +81,7 @@ public abstract class StartupModule extends AbstractModule {
 
 	@Override
 	protected void bindAnnotationListeners() {
+	    
 	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 		AnnotationListener.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);

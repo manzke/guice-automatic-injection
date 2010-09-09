@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -30,12 +32,14 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
+import de.devsurf.injection.guice.logger.InjectLogger;
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 
 /**
  * Visitor implementation to collect field annotation information from class.
  */
 public class AnnotationCollector implements ClassVisitor {
+    @InjectLogger Logger _logger;
     protected String _name;
     protected Class<?> _class;
     protected boolean _isAnnotation;
@@ -106,7 +110,7 @@ public class AnnotationCollector implements ClassVisitor {
 	    try {
 		_class = getClass().getClassLoader().loadClass(_name);
 	    } catch (ClassNotFoundException e) {
-		e.printStackTrace();
+		_logger.log(Level.WARNING, "Failure while visitAnnotation. Class could not be loaded.", e);
 		return EMPTY_ANNOTATION_VISITOR;
 	    }
 	}
@@ -117,6 +121,7 @@ public class AnnotationCollector implements ClassVisitor {
 	    _annotations.put(annotationClassStr, annotation);
 	} catch (ClassNotFoundException e) {
 	    e.printStackTrace();
+	    _logger.log(Level.WARNING, "Failure while visitAnnotation. Class could not be loaded.", e);
 	}
 
 	return EMPTY_ANNOTATION_VISITOR;

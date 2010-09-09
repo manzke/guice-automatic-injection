@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javassist.bytecode.AnnotationsAttribute;
@@ -51,6 +53,7 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class ReflectionsScanner implements ClasspathScanner {
+    private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
     private LinkedList<AnnotationListener> _listeners;
     private LinkedList<Pattern> packagePatterns;
     private String[] _packages;
@@ -88,6 +91,9 @@ public class ReflectionsScanner implements ClasspathScanner {
     @Override
     public void includePackage(final String packageName) {
 	String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
+	if(_logger.isLoggable(Level.FINE)){
+	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+pattern);
+	}
 	packagePatterns.add(Pattern.compile(pattern));
     }
 
@@ -141,7 +147,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 			.forName(annotation.getTypeName());
 		    map.put(annotationClass.getName(), objectClass.getAnnotation(annotationClass));
 		} catch (ClassNotFoundException e) {
-		    e.printStackTrace();
+		    ReflectionsScanner.this._logger.log(Level.WARNING, "Failure while trying to load the Annotations from Classpath.", e);
 		    continue;
 		}
 	    }

@@ -18,11 +18,14 @@ package de.devsurf.injection.guice.scanner;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Binder;
 import com.google.inject.Inject;
 
 import de.devsurf.injection.guice.DynamicModule;
+import de.devsurf.injection.guice.logger.InjectLogger;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
@@ -37,6 +40,7 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  */
 public class ScannerModule implements DynamicModule {
     private ClasspathScanner _scanner;
+    @InjectLogger Logger _logger;
 
     @Inject
     public ScannerModule(ClasspathScanner scanner) {
@@ -49,12 +53,18 @@ public class ScannerModule implements DynamicModule {
 	for (AnnotationListener listener : listeners) {
 	    if (listener instanceof GuiceAnnotationListener) {
 		((GuiceAnnotationListener) listener).setBinder(binder);
+		if (_logger.isLoggable(Level.FINE)) {
+		    _logger.fine("Binding AnnotationListeners " + listener.getClass().getName());
+		}
 	    }
+	}
+	if (_logger.isLoggable(Level.FINE)) {
+	    _logger.fine("Binding ClasspathScanner to " + _scanner.getClass().getName());
 	}
 	try {
 	    _scanner.scan();
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    _logger.log(Level.SEVERE, "Failure while Scanning the Classpath for Classes with Annotations.", e);
 	}
     }
 }

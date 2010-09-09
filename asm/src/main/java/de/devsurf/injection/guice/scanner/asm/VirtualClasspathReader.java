@@ -29,6 +29,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.objectweb.asm.ClassReader;
@@ -47,6 +49,8 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * 
  */
 public class VirtualClasspathReader implements ClasspathScanner {
+    private static final int ASM_FLAGS = ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
+    private Logger _logger = Logger.getLogger(VirtualClasspathReader.class.getName());
     private File[] classPath;
     private LinkedList<Pattern> packagePatterns;
     private int count;
@@ -84,6 +88,9 @@ public class VirtualClasspathReader implements ClasspathScanner {
     @Override
     public void includePackage(final String packageName) {
 	String pattern = ".*" + packageName.replace(".", "\\\\") + ".*";
+	if(_logger.isLoggable(Level.FINE)){
+	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+pattern);
+	}
 	packagePatterns.add(Pattern.compile(pattern));
     }
 
@@ -105,7 +112,6 @@ public class VirtualClasspathReader implements ClasspathScanner {
 		}
 	    }
 	}
-	System.out.println("Scanned " + count + " files.");
     }
 
     private void visitFolder(File folder) throws IOException {
@@ -140,7 +146,7 @@ public class VirtualClasspathReader implements ClasspathScanner {
     private void visitClass(InputStream in) throws IOException {
 	count++;
 	ClassReader reader = new ClassReader(new BufferedInputStream(in));
-	reader.accept(collector, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+	reader.accept(collector, ASM_FLAGS);
     }
 
     private boolean matches(String name) {
