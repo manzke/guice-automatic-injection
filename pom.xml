@@ -22,6 +22,7 @@
 		<module>asm</module>
 		<module>reflections</module>
 		<module>sonatype</module>
+		<module>examples</module>
 	</modules>
 	
 	<developers>
