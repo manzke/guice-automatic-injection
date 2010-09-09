@@ -65,7 +65,8 @@ you have to set the name-Attribute...
 
 	@AutoBind(bind={Example.class})
 
-...by passing the Interfaces to the bind()-Attribute.
+...by passing the Interfaces to the bind()-Attribute.  
+
 
 ####GuiceModule-Example
 If you have enough to register every Guice-Module by your own, just annotate it with the @GuiceModule and the Startup/Scanner-Module will install it.
@@ -76,7 +77,8 @@ If you have enough to register every Guice-Module by your own, just annotate it 
 		protected void configure() {
 			bind(Example.class).to(ExampleImpl.class);
 		}
-	}
+	}  
+	
 	
 ####Overwrite Features-Example
 If you want to overwrite, which Features should be activated or if you want to add your own, you have to overwrite the abstract StartupModule.
@@ -92,14 +94,41 @@ If you want to overwrite, which Features should be activated or if you want to a
 			listeners.addBinding().to(AutoBind.AutoBindListener.class); //Automatic Beans Binding
 			listeners.addBinding().to(GuiceModule.GuiceModuleListener.class); //Automatic Module Installation
 		}
+	}  
+
+
+####Use Multibinding-Example
+If you want to use Multibind, just annotate your class with @AutoBind and @MultipleBinding.
+
+	@AutoBind
+	@MultiBinding
+	public class ExampleOneImpl implements Example {  
+		@Override
+		public String sayHello() {
+			return "one - yeahhh!!!";  
+		}
 	}
+	
+	public class ExampleContainer {
+		private List<Example> _examples;
+    
+		@Inject
+		public ExampleContainer(Set<Example> example) {
+			_examples = new ArrayList<Example>(example);
+		}
+    
+		public void sayHello(){
+			for(Example example : _examples){
+				System.out.println(example.sayHello());
+			}
+		}
+	}
+		
 
 ##TODOs:
 - Multiple Bindings
-	- it should be possible to bind multiple classes to one interface
-	- use the Multibinding Extension
-- Extend the Sonatype-Scanner to recognize the submitted packages
+	- add JUnit-Test for Multibinding
 - Add parallel binding for Sonatype and pure Implementation
-- extending Logging
+- Extend Logging
 	- use @InjectLogger (or implement it)
 - should we implement some like JavaConfig (but something with less weight/dependencies)
