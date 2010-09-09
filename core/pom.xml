@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice.scanner</groupId>
 		<artifactId>automatic-injection</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1-SNAPSHOT</version>
 	</parent>	
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>core</artifactId>
