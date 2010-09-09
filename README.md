@@ -129,6 +129,4 @@ If you want to use Multibind, just annotate your class with @AutoBind and @Multi
 - Multiple Bindings
 	- add JUnit-Test for Multibinding
 - Add parallel binding for Sonatype and pure Implementation
-- Extend Logging
-	- use @InjectLogger (or implement it)
 - should we implement some like JavaConfig (but something with less weight/dependencies)
