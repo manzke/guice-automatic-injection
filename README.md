@@ -3,13 +3,13 @@
 Google Guice-Extension for automatic Modules and Beans Binding.
 
 ##Blog-Entries
-[Part 1](http://devsurf.wordpress.com/2010/09/06/google-guice-classpath-scanning-and-automatic-beans-binding-and-module-installation/)
-[Part 2](https://devsurf.wordpress.com/2010/09/07/guice-automatic-injection-binding-listeners-parallel-scanning/)
+[Part 1](http://devsurf.wordpress.com/2010/09/06/google-guice-classpath-scanning-and-automatic-beans-binding-and-module-installation/)  
+[Part 2](https://devsurf.wordpress.com/2010/09/07/guice-automatic-injection-binding-listeners-parallel-scanning/)  
 
-[Ohloh.net](https://www.ohloh.net/p/guice-auto-injection)
-[DZone](http://www.dzone.com/links/quick_tip_automatic_injectionbinding_for_google_g.html)
-[TheServerSide](http://www.theserverside.com/news/thread.tss?thread_id=60851)
-[Github](git://github.com/manzke/guice-automatic-injection.git)
+[Ohloh.net](https://www.ohloh.net/p/guice-auto-injection)  
+[DZone](http://www.dzone.com/links/quick_tip_automatic_injectionbinding_for_google_g.html)  
+[TheServerSide](http://www.theserverside.com/news/thread.tss?thread_id=60851)  
+[Github](git://github.com/manzke/guice-automatic-injection.git)  
  
  
 
