@@ -16,22 +16,18 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.sonatype;
 
-import java.lang.annotation.Annotation;
 import java.net.URL;
-import java.util.Collections;
 
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.sonatype.guice.bean.reflect.ClassSpace;
 import org.sonatype.guice.bean.scanners.ClassSpaceVisitor;
 
 import de.devsurf.injection.guice.asm.AnnotationCollector;
-import de.devsurf.injection.guice.scanner.AnnotationListener;
 
 /**
  * Visitor implementation to collect field annotation information from class.
  */
-public class FilterAnnotationCollector extends AnnotationCollector implements ClassSpaceVisitor {
+public abstract class FilterAnnotationCollector extends AnnotationCollector implements ClassSpaceVisitor {
     public FilterAnnotationCollector() {
 	super();
     }
@@ -40,6 +36,10 @@ public class FilterAnnotationCollector extends AnnotationCollector implements Cl
     public void visit(int version, int access, String name, String signature, String superName,
 	    String[] interfaces) {
 	_name = name.replace('/', '.');
+	if(!matches(_name)){
+	    _isAnnotation = true;
+	    return;
+	}
 	for (String interf : interfaces) {
 	    if (interf.equals("java/lang/annotation/Annotation")) {
 		_isAnnotation = true;
@@ -47,47 +47,8 @@ public class FilterAnnotationCollector extends AnnotationCollector implements Cl
 	    }
 	}
     }
-
-    @SuppressWarnings("unchecked")
-    public AnnotationVisitor visitAnnotation(String sig, boolean visible) {
-	if (_isAnnotation) {
-	    return EMPTY_ANNOTATION_VISITOR;
-	}
-	String annotationClassStr = sig.replace('/', '.').substring(1, sig.length() - 1);
-	if (_class == null) {
-	    try {
-		_class = getClass().getClassLoader().loadClass(_name);
-	    } catch (ClassNotFoundException e) {
-		e.printStackTrace();
-		return EMPTY_ANNOTATION_VISITOR;
-	    }
-	}
-	try {
-	    Class<Annotation> annotationClass = (Class<Annotation>) getClass().getClassLoader()
-		.loadClass(annotationClassStr);
-	    Annotation annotation = _class.getAnnotation(annotationClass);
-	    _annotations.put(annotationClassStr, annotation);
-	} catch (ClassNotFoundException e) {
-	    e.printStackTrace();
-	}
-
-	return EMPTY_ANNOTATION_VISITOR;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void visitEnd() {
-	if (!_isAnnotation && _annotations.size() > 0) {
-	    for (AnnotationListener listener : _listeners) {
-		listener.found((Class<Object>) _class, Collections.unmodifiableMap(_annotations));
-	    }
-	}
-	_name = null;
-	_class = null;
-	_isAnnotation = false;
-	_annotations.clear();
-    }
-
+    
+    public abstract boolean matches(String name);
 
     @Override
     public void visit(ClassSpace space) {

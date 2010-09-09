@@ -21,13 +21,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 
+import javax.inject.Named;
 import javax.inject.Qualifier;
 
 import com.google.inject.Scopes;
-import com.google.inject.binder.ScopedBindingBuilder;
+import com.google.inject.binder.AnnotatedBindingBuilder;
+import com.google.inject.binder.LinkedBindingBuilder;
+import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.NamedInterop;
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
 /**
@@ -57,27 +59,35 @@ public @interface AutoBind {
 	public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
 	    if (annotations.containsKey(AutoBind.class.getName())) {
 		AutoBind annotation = (AutoBind) annotations.get(AutoBind.class.getName());
-		
-		boolean nameIt = annotations.containsKey("javax.inject.Named");
+
+		boolean overwriteInterfaces = (annotation.bind().length > 0);
+		boolean nameIt = annotations.containsKey(Named.class.getName());
 		String name = null;
 		if(nameIt){
-		    name = NamedInterop.getName(annotations.get("javax.inject.Named"));
+		    name = ((Named)annotations.get(Named.class.getName())).value();
+		    if(name.length() == 0){
+			name = annotatedClass.getName();
+		    }
 		}
-		
-		boolean overwriteInterfaces = (annotation.bind().length > 0);
+		boolean multiple = annotations.containsKey(MultiBinding.class.getName());
 		boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 		    .getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
 
 		Class<Object>[] interfaces = (overwriteInterfaces ? (Class<Object>[]) annotation
 		    .bind() : (Class<Object>[]) annotatedClass.getInterfaces());
 		for (Class<Object> interf : interfaces) {
-		    ScopedBindingBuilder builder;
+		    LinkedBindingBuilder builder;
 		    synchronized (_binder) {
+			if(multiple){
+			    builder = Multibinder.newSetBinder(_binder, interf).addBinding();
+			    nameIt = false;
+			}else{
+			    builder = _binder.bind(interf);
+			}
 			if (nameIt) {
-			    builder = _binder.bind(interf).annotatedWith(
-				Names.named(name)).to(annotatedClass);
+			    ((AnnotatedBindingBuilder)builder).annotatedWith(Names.named(name)).to(annotatedClass);
 			} else {
-			    builder = _binder.bind(interf).to(annotatedClass);
+			    builder.to(annotatedClass);
 			}
 			if (asSingleton) {
 			    builder.in(Scopes.SINGLETON);

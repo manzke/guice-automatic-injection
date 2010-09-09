@@ -17,8 +17,10 @@
 package de.devsurf.injection.guice.sonatype;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.sonatype.guice.bean.reflect.ClassSpace;
 import org.sonatype.guice.bean.reflect.URLClassSpace;
@@ -40,10 +42,27 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  */
 public class SonatypeScanner implements ClasspathScanner {
     private FilterAnnotationCollector _collector;
+    private LinkedList<Pattern> _packagePatterns;
 
     @Inject
     public SonatypeScanner(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
-	_collector = new FilterAnnotationCollector();
+	_packagePatterns = new LinkedList<Pattern>();
+	_collector = new FilterAnnotationCollector() {
+	    @Override
+	    public boolean matches(String name) {
+		for (Pattern pattern : _packagePatterns) {
+		    if (pattern.matcher(name).matches()) {
+			return true;
+		    }
+		}
+		return false;
+	    }
+	};
+	
+	for (String p : packages) {
+	    includePackage(p);
+	}
+	
 	for (AnnotationListener listener : listeners) {
 	    addAnnotationListener(listener);
 	}
@@ -70,6 +89,8 @@ public class SonatypeScanner implements ClasspathScanner {
 
     @Override
     public void includePackage(String packageName) {
+	String pattern = ".*" + packageName + ".*";
+	_packagePatterns.add(Pattern.compile(pattern));
     }
 
     @Override

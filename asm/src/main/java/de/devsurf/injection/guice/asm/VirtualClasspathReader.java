@@ -160,8 +160,10 @@ public class VirtualClasspathReader implements ClasspathScanner {
 	while (tokenizer.hasMoreTokens()) {
 	    String path = tokenizer.nextToken();
 	    File fp = new File(path);
-	    if (!fp.exists())
-		throw new RuntimeException("File in java.class.path does not exist: " + fp);
+	    if (!fp.exists()){
+		continue;
+	    }
+		
 	    list.add(fp);
 	}
 	return list.toArray(new File[list.size()]);
