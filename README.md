@@ -59,7 +59,7 @@ To use our AutoBind-Annotation you just have to annotate our Implementation...
 ...so this Class will be registered by our Startup/Scanner-Module and will be bound to all inherited interfaces. If you want that your Class should also be named, 
 you have to set the name-Attribute...
 
-	@AutoBind(name="impl")
+	@Named("Example")
 
 ...this will create a Key for the Binding. You can also overwrite the interfaces it should be bound to...
 
@@ -75,6 +75,22 @@ If you have enough to register every Guice-Module by your own, just annotate it 
 		@Override
 		protected void configure() {
 			bind(Example.class).to(ExampleImpl.class);
+		}
+	}
+	
+####Overwrite Features-Example
+If you want to overwrite, which Features should be activated or if you want to add your own, you have to overwrite the abstract StartupModule.
+
+	public class ExampleStartupModule extends StartupModule {
+		public DefaultStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
+			super(scanner, packages);
+		}
+
+		@Override
+		protected void bindAnnotationListeners() {
+			Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(), AnnotationListener.class);
+			listeners.addBinding().to(AutoBind.AutoBindListener.class); //Automatic Beans Binding
+			listeners.addBinding().to(GuiceModule.GuiceModuleListener.class); //Automatic Module Installation
 		}
 	}
 
