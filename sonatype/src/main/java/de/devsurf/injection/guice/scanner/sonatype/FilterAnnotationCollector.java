@@ -22,7 +22,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.sonatype.guice.bean.reflect.ClassSpace;
 import org.sonatype.guice.bean.scanners.ClassSpaceVisitor;
 
-import de.devsurf.injection.guice.scanner.scanner.asm.AnnotationCollector;
+import de.devsurf.injection.guice.scanner.asm.AnnotationCollector;
 
 /**
  * Visitor implementation to collect field annotation information from class.

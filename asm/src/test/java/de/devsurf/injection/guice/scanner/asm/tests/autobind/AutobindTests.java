@@ -13,7 +13,7 @@ import com.google.inject.Injector;
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 public class AutobindTests {
     @Test

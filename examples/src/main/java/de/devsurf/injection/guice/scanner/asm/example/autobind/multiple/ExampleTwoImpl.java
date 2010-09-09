@@ -19,7 +19,7 @@ package de.devsurf.injection.guice.scanner.asm.example.autobind.multiple;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
-import de.devsurf.injection.guice.scanner.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 /**
  * This class implements the Example interface and uses the {@link AutoBind}-

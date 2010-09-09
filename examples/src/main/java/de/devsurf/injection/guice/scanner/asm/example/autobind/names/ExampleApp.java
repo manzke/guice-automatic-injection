@@ -28,7 +28,7 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-import de.devsurf.injection.guice.scanner.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 /**
  * Example Application, which creates a new Injector with the help of the

@@ -28,7 +28,7 @@ import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 public class Injection {
     private static final String packages = System.getProperty("injection-packages", "de.devsurf");

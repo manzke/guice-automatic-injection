@@ -16,7 +16,7 @@
  ******************************************************************************/
 package de.devsurf.injection.guice.scanner.asm.example.automodule;
 
-import de.devsurf.injection.guice.scanner.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 /**
  * This class implements the Example interface and is not annotated like the
