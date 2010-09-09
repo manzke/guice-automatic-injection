@@ -1,0 +1,20 @@
+# install maven
+# install git
+# install gpg4win
+# create a secret key 
+## this will be stored in %APPDATA%/gnupg
+# create a sonatype maven account
+# create a settings.xml in ~\.m2
+# create a settings-security.xml 
+# remove the gpg* files from %GIT_HOME%\bin\
+# export your key with the gui and import it with cmd key gpg --import mykey.asc
+# use mvn --encrypt-password mypassword to create an encrypted password for the sonatype server
+# open git-bash
+# check if no changes are open
+# type cmd under windows, so you get the windows command
+## otherwise you will get a lot of problems with the paths
+# maven release (prepare)
+## if you are using modules you can use -DautoVersionSubmodules=true so you have to specify the version number only once
+## maven gpg plugin is search in .gnupg -> overwrite it with -Dgpg.homedir=%APPDATA%/gnupg
+## an interactive prompt can lead to a hanging maven -> for gpg specify -Dgpg.passphrase=mypassword
+### mvn -DautoVersionSubmodules=true -Dgpg.homedir=%APPDATA%/gnupg -Dgpg.passphrase=mypassword release:prepare
