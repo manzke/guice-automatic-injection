@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice.scanner</groupId>
 		<artifactId>automatic-injection</artifactId>
-		<version>0.5.1-SNAPSHOT</version>
+		<version>0.6.0</version>
 	</parent>		
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>asm</artifactId>
@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>core</artifactId>
-			<version>0.5.1-SNAPSHOT</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>asm</groupId>

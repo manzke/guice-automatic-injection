@@ -3,33 +3,33 @@
   <parent>
     <artifactId>automatic-injection</artifactId>
     <groupId>de.devsurf.injection.guice.scanner</groupId>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.6.0</version>
   </parent>
   <groupId>de.devsurf.injection.guice.scanner</groupId>
   <artifactId>examples</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.6.0</version>
   <packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>core</artifactId>
-			<version>0.5.1-SNAPSHOT</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>asm</artifactId>
-			<version>0.5.1-SNAPSHOT</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>sonatype</artifactId>
-			<version>0.5.1-SNAPSHOT</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>reflections</artifactId>
-			<version>0.5.1-SNAPSHOT</version>
+			<version>0.6.0</version>
 		</dependency>
 	</dependencies>
 </project>
