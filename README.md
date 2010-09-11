@@ -126,11 +126,11 @@ If you want to use Multibind, just annotate your class with @AutoBind and @Multi
 		
 
 ##TODOs:
-- Add parallel binding for Sonatype and pure Implementation
-- Test Automatic Binding under Linux
+- Test Automatic Binding under Linux (release 0.6.5)
 	- in Java Application
 	- in Web Application
-- Test Automatic Binding under Windows
+- Test Automatic Binding under Windows (release 0.6.5)
 	- in Web Application
-- Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...)
-- GuicyFruit Integration
+- GuicyFruit Integration (release 0.7)
+- Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...) (release 0.8)
+- Add parallel binding for Sonatype and pure Implementation (release 1.x)
