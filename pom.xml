@@ -84,6 +84,7 @@
 	</dependencies>
 	
 	<build>
+		<finalName>${pom.groupId}.${pom.artifactId}-${pom.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -93,35 +94,6 @@
 					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
-			<!-- already specified in sonatype pom plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-release-plugin</artifactId>
-		        <version>2.0-beta-9</version>
-		      </plugin>
-			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-source-plugin</artifactId>
-		        <executions>
-		          <execution>
-		            <id>attach-sources</id>
-		            <phase>verify</phase>
-		            <goals>
-		              <goal>jar</goal>
-		            </goals>
-		          </execution>
-		        </executions>
-		    </plugin>	
-			<plugin> 
-				<artifactId>maven-javadoc-plugin</artifactId> 
-				<executions> 
-					<execution> 
-						<id>attach-javadocs</id> 
-						<goals> 
-							<goal>jar</goal> 
-						</goals> 
-					</execution> 
-				</executions> 
-			</plugin--> 			  
 		</plugins>
 	</build>
 </project>

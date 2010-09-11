@@ -126,7 +126,11 @@ If you want to use Multibind, just annotate your class with @AutoBind and @Multi
 		
 
 ##TODOs:
-- Multiple Bindings
-	- add JUnit-Test for Multibinding
 - Add parallel binding for Sonatype and pure Implementation
-- should we implement some like JavaConfig (but something with less weight/dependencies)
+- Test Automatic Binding under Linux
+	- in Java Application
+	- in Web Application
+- Test Automatic Binding under Windows
+	- in Web Application
+- should we implement some like JavaConfig (but something with less weight/dependencies) (rocoto?)
+- GuicyFruit Integration
