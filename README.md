@@ -132,5 +132,5 @@ If you want to use Multibind, just annotate your class with @AutoBind and @Multi
 	- in Web Application
 - Test Automatic Binding under Windows
 	- in Web Application
-- should we implement some like JavaConfig (but something with less weight/dependencies) (rocoto?)
+- Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...)
 - GuicyFruit Integration

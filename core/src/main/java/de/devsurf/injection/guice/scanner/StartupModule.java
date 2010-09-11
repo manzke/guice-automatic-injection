@@ -21,12 +21,10 @@ import java.util.logging.Logger;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
-import com.google.inject.matcher.Matchers;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.logger.LoggingTypeListener;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
@@ -62,7 +60,6 @@ public abstract class StartupModule extends AbstractModule {
 	bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
 	    _packages);
 	bind(DynamicModule.class).to(ScannerModule.class);
-	bindListener(Matchers.any(), new LoggingTypeListener());
 	bindAnnotationListeners();
     }
 

@@ -29,7 +29,6 @@ import javax.inject.Qualifier;
 
 import com.google.inject.Module;
 
-import de.devsurf.injection.guice.logger.InjectLogger;
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
 /**
@@ -44,7 +43,7 @@ import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 @Target({ElementType.TYPE})
 public @interface GuiceModule {
     public class GuiceModuleListener extends GuiceAnnotationListener {
-	@InjectLogger Logger _logger;
+	private Logger _logger = Logger.getLogger(GuiceModuleListener.class.getName());
 	@Override
 	public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
 	    if (annotations.containsKey(GuiceModule.class.getName())) {

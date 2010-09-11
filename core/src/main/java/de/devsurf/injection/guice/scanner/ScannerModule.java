@@ -25,7 +25,6 @@ import com.google.inject.Binder;
 import com.google.inject.Inject;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.logger.InjectLogger;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
@@ -40,7 +39,7 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  */
 public class ScannerModule implements DynamicModule {
     private ClasspathScanner _scanner;
-    @InjectLogger Logger _logger;
+    private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
 
     @Inject
     public ScannerModule(ClasspathScanner scanner) {

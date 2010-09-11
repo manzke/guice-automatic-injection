@@ -34,7 +34,6 @@ import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.logger.InjectLogger;
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
 /**
@@ -60,7 +59,7 @@ public @interface AutoBind {
     Class<? extends Object>[] bind() default {};
 
     public class AutoBindListener extends GuiceAnnotationListener {
-	@InjectLogger Logger _logger;
+	private Logger _logger = Logger.getLogger(AutoBindListener.class.getName());
 	
 	@SuppressWarnings("unchecked")
 	@Override
