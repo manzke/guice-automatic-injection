@@ -33,8 +33,11 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
+*.settings
 .settings/*
 */.settings/*
+**/.settings
+**/*.settings
 */target/*
 */bin/*
 *.classpath
