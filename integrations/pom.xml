@@ -3,11 +3,11 @@
   <parent>
     <groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>automatic-binding</artifactId>
-    <version>0.6.1</version>
+    <version>0.6.2-SNAPSHOT</version>
   </parent>
   <groupId>de.devsurf.injection.guice.integrations</groupId>
   <artifactId>integrations</artifactId>
-  <version>0.6.1</version>
+  <version>0.6.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
   	<module>guicyfruit</module>
