@@ -3,33 +3,33 @@
   <parent>
     <groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>automatic-binding</artifactId>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.6.1</version>
   </parent>
   <groupId>de.devsurf.injection.guice.scanner</groupId>
   <artifactId>de.devsurf.injection.guice.scanner.examples</artifactId>
-  <version>0.6.1-SNAPSHOT</version>
+  <version>0.6.1</version>
   <packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.6.1-SNAPSHOT</version>
+			<version>0.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
-			<version>0.6.1-SNAPSHOT</version>
+			<version>0.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.sonatype</artifactId>
-			<version>0.6.1-SNAPSHOT</version>
+			<version>0.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.reflections</artifactId>
-			<version>0.6.1-SNAPSHOT</version>
+			<version>0.6.1</version>
 		</dependency>
 	</dependencies>
 </project>
