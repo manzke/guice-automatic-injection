@@ -16,7 +16,7 @@
 package de.devsurf.injection.guice.scanner;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,17 +38,18 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  */
 public class ScannerModule implements DynamicModule {
     private ClasspathScanner _scanner;
+    private Set<AnnotationListener> _listeners;
     private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
 
     @Inject
-    public ScannerModule(ClasspathScanner scanner) {
+    public ScannerModule(ClasspathScanner scanner, Set<AnnotationListener> listeners) {
 	_scanner = scanner;
+	_listeners = listeners;
     }
 
     @Override
     public void configure(Binder binder) {
-	List<AnnotationListener> listeners = _scanner.getAnnotationListeners();
-	for (AnnotationListener listener : listeners) {
+	for (AnnotationListener listener : _listeners) {
 	    if (listener instanceof GuiceAnnotationListener) {
 		((GuiceAnnotationListener) listener).setBinder(binder);
 		if (_logger.isLoggable(Level.FINE)) {

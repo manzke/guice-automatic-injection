@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.inject.Qualifier;
 
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 
@@ -41,11 +42,19 @@ import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 @Qualifier
 @Target({ElementType.TYPE})
 public @interface GuiceModule {
-    public class GuiceModuleListener extends GuiceAnnotationListener {
-	private Logger _logger = Logger.getLogger(GuiceModuleListener.class.getName());
+    BindingStage stage() default BindingStage.OBJECT;
+    
+    public static enum BindingStage{
+	TOOL,
+	OBJECT
+    }
+    
+    @Singleton
+    public class ToolModuleListener extends GuiceAnnotationListener {
+	private Logger _logger = Logger.getLogger(ToolModuleListener.class.getName());
 	@Override
 	public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    if (annotations.containsKey(GuiceModule.class.getName())) {
+	    if (annotations.containsKey(GuiceModule.class.getName()) && ((GuiceModule)annotations.get(GuiceModule.class.getName())).stage() == BindingStage.TOOL) {
 		try {
 		    if(_logger.isLoggable(Level.FINE)){
 			_logger.fine("Installing Module: "+annotatedClass.getName());
@@ -61,4 +70,26 @@ public @interface GuiceModule {
 	    }
 	}
     }
+    
+    @Singleton
+    public class ObjectModuleListener extends GuiceAnnotationListener {
+	private Logger _logger = Logger.getLogger(ObjectModuleListener.class.getName());
+	@Override
+	public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+	    if (annotations.containsKey(GuiceModule.class.getName()) && ((GuiceModule)annotations.get(GuiceModule.class.getName())).stage() == BindingStage.OBJECT) {
+		try {
+		    if(_logger.isLoggable(Level.FINE)){
+			_logger.fine("Installing Module: "+annotatedClass.getName());
+		    }
+		    synchronized (_binder) {
+			_binder.install((Module) annotatedClass.newInstance());
+		    }
+		} catch (InstantiationException e) {
+		    e.printStackTrace();
+		} catch (IllegalAccessException e) {
+		    e.printStackTrace();
+		}
+	    }
+	}
+    }    
 }

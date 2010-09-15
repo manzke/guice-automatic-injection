@@ -77,11 +77,11 @@ public abstract class StartupModule extends AbstractModule {
 
 	@Override
 	protected void bindAnnotationListeners() {
-	    
 	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 		AnnotationListener.class);
-	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
-	    listeners.addBinding().to(GuiceModule.GuiceModuleListener.class);
+	    listeners.addBinding().to(AutoBind.AutoBindListener.class).asEagerSingleton();
+	    listeners.addBinding().to(GuiceModule.ToolModuleListener.class).asEagerSingleton();
+	    listeners.addBinding().to(GuiceModule.ObjectModuleListener.class).asEagerSingleton();
 	}
     }
 }

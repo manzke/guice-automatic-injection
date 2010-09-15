@@ -45,7 +45,7 @@ public class ExampleStartupModule extends StartupModule {
     protected void bindAnnotationListeners() {
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
-	listeners.addBinding().to(GuiceModule.GuiceModuleListener.class);
+	listeners.addBinding().to(GuiceModule.ToolModuleListener.class);
     }
 
 }

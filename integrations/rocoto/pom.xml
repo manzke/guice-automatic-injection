@@ -1,11 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>de.devsurf.injection.guice.integrations</groupId>
-    <artifactId>integrations</artifactId>	
-    <version>0.6.2-SNAPSHOT</version>
-  </parent>
-  <groupId>de.devsurf.injection.guice.integrations</groupId>
-  <artifactId>de.devsurf.injection.guice.integrations.configuration</artifactId>
-  <version>0.6.2-SNAPSHOT</version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.devsurf.injection.guice.integrations</groupId>
+		<artifactId>integrations</artifactId>
+		<version>0.6.2-SNAPSHOT</version>
+	</parent>
+	<groupId>de.devsurf.injection.guice.integrations</groupId>
+	<artifactId>de.devsurf.injection.guice.integrations.rocoto</artifactId>
+	<version>0.6.2-SNAPSHOT</version>
+	<dependencies>
+		<dependency>
+			<groupId>com.googlecode.rocoto</groupId>
+			<artifactId>rocoto-simple-configuration</artifactId>
+			<version>3.1</version>
+		</dependency> 
+	</dependencies>
 </project>

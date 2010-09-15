@@ -85,7 +85,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>${pom.groupId}.${pom.artifactId}-${pom.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

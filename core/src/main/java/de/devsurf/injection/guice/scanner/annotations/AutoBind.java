@@ -28,6 +28,7 @@ import javax.inject.Named;
 import javax.inject.Qualifier;
 
 import com.google.inject.Scopes;
+import com.google.inject.Singleton;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
@@ -57,6 +58,7 @@ import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 public @interface AutoBind {
     Class<? extends Object>[] bind() default {};
 
+    @Singleton
     public class AutoBindListener extends GuiceAnnotationListener {
 	private Logger _logger = Logger.getLogger(AutoBindListener.class.getName());
 	

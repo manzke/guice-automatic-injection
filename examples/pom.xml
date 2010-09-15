@@ -31,5 +31,10 @@
 			<artifactId>de.devsurf.injection.guice.scanner.reflections</artifactId>
 			<version>0.6.2-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>de.devsurf.injection.guice.integrations</groupId>
+			<artifactId>de.devsurf.injection.guice.integrations.guicyfruit</artifactId>
+			<version>0.6.2-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

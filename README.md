@@ -4,8 +4,10 @@ Google Guice-Extension for automatic Modules and Beans Binding.
 
 ##Blog-Entries
 [Part 1](http://devsurf.wordpress.com/2010/09/06/google-guice-classpath-scanning-and-automatic-beans-binding-and-module-installation/)  
-[Part 2](https://devsurf.wordpress.com/2010/09/07/guice-automatic-injection-binding-listeners-parallel-scanning/)  
-[Part 3](https://devsurf.wordpress.com/2010/09/09/guice-automatic-injectionbinding-jsr330-fighting-with-maven-github-and-windows/)  
+[Part 2](http://devsurf.wordpress.com/2010/09/07/guice-automatic-injection-binding-listeners-parallel-scanning/)  
+[Part 3](http://devsurf.wordpress.com/2010/09/09/guice-automatic-injectionbinding-jsr330-fighting-with-maven-github-and-windows/)  
+[Part 4](http://devsurf.wordpress.com/2010/09/15/guice-automatic-injectionbinding-guicyfruit-integration-postconstructpredestroy-guicejndi-and-the-childinjector/)  
+
 
 [Ohloh.net](https://www.ohloh.net/p/guice-auto-injection)  
 [DZone](http://www.dzone.com/links/quick_tip_automatic_injectionbinding_for_google_g.html)  
@@ -123,7 +125,73 @@ If you want to use Multibind, just annotate your class with @AutoBind and @Multi
 			}
 		}
 	}
-		
+	
+####Use JSR250-Annotations with GuicyFruit  
+GuicyFruit gives you the possibilities to use the Annotations declared in the JSR250. You can annotate your Implementations with @Resource, @PostConstruct and @PreDestroy.
+
+	public interface Example {
+		String sayHello(); //will be called in our Application
+		void inform(); //will be called through @PostConstruct
+	}
+
+	public class ExampleImpl implements Example {
+		@PostConstruct
+		public void inform(){
+			System.out.println("inform about post construction!");
+		}  
+
+		@Override
+		public String sayHello() {
+			return "yeahhh!!!";
+		}
+	}
+	
+Inform will be called after the Instance was create by the Injector.
+
+	@GuiceModule
+	public class ExampleModule extends AbstractModule {
+		@Override
+		protected void configure() {
+			bind(Example.class).to(ExampleImpl.class);
+		}
+	}
+
+The ExampleModule will be automatically be bound, by our ClasspathScanner.
+	
+	public class ExampleApplication{
+		public static void main(String[] args) throws IOException {
+			StartupModule startupModule = StartupModule.create(VirtualClasspathReader.class, ExampleApp.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
+			Injector injector = Guice.createInjector(startupModule);  
+
+			Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));
+			injector = Guice.createInjector(m); 
+
+			System.out.println(injector.getInstance(Example.class).sayHello());
+		}
+	}
+
+And last but not least, our ExampleApplication which creates a new StartupModule, which will bind our ClasspathScanner and the Packages to the Injector. With the help of this Injector we create a new DynamicModule, which is bound to ScannerModule.
+
+#####Attention: At the Moment there is something I don’t understand. When I use my original Injector to create a ChildInjector, all Interface-to-Class-Bindings work like a charm. But I install a Module, which will bind a TypeListener or something else, they are not recognized.
+I’m not sure if this is a Bug or a wanted behavior. So we are only able to use GuicyFruit, if we create a new Injector with the Help of the DynamicModule.
+
+
+####Guicefy JNDI with GuicyFruit
+For using JNDI+Guice you have to create a "jndi.properties" and put it in your Classpath. Specify which ContextFactory and ClasspathScanner should be used and where they should scan for Modules and Implementations, which should be installed/bound.
+
+	java.naming.factory.initial = ...integrations.guicyfruit.GuicyInitialContextFactory
+	guice.classpath.scanner = ...scanner.asm.VirtualClasspathReader
+	guice.classpath.packages = ...
+
+After that you can create a new InitialContext and with some Magic everything can be retrieved by the Context like using an Injector.
+
+	public static void main(String[] args) throws Exception {
+		InitialContext context = new InitialContext();
+		Example example = (Example) context.lookup(Example.class.getName());  
+
+		System.out.println(example.sayHello());
+	}
+
 
 ##TODOs:
 - Test Automatic Binding under Linux (1.0)
@@ -131,6 +199,6 @@ If you want to use Multibind, just annotate your class with @AutoBind and @Multi
 	- in Web Application
 - Test Automatic Binding under Windows (1.0)
 	- in Web Application
-- GuicyFruit Integration (release 0.7) http://code.google.com/p/guiceyfruit/
+- GuicyFruit Integration (release 0.7) http://code.google.com/p/guiceyfruit/ -> Integration done! Tests missing.  
 - Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...) (release 0.8) http://rocoto.googlecode.com/svn/site/2.0/index.html
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)
