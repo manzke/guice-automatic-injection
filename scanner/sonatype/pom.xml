@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice.scanner</groupId>
 		<artifactId>automatic-binding</artifactId>
-		<version>0.6.2</version>
+		<version>0.6.3-SNAPSHOT</version>
 	</parent>	
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>de.devsurf.injection.guice.scanner.sonatype</artifactId>
@@ -13,12 +13,12 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.6.2</version>
+			<version>0.6.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
-			<version>0.6.2</version>
+			<version>0.6.3-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.sonatype.spice.inject</groupId>

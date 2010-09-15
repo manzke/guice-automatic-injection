@@ -3,12 +3,12 @@
   <parent>
     <artifactId>extensions</artifactId>
     <groupId>de.devsurf.injection.guice</groupId>
-    <version>0.6.2</version>
+    <version>0.6.3-SNAPSHOT</version>
   </parent>
   <groupId>de.devsurf.injection.guice.scanner</groupId>
   <artifactId>automatic-binding</artifactId>
   <name>Guice Automatic Injection</name>
-  <version>0.6.2</version>
+  <version>0.6.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   	<modules>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.commons</artifactId>
-			<version>0.6.2</version>
+			<version>0.6.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

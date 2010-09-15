@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>integrations</artifactId>
-		<version>0.6.2</version>
+		<version>0.6.3-SNAPSHOT</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice.integrations</groupId>
 	<artifactId>de.devsurf.injection.guice.integrations.guicyfruit</artifactId>
-	<version>0.6.2</version>
+	<version>0.6.3-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
 			<groupId>org.guiceyfruit</groupId>
