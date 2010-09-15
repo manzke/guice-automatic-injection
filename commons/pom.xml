@@ -3,10 +3,10 @@
   <parent>
     <artifactId>extensions</artifactId>
     <groupId>de.devsurf.injection.guice</groupId>
-    <version>0.6.2-SNAPSHOT</version>
+    <version>0.6.2</version>
   </parent>
   <groupId>de.devsurf.injection.guice</groupId>
   <artifactId>de.devsurf.injection.guice.commons</artifactId>
-  <version>0.6.2-SNAPSHOT</version>
+  <version>0.6.2</version>
   <packaging>jar</packaging>
 </project>
