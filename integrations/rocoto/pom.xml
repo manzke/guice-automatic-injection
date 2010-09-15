@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.devsurf.injection.guice.integrations</groupId>
+		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>integrations</artifactId>
 		<version>0.6.2-SNAPSHOT</version>
 	</parent>
@@ -15,5 +15,10 @@
 			<artifactId>rocoto-simple-configuration</artifactId>
 			<version>3.1</version>
 		</dependency> 
+		<!-- dependency>
+			<groupId>com.googlecode.rocoto</groupId>
+			<artifactId>rocoto-configuration</artifactId>
+			<version>3.0</version>
+		</dependency -->
 	</dependencies>
 </project>

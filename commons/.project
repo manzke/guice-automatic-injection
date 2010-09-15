@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>de.devsurf.injection.guice</name>
-	<comment>Goolge Guice-Extension which add the support for Classpath Scanner and auto registration for Guice-Modules and Beans. ASM, Reflections/Javassit or a Sonatype-Guice-Extension can be used as Classpath Scanner. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+	<name>commons</name>
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>

@@ -2,15 +2,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>de.devsurf.injection.guice</groupId>
-	<artifactId>automatic-binding</artifactId>
+	<artifactId>extensions</artifactId>
     <version>0.6.2-SNAPSHOT</version>
   </parent>
-  <groupId>de.devsurf.injection.guice.scanner</groupId>
-  <artifactId>de.devsurf.injection.guice.scanner.examples</artifactId>
+  <groupId>de.devsurf.injection.guice</groupId>
+  <artifactId>de.devsurf.injection.guice.examples</artifactId>
   <version>0.6.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
 	<dependencies>
+		<dependency>
+			<groupId>de.devsurf.injection.guice</groupId>
+			<artifactId>de.devsurf.injection.guice.commons</artifactId>
+			<version>0.6.2-SNAPSHOT</version>
+		</dependency>	
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
@@ -36,5 +41,10 @@
 			<artifactId>de.devsurf.injection.guice.integrations.guicyfruit</artifactId>
 			<version>0.6.2-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>de.devsurf.injection.guice.integrations</groupId>
+			<artifactId>de.devsurf.injection.guice.integrations.rocoto</artifactId>
+			<version>0.6.2-SNAPSHOT</version>
+		</dependency>		
 	</dependencies>
 </project>

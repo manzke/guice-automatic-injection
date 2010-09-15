@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.devsurf.injection.guice</groupId>
-	<artifactId>automatic-binding</artifactId>
+	<artifactId>extensions</artifactId>
 	<packaging>pom</packaging>
-	<name>Guice Automatic Injection</name>
+	<name>Guice Extensions</name>
 
 	<version>0.6.2-SNAPSHOT</version>
 	<description>Goolge Guice-Extension which add the support for Classpath Scanner and auto registration for Guice-Modules and Beans. ASM, Reflections/Javassit or a Sonatype-Guice-Extension can be used as Classpath Scanner.</description>
@@ -12,54 +12,23 @@
 	<inceptionYear>2010</inceptionYear>
 
 	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>5</version>
+		<groupId>de.devsurf.maven</groupId>
+		<artifactId>de.devsurf.maven</artifactId>
+		<version>1.0</version>
 	</parent>
 
 	<modules>
-		<module>core</module>
-		<module>asm</module>
-		<module>reflections</module>
-		<module>sonatype</module>
 		<module>examples</module>
 		<module>integrations</module>
+		<module>scanner</module>
+		<module>commons</module>
 	</modules>
-
-	<developers>
-		<developer>
-			<name>Daniel Manzke</name>
-			<email>daniel.manzke@googlemail.com</email>
-			<url>http://www.devsurf.mp</url>
-			<roles>
-				<role>Developer</role>
-				<role>Contributor</role>
-			</roles>
-			<properties>
-				<picUrl>https://www.xing.com/img/users/8/d/2/e054f8ad2.6432019.jpg</picUrl>
-			</properties>
-		</developer>
-	</developers>
 
 	<scm>
 		<url>git@github.com:manzke/guice-automatic-injection.git</url>
 		<connection>scm:git:git@github.com:manzke/guice-automatic-injection.git</connection>
 		<developerConnection>scm:git:git@github.com:manzke/guice-automatic-injection.git</developerConnection>
 	</scm>
-
-	<licenses>
-		<license>
-			<name>Apache License 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-
-	<properties>
-		<scm.branch>master</scm.branch>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -84,46 +53,6 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<inherited>false</inherited>
-				<groupId>com.google.code.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.4.0</version>
-				<configuration>
-					<header>${basedir}/etc/header.txt</header>
-					<failIfMissing>true</failIfMissing>
-					<aggregate>true</aggregate>
-					<properties>
-						<owner>Daniel Manzke</owner>
-						<year>2010</year>
-						<email>daniel.manzke@googlemail.com</email>
-					</properties>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>check-headers</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>mc-release</id>
