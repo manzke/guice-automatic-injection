@@ -8,7 +8,9 @@
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>de.devsurf.injection.guice.scanner.reflections</artifactId>
 	<packaging>jar</packaging>
-
+	<properties>
+		<main.basedir>${project.parent.parent.basedir}</main.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>

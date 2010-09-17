@@ -15,8 +15,12 @@
 	<parent>
 		<groupId>de.devsurf.maven</groupId>
 		<artifactId>de.devsurf.maven</artifactId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
+	
+	<properties>
+		<main.basedir>${project.basedir}</main.basedir>
+	</properties>
 
 	<modules>
 		<module>examples</module>
@@ -72,18 +76,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!--pluginRepositories>
-		<pluginRepository>
-			<id>mc-release</id>
-			<name>Local Maven repository of releases</name>
-			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories-->
 </project>
 
