@@ -201,4 +201,9 @@ After that you can create a new InitialContext and with some Magic everything ca
 	- in Web Application
 - GuicyFruit Integration (release 0.7) http://code.google.com/p/guiceyfruit/ -> Integration done! Tests missing.  
 - Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...) (release 0.8) http://rocoto.googlecode.com/svn/site/2.0/index.html
+	- added Rocoto-Dependencies
+	- added Configuration-Annotation
+	- added Configuration Module Installer
+	- missing: check if configuration already bound
+	- missing: bind configurations w/o named to the configuration class, so not only values can be injected
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)

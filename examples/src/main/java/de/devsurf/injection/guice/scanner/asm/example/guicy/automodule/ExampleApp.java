@@ -17,11 +17,9 @@ package de.devsurf.injection.guice.scanner.asm.example.guicy.automodule;
 
 import java.io.IOException;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.name.Names;
 import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.DynamicModule;
@@ -52,12 +50,7 @@ public class ExampleApp {
 	Injector injector = Guice.createInjector(startupModule);
 
 	Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));
-	injector = Guice.createInjector(new AbstractModule() {
-	    @Override
-	    protected void configure() {
-		bindConstant().annotatedWith(Names.named("message")).to("my message");
-	    }
-	}, m); //FIXME we create a new Injector. We should use createChildInjector, but this is not recognizing any bindListeners, which are bound in the Child Modules.
+	injector = Guice.createInjector(m); //FIXME we create a new Injector. We should use createChildInjector, but this is not recognizing any bindListeners, which are bound in the Child Modules.
 	System.out.println(injector.getInstance(Example.class).sayHello());
     }
 }

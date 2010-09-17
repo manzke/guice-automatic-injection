@@ -49,7 +49,7 @@ public class NamedAutobindTests {
     
     @Test
     public void testWithWrongPackage(){
-	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java"));
+	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java.util.concurrent"));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);

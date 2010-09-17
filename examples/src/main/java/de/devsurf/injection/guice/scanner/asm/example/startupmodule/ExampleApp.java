@@ -44,7 +44,7 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 public class ExampleApp {
     public static void main(String[] args) throws IOException {
 	Injector injector = Guice.createInjector(new ExampleStartupModule(
-	    VirtualClasspathReader.class, "de.devsurf"));
+	    VirtualClasspathReader.class, ExampleApp.class.getPackage().getName()));
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = injector.createChildInjector(dynamicModule);
 	System.out.println(injector.getInstance(Example.class).sayHello());

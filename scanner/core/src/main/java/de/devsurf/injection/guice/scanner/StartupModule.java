@@ -55,6 +55,8 @@ public abstract class StartupModule extends AbstractModule {
 		_logger.fine("Using Package " + p + " for scanning.");
 	    }
 	}
+
+	bind(InstallationContext.class).asEagerSingleton();
 	bind(ClasspathScanner.class).to(_scanner);
 	bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
 	    _packages);
@@ -79,9 +81,8 @@ public abstract class StartupModule extends AbstractModule {
 	protected void bindAnnotationListeners() {
 	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 		AnnotationListener.class);
-	    listeners.addBinding().to(AutoBind.AutoBindListener.class).asEagerSingleton();
-	    listeners.addBinding().to(GuiceModule.ToolModuleListener.class).asEagerSingleton();
-	    listeners.addBinding().to(GuiceModule.ObjectModuleListener.class).asEagerSingleton();
+	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
+	    listeners.addBinding().to(GuiceModule.ModuleListener.class);
 	}
     }
 }

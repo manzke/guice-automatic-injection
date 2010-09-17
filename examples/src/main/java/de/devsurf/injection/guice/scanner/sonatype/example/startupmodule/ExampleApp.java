@@ -42,7 +42,7 @@ import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 public class ExampleApp {
     public static void main(String[] args) throws IOException {
 	Injector injector = Guice.createInjector(new ExampleStartupModule(SonatypeScanner.class,
-	    "de.devsurf"));
+	    ExampleApp.class.getPackage().getName()));
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = injector.createChildInjector(dynamicModule);
 	System.out.println(injector.getInstance(Example.class).sayHello());

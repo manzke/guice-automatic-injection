@@ -51,7 +51,7 @@ public class MultibindTests {
     
     @Test
     public void testWithWrongPackage1(){
-	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java"));
+	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java.util.concurrent"));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
@@ -70,7 +70,7 @@ public class MultibindTests {
 
     @Test
     public void testWithWrongPackage2(){
-	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java"));
+	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java.util.concurrent"));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);

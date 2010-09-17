@@ -37,15 +37,13 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  * 
  */
 public class ScannerModule implements DynamicModule {
-    private ClasspathScanner _scanner;
-    private Set<AnnotationListener> _listeners;
     private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
-
     @Inject
-    public ScannerModule(ClasspathScanner scanner, Set<AnnotationListener> listeners) {
-	_scanner = scanner;
-	_listeners = listeners;
-    }
+    private ClasspathScanner _scanner;
+    @Inject
+    private Set<AnnotationListener> _listeners;
+    @Inject
+    private InstallationContext _context;
 
     @Override
     public void configure(Binder binder) {
@@ -64,6 +62,11 @@ public class ScannerModule implements DynamicModule {
 	    _scanner.scan();
 	} catch (IOException e) {
 	    _logger.log(Level.SEVERE, "Failure while Scanning the Classpath for Classes with Annotations.", e);
+	}
+	try {
+	    _context.process();
+	} catch (Exception e) {
+	    _logger.log(Level.SEVERE, "Failure while executing the collected Tasks.", e);
 	}
     }
 }

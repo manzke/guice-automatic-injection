@@ -17,7 +17,6 @@ package de.devsurf.injection.guice.scanner.asm;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -130,7 +129,7 @@ public class AnnotationCollector implements ClassVisitor {
     public void visitEnd() {
 	if (!_isAnnotation && _annotations.size() > 0) {
 	    for (AnnotationListener listener : _listeners) {
-		listener.found((Class<Object>) _class, Collections.unmodifiableMap(_annotations));
+		listener.found((Class<Object>) _class, _annotations);
 	    }
 	}
 	_name = null;

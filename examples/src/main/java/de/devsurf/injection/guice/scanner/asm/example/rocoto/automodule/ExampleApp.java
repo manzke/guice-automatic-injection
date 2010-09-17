@@ -17,16 +17,13 @@ package de.devsurf.injection.guice.scanner.asm.example.rocoto.automodule;
 
 import java.io.IOException;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.name.Names;
 import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.integrations.guicyfruit.JSR250Module;
-import de.devsurf.injection.guice.integrations.rocoto.RocotoConfigurationModule;
+import de.devsurf.injection.guice.integrations.configuration.ConfigurationStartupModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
@@ -49,7 +46,7 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
  */
 public class ExampleApp {
     public static void main(String[] args) throws IOException {
-	StartupModule startupModule = StartupModule.create(VirtualClasspathReader.class, ExampleApp.class.getPackage().getName(), RocotoConfigurationModule.class.getPackage().getName());
+	StartupModule startupModule = new ConfigurationStartupModule(VirtualClasspathReader.class, ExampleApp.class.getPackage().getName(), ConfigurationStartupModule.class.getPackage().getName());
 	Injector injector = Guice.createInjector(startupModule);
 
 	Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));

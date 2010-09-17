@@ -102,6 +102,8 @@ public class ReflectionsScanner implements ClasspathScanner {
 	for (String p : _packages) {
 	    urls.addAll(ClasspathHelper.getUrlsForPackagePrefix(p));
 	}
+	urls.addAll(ClasspathHelper.getUrlsForCurrentClasspath());
+	
 	new Reflections(new ConfigurationBuilder().setScanners(new AnnotationScanner())
 	    .filterInputsBy(new Predicate<String>() {
 		@Override
@@ -122,6 +124,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 
     private class AnnotationScanner extends AbstractScanner {
 	@SuppressWarnings("unchecked")
+	@Override
 	public void scan(final Object cls) {
 	    ClassFile classFile = (ClassFile) cls;
 	    AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
@@ -134,7 +137,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 	    try {
 		objectClass = (Class<Object>) Class.forName(classFile.getName());
 	    } catch (ClassNotFoundException e) {
-		e.printStackTrace();
+		ReflectionsScanner.this._logger.log(Level.WARNING, "Failure while trying to load the Class \""+classFile.getName()+"\" from Classpath.", e);
 		return;
 	    }
 
