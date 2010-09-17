@@ -18,8 +18,9 @@ package de.devsurf.injection.guice.example.starter;
 import java.util.Set;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
@@ -31,16 +32,13 @@ public class ExampleStarter {
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = injector.createChildInjector(dynamicModule);
 
-	Set<ExampleApplication> apps = injector.getInstance(ExampleContainer.class).applications;
+	Key<Set<ExampleApplication>> key = Key.get(new TypeLiteral<Set<ExampleApplication>>() {});
+	Set<ExampleApplication> apps = injector.getInstance(key);
 	for(ExampleApplication app : apps){
 	    System.out.println("Starting App: "+app.getClass().getName());
 	    app.run();
 	    System.out.println();
 	}
-    }
-    
-    public static class ExampleContainer{
-	@Inject
-	public Set<ExampleApplication> applications;
+	System.out.println("Run "+apps.size()+" Applications.");
     }
 }
