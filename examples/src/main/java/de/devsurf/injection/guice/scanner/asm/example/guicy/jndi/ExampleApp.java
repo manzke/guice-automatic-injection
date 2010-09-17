@@ -16,12 +16,15 @@
 package de.devsurf.injection.guice.scanner.asm.example.guicy.jndi;
 
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import de.devsurf.injection.guice.DynamicModule;
+import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
 import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 /**
@@ -38,11 +41,22 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
  * @author Daniel Manzke
  * 
  */
-public class ExampleApp {
-    public static void main(String[] args) throws Exception {
-	InitialContext context = new InitialContext();
-	Example example = (Example) context.lookup(Example.class.getName());
-	
-	System.out.println(example.sayHello());
+@AutoBind
+@MultiBinding
+public class ExampleApp implements ExampleApplication{
+    @Override
+    public void run(){
+	try {
+	    InitialContext context = new InitialContext();
+	    Example example = (Example) context.lookup(Example.class.getName());
+	    
+	    System.out.println(example.sayHello());
+	} catch (NamingException e) {
+	    e.printStackTrace();
+	}
+    }
+    
+    public static void main(String[] args) {
+	new ExampleApp().run();
     }
 }

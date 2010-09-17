@@ -15,14 +15,16 @@
  */
 package de.devsurf.injection.guice.scanner.sonatype.example.automodule;
 
-import java.io.IOException;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.DynamicModule;
+import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 /**
@@ -39,13 +41,20 @@ import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
  * @author Daniel Manzke
  * 
  */
-public class ExampleApp {
-    public static void main(String[] args) throws IOException {
+@AutoBind
+@MultiBinding
+public class ExampleApp implements ExampleApplication{
+    @Override
+    public void run(){
 	Injector injector = Guice.createInjector(new ExampleStartupModule(SonatypeScanner.class,
 	    ExampleApp.class.getPackage().getName()));
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = injector.createChildInjector(dynamicModule);
 
 	System.out.println(injector.getInstance(Example.class).sayHello());
+    }
+    
+    public static void main(String[] args) {
+	new ExampleApp().run();
     }
 }
