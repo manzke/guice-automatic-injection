@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>extensions</artifactId>
-		<version>0.6.3</version>
+		<version>0.6.4-SNAPSHOT</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>integrations</artifactId>
-	<version>0.6.3</version>
+	<version>0.6.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<main.basedir>${project.parent.basedir}</main.basedir>
@@ -20,12 +20,12 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.6.3</version>
+			<version>0.6.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.commons</artifactId>
-			<version>0.6.3</version>
+			<version>0.6.4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
