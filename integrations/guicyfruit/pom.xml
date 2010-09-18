@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>integrations</artifactId>
-		<version>0.6.3-SNAPSHOT</version>
+		<version>0.6.3</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice.integrations</groupId>
 	<artifactId>de.devsurf.injection.guice.integrations.guicyfruit</artifactId>
-	<version>0.6.3-SNAPSHOT</version>
+	<version>0.6.3</version>
 	<properties>
 		<main.basedir>${project.parent.parent.basedir}</main.basedir>
 	</properties>	
