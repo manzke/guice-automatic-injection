@@ -20,6 +20,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +28,11 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.inject.Qualifier;
 
+import com.google.inject.Scope;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.binder.LinkedBindingBuilder;
-import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
@@ -65,7 +66,8 @@ public @interface AutoBind {
 
 	@Override
 	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    if(annotations.containsKey(AutoBind.class.getName())){
+	    if (annotations.containsKey(AutoBind.class.getName())
+		    && !annotations.containsKey(MultiBinding.class.getName())) {
 		return BindingStage.BINDING;
 	    }
 	    return BindingStage.IGNORE;
@@ -76,15 +78,14 @@ public @interface AutoBind {
 	public void process(final Class<Object> annotatedClass,
 		final Map<String, Annotation> annotations) {
 	    AutoBind annotation = (AutoBind) annotations.get(AutoBind.class.getName());
+	    Map<String, Annotation> filtered = filter(annotations);
 
 	    final boolean overwriteInterfaces = (annotation.bind().length > 0);
-	    boolean nameIt = annotations.containsKey(Named.class.getName());
-	    String name = null;
-	    if (nameIt) {
-		name = ((Named) annotations.get(Named.class.getName())).value();
+	    if (annotations.containsKey(Named.class.getName())) {
+		String name = ((Named) annotations.get(Named.class.getName())).value();
+		filtered.put(com.google.inject.name.Named.class.getName(), Names.named(name));
 	    }
 
-	    final boolean multiple = annotations.containsKey(MultiBinding.class.getName());
 	    final boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 		.getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
 
@@ -96,27 +97,44 @@ public @interface AutoBind {
 		    _logger
 			.fine(String
 			    .format(
-				"Binding Class %s to Interface %s. Named? %s Overwriting original Interfaces? %s Singleton? %s Multiple? %s",
-				annotatedClass, interf, nameIt, overwriteInterfaces, asSingleton, multiple));
+				"Binding Class %s to Interface %s. Overwriting original Interfaces? %s Singleton? %s ",
+				annotatedClass, interf, overwriteInterfaces, asSingleton));
 		}
 
-		LinkedBindingBuilder builder;
-		synchronized (_binder) {
-		    if (multiple) {
-			builder = Multibinder.newSetBinder(_binder, interf).addBinding();
-			nameIt = false;
-		    } else {
-			builder = _binder.bind(interf);
+		if (filtered.size() > 0) {
+		    for (Annotation anno : filtered.values()) {
+			bind(annotatedClass, interf, anno, (asSingleton ? Scopes.SINGLETON : null));
 		    }
-		    if (nameIt) {
-			((AnnotatedBindingBuilder) builder).annotatedWith(Names.named(name)).to(
-			    annotatedClass);
-		    } else {
-			builder.to(annotatedClass);
-		    }
-		    if (asSingleton) {
-			builder.in(Scopes.SINGLETON);
-		    }
+		} else {
+		    bind(annotatedClass, interf, null, (asSingleton ? Scopes.SINGLETON : null));
+		}
+	    }
+	}
+
+	protected Map<String, Annotation> filter(final Map<String, Annotation> annotations) {
+	    Map<String, Annotation> filtered = new HashMap<String, Annotation>(annotations);
+
+	    filtered.remove(AutoBind.class.getName());
+	    filtered.remove(GuiceModule.class.getName());
+	    filtered.remove(Named.class.getName());
+	    filtered.remove(com.google.inject.Singleton.class.getName());
+	    filtered.remove(javax.inject.Singleton.class.getName());
+
+	    return filtered;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void bind(Class<Object> impl, Class<Object> interf, Annotation annotation,
+		Scope scope) {
+	    LinkedBindingBuilder builder;
+	    synchronized (_binder) {
+		builder = _binder.bind(interf);
+		if (annotation != null) {
+		    builder = ((AnnotatedBindingBuilder) builder).annotatedWith(annotation);
+		}
+		builder.to(impl);
+		if (scope != null) {
+		    builder.in(scope);
 		}
 	    }
 	}

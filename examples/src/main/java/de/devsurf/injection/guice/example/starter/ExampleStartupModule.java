@@ -23,6 +23,7 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind.AutoBindListener;
 
 /**
@@ -46,7 +47,7 @@ public class ExampleStartupModule extends StartupModule {
     protected void bindAnnotationListeners() {
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
-	listeners.addBinding().to(AutoBind.AutoBindListener.class);
+	listeners.addBinding().to(MultiBinding.MultiBindListener.class);
     }
 
 }

@@ -38,11 +38,16 @@ public abstract class GuiceAnnotationListener implements AnnotationListener {
     protected Binder _binder;
     @Inject
     protected Injector injector;
-    @Inject
+    
     protected InstallationContext context;
 
     public void setBinder(Binder binder) {
 	_binder = binder;
+    }
+    
+    @Inject
+    public void configure(InstallationContext context) {
+	this.context = context;        
     }
         
     @Override

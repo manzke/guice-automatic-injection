@@ -26,6 +26,7 @@ import com.google.inject.name.Names;
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
 
 /**
  * The StartupModule is used for creating an initial Injector, which binds and
@@ -82,6 +83,7 @@ public abstract class StartupModule extends AbstractModule {
 	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 		AnnotationListener.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
+	    listeners.addBinding().to(MultiBinding.MultiBindListener.class);
 	    listeners.addBinding().to(GuiceModule.ModuleListener.class);
 	}
     }

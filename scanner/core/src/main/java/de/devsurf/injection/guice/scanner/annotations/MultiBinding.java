@@ -15,12 +15,22 @@
  */
 package de.devsurf.injection.guice.scanner.annotations;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Map;
 
 import javax.inject.Qualifier;
+
+import com.google.inject.Scope;
+import com.google.inject.Singleton;
+import com.google.inject.binder.LinkedBindingBuilder;
+import com.google.inject.multibindings.Multibinder;
+
+import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind.AutoBindListener;
 
 /**
  * Annotate a Class which should be binded multiple Times. Using the Google
@@ -33,4 +43,39 @@ import javax.inject.Qualifier;
 @Qualifier
 @Target({ElementType.TYPE})
 public @interface MultiBinding {
+    @Singleton
+    public class MultiBindListener extends AutoBindListener {
+	@Override
+	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+	    if (annotations.containsKey(AutoBind.class.getName())
+		    && annotations.containsKey(MultiBinding.class.getName())) {
+		return BindingStage.BINDING;
+	    }
+	    return BindingStage.IGNORE;
+	}
+	
+	protected Map<String, Annotation> filter(final Map<String, Annotation> annotations) {
+	    Map<String, Annotation> filtered = super.filter(annotations);
+	    
+	    filtered.remove(MultiBinding.class.getName());
+
+	    return filtered;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void bind(Class<Object> impl, Class<Object> interf, Annotation annotation, Scope scope) {
+	    LinkedBindingBuilder builder;
+	    synchronized (_binder) {
+		if (annotation != null) {
+		    builder = Multibinder.newSetBinder(_binder, interf, annotation).addBinding();
+		} else {
+		    builder = Multibinder.newSetBinder(_binder, interf).addBinding();
+		}
+		builder.to(impl);
+		if (scope != null) {
+		    builder.in(scope);
+		}
+	    }
+	}
+    }
 }
