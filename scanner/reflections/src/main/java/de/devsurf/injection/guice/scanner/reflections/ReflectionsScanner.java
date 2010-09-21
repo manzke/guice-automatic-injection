@@ -32,14 +32,15 @@ import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.annotation.Annotation;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.reflections.Reflections;
 import org.reflections.scanners.AbstractScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
 import com.google.common.base.Predicate;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;

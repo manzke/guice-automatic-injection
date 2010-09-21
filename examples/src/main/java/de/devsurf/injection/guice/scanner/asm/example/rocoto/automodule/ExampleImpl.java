@@ -15,8 +15,8 @@
  */
 package de.devsurf.injection.guice.scanner.asm.example.rocoto.automodule;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class ExampleContainer {
     private List<Example> _examples;

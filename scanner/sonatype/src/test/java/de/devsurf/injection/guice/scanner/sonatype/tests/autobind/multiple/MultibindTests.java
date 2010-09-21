@@ -23,11 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.DynamicModule;

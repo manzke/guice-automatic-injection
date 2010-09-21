@@ -28,8 +28,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
 
 import de.devsurf.injection.guice.scanner.AnnotationListener;

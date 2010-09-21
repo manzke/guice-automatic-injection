@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.integrations.configuration;
+package de.devsurf.injection.guice.scanner.asm.example.autobind.marker;
 
-import javax.inject.Inject;
-
-import com.google.inject.AbstractModule;
-import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
-
-import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-
-@GuiceModule(stage=BindingStage.BUILD)
-public class ConfigurationModuleInstaller extends AbstractModule{
-    @Inject 
-    private SimpleConfigurationModule module;
-    
-    @Override
-    protected void configure() {
-	binder().install(module);
-    }
+/**
+ * Interface which is used to bind an implementation too.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+public interface Example {
+    String sayHello();
 }

@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.integrations.configuration;
+package de.devsurf.injection.guice.scanner.asm.example.autobind.marker;
 
-import javax.inject.Inject;
+import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
-import com.google.inject.AbstractModule;
-import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
-
-import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-
-@GuiceModule(stage=BindingStage.BUILD)
-public class ConfigurationModuleInstaller extends AbstractModule{
-    @Inject 
-    private SimpleConfigurationModule module;
-    
+/**
+ * This class implements the Example interface and uses the {@link AutoBind}-
+ * Annotation, so it will be recognized by the {@link ClasspathScanner}. In this
+ * Example the {@link VirtualClasspathReader} is used.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+@AutoBind
+@FirstMarker
+public class FirstImpl implements Example {
     @Override
-    protected void configure() {
-	binder().install(module);
+    public String sayHello() {
+	return "first - yeahhh!!!";
     }
 }

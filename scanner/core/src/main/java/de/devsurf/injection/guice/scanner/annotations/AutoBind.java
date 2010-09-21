@@ -25,15 +25,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.inject.Named;
 import javax.inject.Qualifier;
+import javax.inject.Singleton;
 
 import com.google.inject.Scope;
 import com.google.inject.Scopes;
-import com.google.inject.Singleton;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.binder.LinkedBindingBuilder;
-import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
@@ -81,11 +79,6 @@ public @interface AutoBind {
 	    Map<String, Annotation> filtered = filter(annotations);
 
 	    final boolean overwriteInterfaces = (annotation.bind().length > 0);
-	    if (annotations.containsKey(Named.class.getName())) {
-		String name = ((Named) annotations.get(Named.class.getName())).value();
-		filtered.put(com.google.inject.name.Named.class.getName(), Names.named(name));
-	    }
-
 	    final boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 		.getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
 
@@ -116,7 +109,6 @@ public @interface AutoBind {
 
 	    filtered.remove(AutoBind.class.getName());
 	    filtered.remove(GuiceModule.class.getName());
-	    filtered.remove(Named.class.getName());
 	    filtered.remove(com.google.inject.Singleton.class.getName());
 	    filtered.remove(javax.inject.Singleton.class.getName());
 

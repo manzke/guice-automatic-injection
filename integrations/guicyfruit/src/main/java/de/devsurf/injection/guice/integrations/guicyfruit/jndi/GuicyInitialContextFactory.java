@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Map.Entry;
 
+import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.NamingException;
 
@@ -34,7 +35,6 @@ import org.guiceyfruit.jndi.internal.JndiContext;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;

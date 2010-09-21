@@ -23,9 +23,9 @@ import java.lang.annotation.Target;
 import java.util.Map;
 
 import javax.inject.Qualifier;
+import javax.inject.Singleton;
 
 import com.google.inject.Scope;
-import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
