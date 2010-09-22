@@ -21,7 +21,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.aop.Interceptor;
+import de.devsurf.injection.guice.aop.InterceptorListener;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
@@ -51,7 +51,7 @@ public class ExampleApp implements ExampleApplication{
     public void run() {
 	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
 	    ExampleApp.class.getPackage().getName(), "de.devsurf.injection.guice.aop");
-	startup.addFeature(Interceptor.InterceptorListener.class);
+	startup.addFeature(InterceptorListener.class);
 	Injector injector = Guice.createInjector(startup);
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = Guice.createInjector(dynamicModule);

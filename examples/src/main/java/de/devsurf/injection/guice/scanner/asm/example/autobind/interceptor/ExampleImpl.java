@@ -15,7 +15,7 @@
  */
 package de.devsurf.injection.guice.scanner.asm.example.autobind.interceptor;
 
-import de.devsurf.injection.guice.aop.Interceptor.Intercept;
+import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
