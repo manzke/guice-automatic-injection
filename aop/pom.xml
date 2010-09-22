@@ -9,12 +9,7 @@
 	<groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>de.devsurf.injection.guice.aop</artifactId>
 	<version>0.6.4-SNAPSHOT</version>
-	<!--
-		dependencies> <dependency> <groupId>com.google.inject</groupId>
-		<artifactId>guice</artifactId> <version>3.0-SNAPSHOT</version>
-		<systemPath>F:/git/de.devsurf.injection.guice/lib/guice-3.0-SNAPSHOT.jar</systemPath>
-		<scope>system</scope> </dependency> </dependencies
-	-->
+
 	<properties>
 		<main.basedir>${project.parent.basedir}</main.basedir>
 	</properties>
@@ -35,6 +30,6 @@
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
-		</dependency>
+		</dependency>			
 	</dependencies>
 </project>

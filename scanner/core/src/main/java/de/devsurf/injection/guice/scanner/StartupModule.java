@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.inject.AbstractModule;
+import com.google.inject.Binder;
+import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
@@ -40,19 +41,25 @@ import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
  * @author Daniel Manzke
  * 
  */
-public abstract class StartupModule extends AbstractModule {
+public abstract class StartupModule implements Module {
     protected String[] _packages;
     protected Class<? extends ClasspathScanner> _scanner;
     protected List<Class<? extends AnnotationListener>> _features = new ArrayList<Class<? extends AnnotationListener>>();
     protected Logger _logger = Logger.getLogger(StartupModule.class.getName());
+    protected Binder _binder;
 
     public StartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	_packages = (packages == null ? new String[0] : packages);
 	_scanner = scanner;
     }
+    
+    protected Binder binder(){
+	return _binder;
+    }
 
     @Override
-    protected void configure() {
+    public void configure(Binder binder) {
+	_binder = binder;
 	if (_logger.isLoggable(Level.FINE)) {
 	    _logger.fine("Binding ClasspathScanner to " + _scanner.getName());
 	    for (String p : _packages) {
@@ -60,11 +67,11 @@ public abstract class StartupModule extends AbstractModule {
 	    }
 	}
 
-	bind(InstallationContext.class).asEagerSingleton();
-	bind(ClasspathScanner.class).to(_scanner);
-	bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
+	binder.bind(InstallationContext.class).asEagerSingleton();
+	binder.bind(ClasspathScanner.class).to(_scanner);
+	binder.bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
 	    _packages);
-	bind(DynamicModule.class).to(ScannerModule.class);
+	binder.bind(DynamicModule.class).to(ScannerModule.class);
 	bindFeatures();
     }
 
@@ -87,7 +94,7 @@ public abstract class StartupModule extends AbstractModule {
 
 	@Override
 	protected Multibinder<AnnotationListener> bindFeatures() {
-	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
+	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(_binder,
 		AnnotationListener.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    listeners.addBinding().to(MultiBinding.MultiBindListener.class);

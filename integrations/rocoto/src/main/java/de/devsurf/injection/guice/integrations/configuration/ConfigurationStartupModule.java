@@ -15,6 +15,7 @@
  */
 package de.devsurf.injection.guice.integrations.configuration;
 
+import com.google.inject.Binder;
 import com.google.inject.multibindings.Multibinder;
 import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
 
@@ -28,9 +29,9 @@ public class ConfigurationStartupModule extends DefaultStartupModule {
     }
     
     @Override
-    protected void configure() {
-	bind(SimpleConfigurationModule.class).asEagerSingleton();
-        super.configure();
+    public void configure(Binder binder) {
+	binder.bind(SimpleConfigurationModule.class).asEagerSingleton();
+	super.configure(binder);
     }
 
     @Override
@@ -38,8 +39,7 @@ public class ConfigurationStartupModule extends DefaultStartupModule {
 	super.bindFeatures();
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
-	listeners.addBinding().to(ConfigurationListener.class);
-	
+	listeners.addBinding().to(ConfigurationListener.class);	
 	
 	return listeners;
     }
