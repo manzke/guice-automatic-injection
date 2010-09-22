@@ -15,6 +15,8 @@
  */
 package de.devsurf.injection.guice.scanner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,9 +41,10 @@ import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
  * 
  */
 public abstract class StartupModule extends AbstractModule {
-    private String[] _packages;
-    private Class<? extends ClasspathScanner> _scanner;
-    private Logger _logger = Logger.getLogger(StartupModule.class.getName());
+    protected String[] _packages;
+    protected Class<? extends ClasspathScanner> _scanner;
+    protected List<Class<? extends AnnotationListener>> _features = new ArrayList<Class<? extends AnnotationListener>>();
+    protected Logger _logger = Logger.getLogger(StartupModule.class.getName());
 
     public StartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	_packages = (packages == null ? new String[0] : packages);
@@ -62,10 +65,14 @@ public abstract class StartupModule extends AbstractModule {
 	bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
 	    _packages);
 	bind(DynamicModule.class).to(ScannerModule.class);
-	bindAnnotationListeners();
+	bindFeatures();
     }
 
-    protected abstract void bindAnnotationListeners();
+    protected abstract Multibinder<AnnotationListener> bindFeatures();
+    
+    public void addFeature(Class<? extends AnnotationListener> listener){
+	_features.add(listener);
+    }
 
     public static StartupModule create(Class<? extends ClasspathScanner> scanner,
 	    String... packages) {
@@ -79,12 +86,18 @@ public abstract class StartupModule extends AbstractModule {
 	}
 
 	@Override
-	protected void bindAnnotationListeners() {
+	protected Multibinder<AnnotationListener> bindFeatures() {
 	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 		AnnotationListener.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    listeners.addBinding().to(MultiBinding.MultiBindListener.class);
 	    listeners.addBinding().to(GuiceModule.ModuleListener.class);
+	    
+	    for(Class<? extends AnnotationListener> listener : _features){
+		listeners.addBinding().to(listener);
+	    }
+	    
+	    return listeners;
 	}
     }
 }

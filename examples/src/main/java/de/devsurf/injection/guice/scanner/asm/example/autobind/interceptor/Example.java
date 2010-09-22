@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.asm.example.rocoto.automodule;
+package de.devsurf.injection.guice.scanner.asm.example.autobind.interceptor;
 
-import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
-
-@Configuration(path="/configuration.properties", pathType=PathType.CLASSPATH)
-public interface ExampleConfiguration {
-
+/**
+ * Interface which is used to bind an implementation too.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+public interface Example {
+    String sayHello();
 }

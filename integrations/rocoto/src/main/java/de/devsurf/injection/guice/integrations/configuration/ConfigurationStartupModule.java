@@ -26,13 +26,21 @@ public class ConfigurationStartupModule extends DefaultStartupModule {
     public ConfigurationStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	super(scanner, packages);
     }
+    
+    @Override
+    protected void configure() {
+	bind(SimpleConfigurationModule.class).asEagerSingleton();
+        super.configure();
+    }
 
     @Override
-    protected void bindAnnotationListeners() {
-	super.bindAnnotationListeners();
+    protected Multibinder<AnnotationListener> bindFeatures() {
+	super.bindFeatures();
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
-	listeners.addBinding().to(Configuration.ConfigurationListener.class);
-	bind(SimpleConfigurationModule.class).asEagerSingleton();
+	listeners.addBinding().to(ConfigurationListener.class);
+	
+	
+	return listeners;
     }
 }

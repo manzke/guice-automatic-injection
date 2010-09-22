@@ -22,5 +22,10 @@
 			<artifactId>rocoto-configuration</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>de.devsurf.injection.guice</groupId>
+			<artifactId>de.devsurf.injection.guice.configuration</artifactId>
+			<version>0.6.4-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -42,10 +42,12 @@ public class ExampleStartupModule extends StartupModule {
     }
 
     @Override
-    protected void bindAnnotationListeners() {
+    protected Multibinder<AnnotationListener> bindFeatures() {
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
 	listeners.addBinding().to(GuiceModule.ModuleListener.class);
+	
+	return listeners;
     }
 
 }

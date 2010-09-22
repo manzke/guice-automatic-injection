@@ -26,6 +26,8 @@
 		<module>integrations</module>
 		<module>scanner</module>
 		<module>commons</module>
+		<module>configuration</module>
+		<module>aop</module>
 	</modules>
 
 	<scm>

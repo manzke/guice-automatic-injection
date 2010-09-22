@@ -161,10 +161,12 @@ public class NamedAutobindTests {
 	}
 
 	@Override
-	protected void bindAnnotationListeners() {  
+	protected Multibinder<AnnotationListener> bindFeatures() {  
 	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 		AnnotationListener.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
+	    
+	    return listeners;
 	}
     }
 }

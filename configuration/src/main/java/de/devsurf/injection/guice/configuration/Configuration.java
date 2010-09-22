@@ -13,12 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.asm.example.rocoto.automodule;
+package de.devsurf.injection.guice.configuration;
 
-import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@Configuration(path="/configuration.properties", pathType=PathType.CLASSPATH)
-public interface ExampleConfiguration {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Configuration {
+    String name() default "common.properties";
 
+    String path() default "/common.properties";
+
+    PathType pathType() default PathType.CLASSPATH;
+
+    String type() default "java.util.Properties";
+
+    public enum PathType {
+	CLASSPATH, FILE, URL
+    }
 }
