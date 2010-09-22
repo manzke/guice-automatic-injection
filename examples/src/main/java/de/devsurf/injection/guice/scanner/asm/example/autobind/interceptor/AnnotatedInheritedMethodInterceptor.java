@@ -8,9 +8,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 
-import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor;
 import de.devsurf.injection.guice.aop.Interceptor.ClassMatcher;
+import de.devsurf.injection.guice.aop.Interceptor.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor.MethodMatcher;
 
 @Interceptor

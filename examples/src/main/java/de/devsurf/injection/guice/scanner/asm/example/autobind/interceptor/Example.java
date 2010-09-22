@@ -23,4 +23,5 @@ package de.devsurf.injection.guice.scanner.asm.example.autobind.interceptor;
  */
 public interface Example {
     String sayHello();
+    String convert(String message, boolean enabled, int times);
 }

@@ -64,6 +64,11 @@ public @interface Interceptor {
     public static @interface Invoke {
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target( { ElementType.METHOD })
+    public static @interface Intercept {
+    }
+    
     @Singleton
     public class InterceptorListener extends GuiceAnnotationListener {
 	private Logger _logger = Logger.getLogger(InterceptorListener.class.getName());

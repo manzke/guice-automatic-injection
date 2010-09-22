@@ -50,13 +50,15 @@ public class ExampleApp implements ExampleApplication{
     @Override
     public void run() {
 	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
-	    ExampleApp.class.getPackage().getName());
+	    ExampleApp.class.getPackage().getName(), "de.devsurf.injection.guice.aop");
 	startup.addFeature(Interceptor.InterceptorListener.class);
 	Injector injector = Guice.createInjector(startup);
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = Guice.createInjector(dynamicModule);
 
-	System.out.println(injector.getInstance(Example.class).sayHello());
+	Example example = injector.getInstance(Example.class);
+	System.out.println(example.sayHello());
+	System.out.println(example.convert("good bye! ", true, 3));
     }
     
     public static void main(String[] args) throws IOException {

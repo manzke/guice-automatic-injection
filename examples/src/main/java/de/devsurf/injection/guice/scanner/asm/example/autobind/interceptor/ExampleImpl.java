@@ -15,7 +15,7 @@
  */
 package de.devsurf.injection.guice.scanner.asm.example.autobind.interceptor;
 
-import de.devsurf.injection.guice.aop.Intercept;
+import de.devsurf.injection.guice.aop.Interceptor.Intercept;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
@@ -34,5 +34,17 @@ public class ExampleImpl implements Example {
     @Intercept
     public String sayHello() {
 	return "yeahhh!!!";
+    }
+
+    @Override
+    @Intercept
+    public String convert(String message, boolean enabled, int times) {
+	if(enabled){
+	    String part = message;
+	    for(int i=0;i<times;i++){
+		message += part;
+	    }
+	}
+	return message;
     }
 }
