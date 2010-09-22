@@ -24,7 +24,6 @@ import javax.inject.Inject;
 
 import com.google.inject.Binder;
 
-
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;

@@ -18,6 +18,7 @@ package de.devsurf.injection.guice.scanner.sonatype.example.startupmodule;
 import com.google.inject.AbstractModule;
 
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 /**
  * This is a GuiceModule, which bind the {@link ExampleImpl} to the
