@@ -1,14 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>extensions</artifactId>
 		<groupId>de.devsurf.injection.guice</groupId>
-		<version>0.6.4-SNAPSHOT</version>
+		<version>0.6.4</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>de.devsurf.injection.guice.configuration</artifactId>
-	<version>0.6.4-SNAPSHOT</version>
+	<version>0.6.4</version>
 	<properties>
 		<main.basedir>${project.parent.basedir}</main.basedir>
 	</properties>
@@ -16,12 +15,12 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.6.4-SNAPSHOT</version>
+			<version>0.6.4</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.commons</artifactId>
-			<version>0.6.4-SNAPSHOT</version>
+			<version>0.6.4</version>
 		</dependency>
 	</dependencies>
 </project>
