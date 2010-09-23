@@ -25,9 +25,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Qualifier;
-import javax.inject.Singleton;
 
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;

@@ -45,16 +45,12 @@
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>3.0-SNAPSHOT</version>
-			<systemPath>F:/git/de.devsurf.injection.guice/lib/guice-3.0-SNAPSHOT.jar</systemPath>
-			<scope>system</scope>
+			<version>2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-multibindings</artifactId>
-			<version>3.0-SNAPSHOT</version>
-			<systemPath>F:/git/de.devsurf.injection.guice/lib/guice-multibindings-3.0-SNAPSHOT.jar</systemPath>
-			<scope>system</scope>
+			<version>2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

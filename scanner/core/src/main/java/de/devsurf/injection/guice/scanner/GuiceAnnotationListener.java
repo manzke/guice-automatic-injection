@@ -19,9 +19,8 @@ import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import com.google.inject.Binder;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;

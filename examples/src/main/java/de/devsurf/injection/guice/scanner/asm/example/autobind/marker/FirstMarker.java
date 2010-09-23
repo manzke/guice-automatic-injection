@@ -20,10 +20,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.inject.Qualifier;
+import com.google.inject.BindingAnnotation;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Qualifier
+@BindingAnnotation
 @Target( { ElementType.TYPE })
 public @interface FirstMarker {
 

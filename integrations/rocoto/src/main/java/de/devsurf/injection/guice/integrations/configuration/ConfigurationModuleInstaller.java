@@ -15,9 +15,8 @@
  */
 package de.devsurf.injection.guice.integrations.configuration;
 
-import javax.inject.Inject;
-
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
 
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
