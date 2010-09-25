@@ -14,14 +14,9 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.googlecode.rocoto</groupId>
-			<artifactId>rocoto-simple-configuration</artifactId>
-			<version>3.1</version>
+			<artifactId>rocoto</artifactId>
+			<version>3.2</version>
 		</dependency> 
-		<dependency>
-			<groupId>com.googlecode.rocoto</groupId>
-			<artifactId>rocoto-configuration</artifactId>
-			<version>3.0</version>
-		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.configuration</artifactId>

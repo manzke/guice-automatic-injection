@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>integrations</artifactId>
+		<groupId>de.devsurf.injection.guice</groupId>
+		<version>0.6.5-SNAPSHOT</version>
+	</parent>
+	<groupId>de.devsurf.injection.guice.integrations</groupId>
+	<artifactId>de.devsurf.injection.guice.integrations.commons.configurations</artifactId>
+	<version>0.6.5-SNAPSHOT</version>
+	<properties>
+		<main.basedir>${project.parent.parent.basedir}</main.basedir>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>de.devsurf.injection.guice</groupId>
+			<artifactId>de.devsurf.injection.guice.configuration</artifactId>
+			<version>0.6.5-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+			<scope>compile</scope>
+			<!--
+				exclusions> <exclusion> <groupId>commons-digester</groupId>
+				<artifactId>commons-digester</artifactId> </exclusion> <exclusion>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils-core</artifactId> </exclusion>
+				</exclusions
+			-->
+		</dependency>
+	</dependencies>
+</project>

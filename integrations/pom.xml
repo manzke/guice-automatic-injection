@@ -16,6 +16,7 @@
 		<module>guicyfruit</module>
 		<module>rocoto</module>
 		<module>MethodCallingInterceptor</module>
+		<module>commons.configurations</module>
 	</modules>
 	<dependencies>
 		<dependency>

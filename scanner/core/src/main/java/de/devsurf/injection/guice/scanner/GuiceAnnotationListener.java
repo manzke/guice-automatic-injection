@@ -22,6 +22,10 @@ import java.util.Map;
 import com.google.inject.Binder;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import com.google.inject.binder.AnnotatedBindingBuilder;
+import com.google.inject.binder.LinkedBindingBuilder;
 
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.InstallationContext.StageableRequest;
@@ -38,41 +42,89 @@ public abstract class GuiceAnnotationListener implements AnnotationListener {
     protected Binder _binder;
     @Inject
     protected Injector injector;
-    
+
     protected InstallationContext context;
 
     public void setBinder(Binder binder) {
 	_binder = binder;
     }
-    
+
     @Inject
     public void configure(InstallationContext context) {
-	this.context = context;        
+	this.context = context;
     }
-        
+
     @Override
     public void found(final Class<Object> annotatedClass, final Map<String, Annotation> annotations) {
 	final BindingStage stage = accept(annotatedClass, annotations);
-	if(stage != BindingStage.IGNORE){
-	    context.add(new StageableRequest() {    
+	if (stage != BindingStage.IGNORE) {
+	    context.add(new StageableRequest() {
 		private Class<Object> _annotatedClass = annotatedClass;
-		private Map<String, Annotation> _annotations = new HashMap<String, Annotation>(annotations);
-		
-	        @Override
-	        public Void call() throws Exception {           
-	            process(_annotatedClass, _annotations);
-	            return null;
-	        }
-	        
-	        @Override
-	        public BindingStage getExecutionStage() {
-	            return stage;
-	        }
+		private Map<String, Annotation> _annotations = new HashMap<String, Annotation>(
+		    annotations);
+
+		@Override
+		public Void call() throws Exception {
+		    process(_annotatedClass, _annotations);
+		    return null;
+		}
+
+		@Override
+		public BindingStage getExecutionStage() {
+		    return stage;
+		}
 	    });
 	}
     }
-    
-    public abstract BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations);
-    
+
+    public abstract BindingStage accept(Class<Object> annotatedClass,
+	    Map<String, Annotation> annotations);
+
     public abstract void process(Class<Object> annotatedClass, Map<String, Annotation> annotations);
+
+    @SuppressWarnings("unchecked")
+    protected <T> void bindProvider(Provider<T> provider, Class<? extends T> interf, Annotation annotation,
+	    Scope scope) {
+	LinkedBindingBuilder builder;
+	synchronized (_binder) {
+	    builder = _binder.bind(interf);
+	    if (annotation != null) {
+		builder = ((AnnotatedBindingBuilder) builder).annotatedWith(annotation);
+	    }
+	    builder.toProvider(provider);
+	    if (scope != null) {
+		builder.in(scope);
+	    }
+	}
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected <T> void bindInstance(T impl, Class<? extends T> interf, Annotation annotation, Scope scope) {
+	LinkedBindingBuilder builder;
+	synchronized (_binder) {
+	    builder = _binder.bind(interf);
+	    if (annotation != null) {
+		builder = ((AnnotatedBindingBuilder) builder).annotatedWith(annotation);
+	    }
+	    builder.toInstance(impl);
+	    if (scope != null) {
+		builder.in(scope);
+	    }
+	}
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T> void bind(Class<T> impl, Class<? extends T> interf, Annotation annotation, Scope scope) {
+	LinkedBindingBuilder builder;
+	synchronized (_binder) {
+	    builder = _binder.bind(interf);
+	    if (annotation != null) {
+		builder = ((AnnotatedBindingBuilder) builder).annotatedWith(annotation);
+	    }
+	    builder.to(impl);
+	    if (scope != null) {
+		builder.in(scope);
+	    }
+	}
+    }
 }

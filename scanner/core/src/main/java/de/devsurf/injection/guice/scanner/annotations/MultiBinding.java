@@ -61,9 +61,10 @@ public @interface MultiBinding {
 
 	    return filtered;
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	protected void bind(Class<Object> impl, Class<Object> interf, Annotation annotation, Scope scope) {
+	@Override
+	protected <T> void bind(Class<T> impl, Class<? extends T> interf, Annotation annotation, Scope scope) {
 	    LinkedBindingBuilder builder;
 	    synchronized (_binder) {
 		if (annotation != null) {

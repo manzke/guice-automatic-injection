@@ -28,11 +28,8 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.inject.Qualifier;
 
-import com.google.inject.Scope;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
-import com.google.inject.binder.AnnotatedBindingBuilder;
-import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
@@ -120,22 +117,6 @@ public @interface AutoBind {
 	    filtered.remove(javax.inject.Singleton.class.getName());
 
 	    return filtered;
-	}
-
-	@SuppressWarnings("unchecked")
-	protected void bind(Class<Object> impl, Class<Object> interf, Annotation annotation,
-		Scope scope) {
-	    LinkedBindingBuilder builder;
-	    synchronized (_binder) {
-		builder = _binder.bind(interf);
-		if (annotation != null) {
-		    builder = ((AnnotatedBindingBuilder) builder).annotatedWith(annotation);
-		}
-		builder.to(impl);
-		if (scope != null) {
-		    builder.in(scope);
-		}
-	    }
 	}
     }
 }

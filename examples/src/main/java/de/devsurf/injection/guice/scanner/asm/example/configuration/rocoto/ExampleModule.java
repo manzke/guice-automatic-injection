@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.asm.example.rocoto.automodule;
+package de.devsurf.injection.guice.scanner.asm.example.configuration.rocoto;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import com.google.inject.AbstractModule;
 
+import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 
 /**
- * This class implements the Example interface and is not annotated like the
- * other Examples, due the fact, that the {@link ExampleModule} will bind it
- * manually. In this Example the {@link VirtualClasspathReader} is used, to find
- * the {@link ExampleModule} and automatically install it.
+ * This is a GuiceModule, which bind the {@link ExampleImpl} to the
+ * {@link Example} interface and it will be recognized by the
+ * {@link VirtualClasspathReader}, due the fact that it is annotated with the
+ * {@link GuiceModule}.
  * 
  * @author Daniel Manzke
  * 
  */
-public class ExampleImpl implements Example {
-    @Inject @Named("message")
-    private String message;
-    
+@GuiceModule
+public class ExampleModule extends AbstractModule {   
     @Override
-    public String sayHello() {
-	return "sayHello() - "+message;
+    protected void configure() {
+	bind(Example.class).to(ExampleImpl.class);
     }
 }

@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.asm.example.rocoto.automodule;
+package de.devsurf.injection.guice.scanner.asm.example.configuration.map.named;
+
+import java.util.Properties;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -30,11 +32,11 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
  * 
  */
 public class ExampleImpl implements Example {
-    @Inject @Named("message")
-    private String message;
+    @Inject @Named("config")
+    private Properties config;
     
     @Override
     public String sayHello() {
-	return "sayHello() - "+message;
+	return "sayHello() - "+config.getProperty("message");
     }
 }

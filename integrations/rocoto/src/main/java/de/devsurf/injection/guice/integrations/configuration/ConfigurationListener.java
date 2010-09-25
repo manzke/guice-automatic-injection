@@ -69,7 +69,6 @@ public class ConfigurationListener implements AnnotationListener {
     	    break;
     	case CLASSPATH:
     	default:
-    	    System.out.println(this.getClass().getResource("/."));
     	    url = this.getClass().getResource(config.path());
     	    if (url != null) {
     		try {

@@ -52,12 +52,22 @@
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.aop</artifactId>
 			<version>0.6.5-SNAPSHOT</version>
-		</dependency>
+		</dependency>		
+		<dependency>
+			<groupId>de.devsurf.injection.guice.integrations</groupId>
+			<artifactId>de.devsurf.injection.guice.integrations.commons.configurations</artifactId>
+			<version>0.6.5-SNAPSHOT</version>
+		</dependency>		
 		<dependency>
 			<groupId>de.devsurf.injection.guice.aop</groupId>
 			<artifactId>de.devsurf.injection.guice.aop.methodlogger</artifactId>
 			<version>0.6.5-SNAPSHOT</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

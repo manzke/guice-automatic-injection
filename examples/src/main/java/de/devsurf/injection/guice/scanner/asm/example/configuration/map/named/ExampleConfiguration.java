@@ -13,28 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.configuration;
+package de.devsurf.injection.guice.scanner.asm.example.configuration.map.named;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.util.Properties;
+import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.Configuration.PathType;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Configuration {
-    String name() default "";
+@Configuration(name="config", path="/de/devsurf/injection/guice/scanner/asm/example/configuration/map/named/configuration.properties", pathType=PathType.CLASSPATH)
+public interface ExampleConfiguration {
 
-    String path() default "/common.properties";
-
-    PathType pathType() default PathType.CLASSPATH;
-    
-    boolean lazy() default false;
-    
-    Class<? extends Object> bind() default Properties.class;
-
-    public enum PathType {
-	CLASSPATH, FILE, URL
-    }
 }
