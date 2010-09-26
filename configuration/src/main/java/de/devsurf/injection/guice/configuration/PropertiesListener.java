@@ -40,6 +40,13 @@ import com.google.inject.name.Names;
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
+/**
+ * This class will bind a Properties-Instance or -Provider for each Class
+ * annotated with {@link Configuration}.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @Singleton
 public class PropertiesListener extends GuiceAnnotationListener {
     private Logger _logger = Logger.getLogger(PropertiesListener.class.getName());
@@ -148,7 +155,8 @@ public class PropertiesListener extends GuiceAnnotationListener {
 	    try {
 		properties = read(url, isXML);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		_logger.log(Level.WARNING, "Configuration " + name + " in " + config.path()
+			+ ", couldn't be loaded: " + e.getMessage(), e);
 		return;
 	    }
 

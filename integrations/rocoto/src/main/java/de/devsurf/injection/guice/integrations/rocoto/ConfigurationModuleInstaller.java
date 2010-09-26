@@ -23,16 +23,25 @@ import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
-@GuiceModule(stage=BindingStage.BUILD)
-public class ConfigurationModuleInstaller extends AbstractModule{
-    @Inject 
+/**
+ * Module, which will be installed automatically. While being installed, this
+ * Module will install the Rocoto-Configuration Module, so all loaded Key/Values
+ * will be bound, too.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+@GuiceModule(stage = BindingStage.BUILD)
+public class ConfigurationModuleInstaller extends AbstractModule {
+    @Inject
     private ExtendedConfigurationModule module;
-    
+
     @Override
     protected void configure() {
 	binder().install(module);
     }
-    
+
     @Singleton
-    public static class ExtendedConfigurationModule extends SimpleConfigurationModule{}
+    public static class ExtendedConfigurationModule extends SimpleConfigurationModule {
+    }
 }

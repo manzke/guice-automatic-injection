@@ -19,6 +19,12 @@ import java.lang.annotation.Annotation;
 
 import com.google.inject.name.Named;
 
+/**
+ * Interoperability class, so we can support JSR330- and Guice-Named-Annotation.
+ * 
+ * @author Daniel Manzke
+ *
+ */
 public class NamedInterop {
     public static String getName(Annotation annotation){
 	if(annotation instanceof Named){

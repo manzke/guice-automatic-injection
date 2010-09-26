@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.asm.example.autobind.interceptor;
+package de.devsurf.injection.guice.aop.example.interceptor;
 
 import java.lang.reflect.Method;
 
-import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 import com.google.inject.matcher.Matcher;
@@ -26,14 +25,15 @@ import com.google.inject.matcher.Matchers;
 import de.devsurf.injection.guice.aop.ClassMatcher;
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor;
+import de.devsurf.injection.guice.aop.Invoke;
 import de.devsurf.injection.guice.aop.MethodMatcher;
 
 @Interceptor
-public class AnnotatedInheritedMethodInterceptor implements MethodInterceptor{
+public class AnnotatedMethodInterceptor{
 
-    @Override
+    @Invoke
     public Object invoke(MethodInvocation invocation) throws Throwable {
-	System.out.println(AnnotatedInheritedMethodInterceptor.class.getSimpleName()+" - Trying to invoke: "+invocation.getMethod().getName());
+	System.out.println(AnnotatedMethodInterceptor.class.getSimpleName()+" - Trying to invoke: "+invocation.getMethod().getName());
 	return invocation.proceed();
     }
 

@@ -41,6 +41,9 @@ import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
+ * This Annotation marks a {@link MethodInterceptor}, which provides a Method
+ * which should be invoked for each Method, which is recognized by the Methods
+ * annotated with {@link MethodMatcher} and {@link ClassMatcher}. 
  * 
  * @author Daniel Manzke
  * 
@@ -118,7 +121,8 @@ public @interface Interceptor {
 			    Level.WARNING,
 			    "Skipping process(..) of \""
 				    + annotatedClass
-				    + "\", because an Exception occured while trying to invoke a Method of the found Intercepter.", e);
+				    + "\", because an Exception occured while trying to invoke a Method of the found Intercepter.",
+			    e);
 		    return;
 		}
 
@@ -128,22 +132,33 @@ public @interface Interceptor {
 		    if (methods.containsKey(Invoke.class)) {
 			final Method method = methods.get(Invoke.class);
 			Class<?>[] parameterTypes = method.getParameterTypes();
-			if (parameterTypes != null && parameterTypes.length == 1 && parameterTypes[0] == MethodInvocation.class) {
+			if (parameterTypes != null && parameterTypes.length == 1
+				&& parameterTypes[0] == MethodInvocation.class) {
 			    interceptor = new MethodInterceptor() {
 				@Override
 				public Object invoke(MethodInvocation invocation) throws Throwable {
 				    return method.invoke(possibleInterceptor, invocation);
 				}
 			    };
-			}else{
-			    _logger.log(Level.WARNING, "Skipping \""+annotatedClass+"\", because the Parameter of the with @Invoke annotated Method \""+method.getName()+"\" doesn't match the expected one. "+method.getName()+"(MethodInvocation invocation)");
+			} else {
+			    _logger
+				.log(
+				    Level.WARNING,
+				    "Skipping \""
+					    + annotatedClass
+					    + "\", because the Parameter of the with @Invoke annotated Method \""
+					    + method.getName()
+					    + "\" doesn't match the expected one. "
+					    + method.getName() + "(MethodInvocation invocation)");
 			    return;
 			}
 		    } else {
 			_logger.log(Level.WARNING, "Skipping \"" + annotatedClass
-				+ "\" is either Child of \"" + GuiceMethodInterceptor.class.getName()
-				+ "\" / \"" + MethodInterceptor.class.getName()
-				+ "\" nor has a Method annotated with \"" + Invoke.class.getName()+"\"");
+				+ "\" is either Child of \""
+				+ GuiceMethodInterceptor.class.getName() + "\" / \""
+				+ MethodInterceptor.class.getName()
+				+ "\" nor has a Method annotated with \"" + Invoke.class.getName()
+				+ "\"");
 			return;
 		    }
 		}

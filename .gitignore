@@ -39,6 +39,8 @@ Thumbs.db
 **/.settings
 **/*.settings
 */target/*
+**/target/*
 */bin/*
+**/bin/*
 *.classpath
 #*.project

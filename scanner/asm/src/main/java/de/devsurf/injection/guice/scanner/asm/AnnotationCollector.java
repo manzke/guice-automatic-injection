@@ -34,6 +34,7 @@ import de.devsurf.injection.guice.scanner.AnnotationListener;
 
 /**
  * Visitor implementation to collect field annotation information from class.
+ * @author Daniel Manzke
  */
 public class AnnotationCollector implements ClassVisitor {
     protected Logger _logger = Logger.getLogger(AnnotationCollector.class.getName());

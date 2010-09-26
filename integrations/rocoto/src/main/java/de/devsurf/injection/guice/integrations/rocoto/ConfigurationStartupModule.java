@@ -21,6 +21,13 @@ import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule.DefaultStartupModule;
 
+/**
+ * Startup-Module which could be used, so you don't have to specify
+ * {@link RocotoListener}, if this Feature should be used, too.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public class ConfigurationStartupModule extends DefaultStartupModule {
     public ConfigurationStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	super(scanner, packages);
@@ -31,8 +38,8 @@ public class ConfigurationStartupModule extends DefaultStartupModule {
 	super.bindFeatures();
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
-	listeners.addBinding().to(RocotoListener.class);	
-	
+	listeners.addBinding().to(RocotoListener.class);
+
 	return listeners;
     }
 }

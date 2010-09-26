@@ -25,28 +25,34 @@ import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.DynamicModule;
 
+/**
+ * Utility which can be used, to keep your Code clean of Guice Dependencies.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public class InjectionUtil {
     private Injector injector;
-    
-    public static InjectionUtil create(Class<? extends ClasspathScanner> scanner, String... packages){
-	Injector startupInjector = Guice.createInjector(StartupModule.create(
-	    scanner, packages));
+
+    public static InjectionUtil create(Class<? extends ClasspathScanner> scanner,
+	    String... packages) {
+	Injector startupInjector = Guice.createInjector(StartupModule.create(scanner, packages));
 	DynamicModule dynamicModule = startupInjector.getInstance(DynamicModule.class);
-	
+
 	InjectionUtil util = new InjectionUtil();
 	util.injector = Guice.createInjector(dynamicModule);
-	
+
 	return util;
     }
 
     public <T> T lookup(Class<T> key) {
 	return injector.getInstance(key);
     }
-    
+
     public <T> T lookup(Class<T> key, String name) {
 	return injector.getInstance(Key.get(key, Names.named(name)));
     }
-    
+
     public <T> T lookup(Class<T> key, Class<? extends Annotation> annotation) {
 	return injector.getInstance(Key.get(key, annotation));
     }

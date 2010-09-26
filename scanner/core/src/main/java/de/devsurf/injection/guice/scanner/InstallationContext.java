@@ -22,6 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+/**
+ * This class is internally used, to bind Installation Requests and process them
+ * sequentially in a predefined order.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 public class InstallationContext {
     private Map<BindingStage, List<Callable<?>>> context = new HashMap<BindingStage, List<Callable<?>>>();
 
@@ -63,7 +70,19 @@ public class InstallationContext {
     }
 
     public static enum BindingStage {
-	BOOT_BEFORE, BOOT, BOOT_POST, BINDING_BEFORE, BINDING, BINDING_POST, INSTALL_BEFORE, INSTALL, INSTALL_POST, BUILD_BEFORE, BUILD, BUILD_POST, IGNORE;
+	BOOT_BEFORE,
+	BOOT,
+	BOOT_POST,
+	BINDING_BEFORE,
+	BINDING,
+	BINDING_POST,
+	INSTALL_BEFORE,
+	INSTALL,
+	INSTALL_POST,
+	BUILD_BEFORE,
+	BUILD,
+	BUILD_POST,
+	IGNORE;
 
 	public static final List<BindingStage> ORDERED = new LinkedList<BindingStage>();
 

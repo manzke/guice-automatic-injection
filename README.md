@@ -201,15 +201,16 @@ After that you can create a new InitialContext and with some Magic everything ca
 
 
 ##TODOs:
-- Test Automatic Binding under Linux (1.0)
+- Test Automatic Binding under Linux (v0.8/0.9)
 	- in Java Application
 	- in Web Application
-- Test Automatic Binding under Windows (1.0)
+- Test Automatic Binding under Windows (v0.8/0.9)
 	- in Web Application
-- Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...) (release 0.7) http://rocoto.googlecode.com/svn/site/2.0/index.html
+- Automatic Binding of Configuration
 	- missing: check if configuration already bound
 	- missing: bind configurations w/o named to the configuration class, so not only values can be injected
-- Extend JUnit-Tests and JavaDoc (v0.8)
-- Stabilize APIs and Code Quality (v0.8)
-- Create a Web Application which uses Automatic Binding (v0.9)
+	- add reloading feature
+- Extend JUnit-Tests and JavaDoc (v0.8/0.9)
+- Stabilize APIs and Code Quality (v0.8/0.9)
+- Create a Web Application which uses Automatic Binding (v0.8/0.9)
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)

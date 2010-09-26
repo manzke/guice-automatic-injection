@@ -15,12 +15,23 @@
  */
 package de.devsurf.injection.guice.integrations.guicyfruit;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+
 import org.guiceyfruit.jsr250.Jsr250Module;
 
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 
-@GuiceModule(stage=BindingStage.BOOT)
+/**
+ * JSR250-Module provided by GuicyFruit, so {@link PostConstruct},
+ * {@link Resource} and {@link PreDestroy} can be used.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+@GuiceModule(stage = BindingStage.BOOT)
 public class JSR250Module extends Jsr250Module {
     public JSR250Module() {
 	super();

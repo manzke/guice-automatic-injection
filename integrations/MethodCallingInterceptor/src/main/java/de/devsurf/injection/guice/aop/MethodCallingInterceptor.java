@@ -15,7 +15,6 @@
  */
 package de.devsurf.injection.guice.aop;
 
-
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,23 +24,28 @@ import org.aopalliance.intercept.MethodInvocation;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 
-
+/**
+ * Interceptor Example which monitors all Methods and logs their Signatures.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @Interceptor
-public class MethodCallingInterceptor{
+public class MethodCallingInterceptor {
     private Logger _logger = Logger.getLogger(MethodCallingInterceptor.class.getName());
-    
+
     @Invoke
     public Object invoke(MethodInvocation invocation) throws Throwable {
 	Object destination = invocation.getThis();
 	StringBuilder logMessageBuilder = new StringBuilder(250);
-	
+
 	logMessageBuilder.append("Invoking Method \"");
 	logMessageBuilder.append(invocation.getMethod().getName());
 	logMessageBuilder.append("\" on ");
 	logMessageBuilder.append(destination.getClass().getName());
 	logMessageBuilder.append(" with Arguments: ");
-	
-	for(Object parameter : invocation.getArguments()){
+
+	for (Object parameter : invocation.getArguments()) {
 	    logMessageBuilder.append(" \"");
 	    logMessageBuilder.append(parameter.getClass().getSimpleName());
 	    logMessageBuilder.append("\": ");

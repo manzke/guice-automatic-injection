@@ -21,17 +21,50 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Properties;
 
+/**
+ * Use this Annotation to express your need, that a Configuration should be
+ * loaded, so it can be bound to an Object.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Configuration {
+    /**
+     * Name the Configuration should be bound to.
+     * 
+     * @return Name the Configuration should be bound to.
+     */
     String name() default "";
 
+    /**
+     * Path/URL where the Configuration could be found.
+     * 
+     * @return Path/URL where the Configuration could be found.
+     */
     String path() default "/common.properties";
 
+    /**
+     * Type of the Path, which is used to define the Loading-Strategy.
+     * 
+     * @return Type of the Path, which is used to define the Loading-Strategy.
+     */
     PathType pathType() default PathType.CLASSPATH;
-    
+
+    /**
+     * If true, this Configuration won't be eagerly loaded and a Provider will
+     * be bound instead.
+     * 
+     * @return True if the Configuration should be bound eagerly.
+     */
     boolean lazy() default false;
-    
+
+    /**
+     * Class/Interface where the Configuration should be bound to.
+     * 
+     * @return Class/Interface where the Configuration should be bound to.
+     */
     Class<? extends Object> bind() default Properties.class;
 
     public enum PathType {

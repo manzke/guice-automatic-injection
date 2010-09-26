@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.asm.example.autobind.interceptor;
+package de.devsurf.injection.guice.aop.example.interceptor;
 
 /**
  * Interface which is used to bind an implementation too.

@@ -37,6 +37,13 @@ import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
+/**
+ * This Class will be called for each Class, which is annotated with {@link Configuration}
+ * and which needs an Apache Commons-based Configuration. 
+ * 
+ * @author Daniel Manzke
+ *
+ */
 @Singleton
 public class CommonsConfigurationListener extends GuiceAnnotationListener {
     private Logger _logger = Logger.getLogger(CommonsConfigurationListener.class.getName());
@@ -112,7 +119,7 @@ public class CommonsConfigurationListener extends GuiceAnnotationListener {
 	    bindInstance(configuration, config.bind(), named, null);
 	    bindInstance(configuration, org.apache.commons.configuration.Configuration.class, named, null);
 	} catch (ConfigurationException e) {
-	    e.printStackTrace();
+	    _logger.log(Level.WARNING, "Configuration "+name+" couldn't be loaded/bound: "+e.getMessage(), e);
 	}
     }
 }

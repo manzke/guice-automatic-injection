@@ -25,8 +25,11 @@ import de.devsurf.injection.guice.scanner.asm.AnnotationCollector;
 
 /**
  * Visitor implementation to collect field annotation information from class.
+ * 
+ * @author Daniel Manzke
  */
-public abstract class FilterAnnotationCollector extends AnnotationCollector implements ClassSpaceVisitor {
+public abstract class FilterAnnotationCollector extends AnnotationCollector implements
+	ClassSpaceVisitor {
     public FilterAnnotationCollector() {
 	super();
     }
@@ -35,7 +38,7 @@ public abstract class FilterAnnotationCollector extends AnnotationCollector impl
     public void visit(int version, int access, String name, String signature, String superName,
 	    String[] interfaces) {
 	_name = name.replace('/', '.');
-	if(!matches(_name)){
+	if (!matches(_name)) {
 	    _isAnnotation = true;
 	    return;
 	}
@@ -46,7 +49,7 @@ public abstract class FilterAnnotationCollector extends AnnotationCollector impl
 	    }
 	}
     }
-    
+
     public abstract boolean matches(String name);
 
     @Override

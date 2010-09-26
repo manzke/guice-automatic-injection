@@ -45,7 +45,13 @@ import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 
-public class GuicyInitialContextFactory extends GuiceInitialContextFactory{
+/**
+ * ContextFactory-Implementation which provides JNDI with a Guice-Injector.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
     public GuicyInitialContextFactory() {
 	super();
     }

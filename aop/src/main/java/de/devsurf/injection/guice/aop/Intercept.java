@@ -23,6 +23,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.aopalliance.intercept.MethodInterceptor;
+
+/**
+ * This is an Annotation, which can be used to create a {@link MethodMatcher},
+ * so an {@link MethodInterceptor} knows which Method to monitor.
+ * 
+	@Intercept
+	public String sayHello() {
+		return "yeahhh!!!";
+	}
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD })
 public @interface Intercept {

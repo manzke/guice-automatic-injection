@@ -34,59 +34,61 @@ import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.integrations.rocoto.ConfigurationModuleInstaller.ExtendedConfigurationModule;
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 
+/**
+ * Adds all URLs of Configurations to the Rocoto-Configuration Module.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @Singleton
 public class RocotoListener implements AnnotationListener {
     private Logger _logger = Logger.getLogger(RocotoListener.class.getName());
     @Inject
     private ExtendedConfigurationModule module;
-    
+
     @Override
     public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-        if (annotations.containsKey(Configuration.class.getName())) {
-    	Configuration config = (Configuration) annotations.get(Configuration.class.getName());
-    	URL url;
-    	switch (config.pathType()) {
-    	case FILE:
-    	    module.addProperties(new File(config.path()));
-    	    break;
-    	case URL:
-    	    try {
-    		url = new URL(config.path());
-    	    } catch (MalformedURLException e) {
-    		_logger.log(Level.WARNING, "Ignoring Configuration " + config.name()
-    			+ " in " + config.path() + ". It has an illegal URL-Format.", e);
-    		return;
-    	    }
-    	    if (config.path().endsWith(".xml")) {
-    		module.addXMLProperties(url);
-    	    } else if (config.path().endsWith(".properties")) {
-    		module.addProperties(url);
-    	    } else {
-    		_logger.log(Level.WARNING, "Ignoring Configuration " + config.name()
-    			+ " in " + config.path()
-    			+ ", because is doesn't end with .xml or .properties.");
-    	    }
-    	    break;
-    	case CLASSPATH:
-    	default:
-    	    url = this.getClass().getResource(config.path());
-    	    if (url != null) {
-    		try {
-    		    module.addProperties(new File(url.toURI()));
-    		} catch (URISyntaxException e) {
-    		    _logger
-    			.log(Level.WARNING, "Ignoring Configuration " + config.name()
-    				+ " in " + config.path()
-    				+ ". It has an illegal URL-Format.", e);
-    		}
-    	    } else {
-    		_logger.log(Level.WARNING, "Ignoring Configuration " + config.name()
-    			+ " in " + config.path()
-    			+ ", because is couldn't be found in the Classpath.");
-    	    }
+	if (annotations.containsKey(Configuration.class.getName())) {
+	    Configuration config = (Configuration) annotations.get(Configuration.class.getName());
+	    URL url;
+	    switch (config.pathType()) {
+	    case FILE:
+		module.addProperties(new File(config.path()));
+		break;
+	    case URL:
+		try {
+		    url = new URL(config.path());
+		} catch (MalformedURLException e) {
+		    _logger.log(Level.WARNING, "Ignoring Configuration " + config.name() + " in "
+			    + config.path() + ". It has an illegal URL-Format.", e);
+		    return;
+		}
+		if (config.path().endsWith(".xml")) {
+		    module.addXMLProperties(url);
+		} else if (config.path().endsWith(".properties")) {
+		    module.addProperties(url);
+		} else {
+		    _logger.log(Level.WARNING, "Ignoring Configuration " + config.name() + " in "
+			    + config.path() + ", because is doesn't end with .xml or .properties.");
+		}
+		break;
+	    case CLASSPATH:
+	    default:
+		url = this.getClass().getResource(config.path());
+		if (url != null) {
+		    try {
+			module.addProperties(new File(url.toURI()));
+		    } catch (URISyntaxException e) {
+			_logger.log(Level.WARNING, "Ignoring Configuration " + config.name()
+				+ " in " + config.path() + ". It has an illegal URL-Format.", e);
+		    }
+		} else {
+		    _logger.log(Level.WARNING, "Ignoring Configuration " + config.name() + " in "
+			    + config.path() + ", because is couldn't be found in the Classpath.");
+		}
 
-    	    break;
-    	}
-        }
+		break;
+	    }
+	}
     }
 }

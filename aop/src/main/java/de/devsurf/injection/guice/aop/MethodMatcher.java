@@ -22,7 +22,25 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Method;
 
+import org.aopalliance.intercept.MethodInterceptor;
+
+import com.google.inject.matcher.Matcher;
+
+/**
+ * This Annotation marks a Method, which returns an Object of Type
+ * {@link Matcher}. This Matcher is used by Guice, to decide if a
+ * {@link MethodInterceptor} should be invoked for that {@link Method}.
+ * 
+	@MethodMatcher
+	public Matcher<? super Method> getMethodMatcher() {
+		return Matchers.annotatedWith(Intercept.class);
+    	}
+ * 
+ * @author Daniel Manzke
+ * 
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD })
 public @interface MethodMatcher {
