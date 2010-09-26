@@ -22,7 +22,7 @@ import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
-import de.devsurf.injection.guice.integrations.configuration.ConfigurationStartupModule;
+import de.devsurf.injection.guice.integrations.rocoto.ConfigurationStartupModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;

@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.integrations.configuration;
+package de.devsurf.injection.guice.integrations.test.rocoto;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.integrations.test.rocoto.classpath.ClasspathConfigTests;
+import de.devsurf.injection.guice.integrations.test.rocoto.file.FileConfigTests;
+import de.devsurf.injection.guice.integrations.test.rocoto.url.URLConfigTests;
 
-@GuiceModule(stage=BindingStage.BUILD)
-public class ConfigurationModuleInstaller extends AbstractModule{
-    @Inject 
-    private SimpleConfigurationModule module;
-    
-    @Override
-    protected void configure() {
-	binder().install(module);
-    }
-}
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+  ClasspathConfigTests.class,
+  FileConfigTests.class,
+  URLConfigTests.class
+})
+public class AllTests {}

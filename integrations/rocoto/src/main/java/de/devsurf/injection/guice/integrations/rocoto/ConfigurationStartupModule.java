@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.integrations.configuration;
+package de.devsurf.injection.guice.integrations.rocoto;
 
-import com.google.inject.Binder;
 import com.google.inject.multibindings.Multibinder;
-import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
 
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
@@ -27,19 +25,13 @@ public class ConfigurationStartupModule extends DefaultStartupModule {
     public ConfigurationStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	super(scanner, packages);
     }
-    
-    @Override
-    public void configure(Binder binder) {
-	binder.bind(SimpleConfigurationModule.class).asEagerSingleton();
-	super.configure(binder);
-    }
 
     @Override
     protected Multibinder<AnnotationListener> bindFeatures() {
 	super.bindFeatures();
 	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
 	    AnnotationListener.class);
-	listeners.addBinding().to(ConfigurationListener.class);	
+	listeners.addBinding().to(RocotoListener.class);	
 	
 	return listeners;
     }

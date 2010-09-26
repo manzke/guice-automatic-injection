@@ -16,7 +16,7 @@
 /**
  * 
  */
-package de.devsurf.injection.guice.integrations.configuration;
+package de.devsurf.injection.guice.integrations.rocoto;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -29,16 +29,16 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
 
 import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.integrations.rocoto.ConfigurationModuleInstaller.ExtendedConfigurationModule;
 import de.devsurf.injection.guice.scanner.AnnotationListener;
 
 @Singleton
-public class ConfigurationListener implements AnnotationListener {
-    private Logger _logger = Logger.getLogger(ConfigurationListener.class.getName());
+public class RocotoListener implements AnnotationListener {
+    private Logger _logger = Logger.getLogger(RocotoListener.class.getName());
     @Inject
-    private SimpleConfigurationModule module;
+    private ExtendedConfigurationModule module;
     
     @Override
     public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {

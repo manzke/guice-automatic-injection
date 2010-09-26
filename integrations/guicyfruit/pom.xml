@@ -17,6 +17,13 @@
 			<artifactId>guiceyfruit-core</artifactId>
 			<version>2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>de.devsurf.injection.guice.scanner</groupId>
+			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
+			<version>0.6.5-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>		
 	</dependencies>
 	<repositories>
 		<repository>

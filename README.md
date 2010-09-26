@@ -22,6 +22,13 @@ This is the Core module which defines the Interfaces used to create Classpath Sc
 Existing implementations are Reflections/Javassit, a Sonatype-Extension and my own implementation based 
 on ASM.
 
+##Advantages
+- No manual Binding of Beans, Modules, Configurations, ... just annotate it
+- Classpath Scanning with your Scanner choice: ASM-based, Sonatype, Reflections, ...
+- Reuse Method-Interceptors of AOP-Alliance (just add Annotations)
+- Use JNDI-Context to have no Guice-Dependencies in your Code (new InitialContext().lookup(..))
+- Use common Guice-Extensions (GuicyFruit, rocoto, Apache Commons Configuration)
+
 ###Example
 Base for our Examples is the Example interface...
 
@@ -199,11 +206,10 @@ After that you can create a new InitialContext and with some Magic everything ca
 	- in Web Application
 - Test Automatic Binding under Windows (1.0)
 	- in Web Application
-- GuicyFruit Integration (release 0.7) http://code.google.com/p/guiceyfruit/ -> Integration done! Tests missing.  
-- Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...) (release 0.8) http://rocoto.googlecode.com/svn/site/2.0/index.html
-	- added Rocoto-Dependencies
-	- added Configuration-Annotation
-	- added Configuration Module Installer
+- Rocoto Integration to support automatic Configuration Binding (good wrapper for Configuration simple/commons-configuration/...) (release 0.7) http://rocoto.googlecode.com/svn/site/2.0/index.html
 	- missing: check if configuration already bound
 	- missing: bind configurations w/o named to the configuration class, so not only values can be injected
+- Extend JUnit-Tests and JavaDoc (v0.8)
+- Stabilize APIs and Code Quality (v0.8)
+- Create a Web Application which uses Automatic Binding (v0.9)
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)
