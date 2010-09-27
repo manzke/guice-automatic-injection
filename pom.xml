@@ -28,7 +28,7 @@
 		<module>commons</module>
 		<module>configuration</module>
 		<module>aop</module>
-	</modules>
+  </modules>
 
 	<scm>
 		<url>git@github.com:manzke/guice-automatic-injection.git</url>
@@ -78,4 +78,3 @@
 		</plugins>
 	</build>
 </project>
-

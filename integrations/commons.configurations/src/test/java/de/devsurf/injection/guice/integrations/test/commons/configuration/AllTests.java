@@ -18,9 +18,9 @@ package de.devsurf.injection.guice.integrations.test.commons.configuration;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import de.devsurf.injection.guice.test.configuration.classpath.ClasspathConfigTests;
-import de.devsurf.injection.guice.test.configuration.file.FileConfigTests;
-import de.devsurf.injection.guice.test.configuration.url.URLConfigTests;
+import de.devsurf.injection.guice.integrations.test.commons.configuration.classpath.ClasspathConfigTests;
+import de.devsurf.injection.guice.integrations.test.commons.configuration.file.FileConfigTests;
+import de.devsurf.injection.guice.integrations.test.commons.configuration.url.URLConfigTests;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

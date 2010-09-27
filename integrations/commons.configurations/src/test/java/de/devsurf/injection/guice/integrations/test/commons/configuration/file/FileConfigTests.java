@@ -70,7 +70,7 @@ public class FileConfigTests {
 	Assert.assertTrue("sayHello() - yeahhh out of the package :)".equals(instance.sayHello()));
     }
 
-    @de.devsurf.injection.guice.configuration.Configuration(name = "config", bind = PropertyListConfiguration.class, path = "src/test/java/configuration.plist", pathType = PathType.FILE)
+    @de.devsurf.injection.guice.configuration.Configuration(name = "config", bind = PropertyListConfiguration.class, path = "src/test/resources/configuration.plist", pathType = PathType.FILE)
     public interface TestConfiguration {
     }
 
