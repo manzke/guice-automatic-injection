@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice.scanner</groupId>
 		<artifactId>automatic-binding</artifactId>
-		<version>0.6.5-SNAPSHOT</version>
+		<version>0.7.0</version>
 	</parent>		
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.6.5-SNAPSHOT</version>
+			<version>0.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>asm</groupId>
