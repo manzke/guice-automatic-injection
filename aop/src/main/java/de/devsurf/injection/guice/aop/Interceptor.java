@@ -37,7 +37,7 @@ import com.google.inject.Singleton;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 
-import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
+import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
@@ -53,8 +53,8 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 @Target( { ElementType.TYPE })
 public @interface Interceptor {
     @Singleton
-    public class InterceptorListener extends GuiceAnnotationListener {
-	private Logger _logger = Logger.getLogger(InterceptorListener.class.getName());
+    public class InterceptorFeature extends BindingScannerFeature {
+	private Logger _logger = Logger.getLogger(InterceptorFeature.class.getName());
 
 	@Override
 	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {

@@ -18,12 +18,12 @@ package de.devsurf.injection.guice.scanner.sonatype.example.startupmodule;
 import com.google.inject.AbstractModule;
 
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
  * This is a GuiceModule, which bind the {@link ExampleImpl} to the
  * {@link Example} interface and it will be recognized by the
- * {@link VirtualClasspathReader}, due the fact that it is annotated with the
+ * {@link ASMClasspathScanner}, due the fact that it is annotated with the
  * {@link GuiceModule}.
  * 
  * @author Daniel Manzke

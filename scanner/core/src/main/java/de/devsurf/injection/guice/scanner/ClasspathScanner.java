@@ -30,11 +30,11 @@ import java.util.List;
 public interface ClasspathScanner {
     void scan() throws IOException;
 
-    void addAnnotationListener(AnnotationListener listener);
+    void addScannerFeature(ScannerFeature feature);
 
-    void removeAnnotationListener(AnnotationListener listener);
+    void removeScannerFeature(ScannerFeature feature);
 
-    List<AnnotationListener> getAnnotationListeners();
+    List<ScannerFeature> getScannerFeatures();
 
     void includePackage(String packageName);
 

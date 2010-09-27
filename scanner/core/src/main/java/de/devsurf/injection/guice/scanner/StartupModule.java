@@ -36,7 +36,7 @@ import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
  * instantiates the Scanning module. Due the fact that we have multiple Scanner
  * Implementations, you have to pass the Class for the Scanner and the Packages
  * which should be scanned. You can override the bindAnnotationListeners-Method,
- * to add your own {@link AnnotationListener}.
+ * to add your own {@link ScannerFeature}.
  * 
  * @author Daniel Manzke
  * 
@@ -44,7 +44,7 @@ import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
 public abstract class StartupModule implements Module {
     protected String[] _packages;
     protected Class<? extends ClasspathScanner> _scanner;
-    protected List<Class<? extends AnnotationListener>> _features = new ArrayList<Class<? extends AnnotationListener>>();
+    protected List<Class<? extends ScannerFeature>> _features = new ArrayList<Class<? extends ScannerFeature>>();
     protected Logger _logger = Logger.getLogger(StartupModule.class.getName());
     protected Binder _binder;
 
@@ -75,9 +75,9 @@ public abstract class StartupModule implements Module {
 	bindFeatures();
     }
 
-    protected abstract Multibinder<AnnotationListener> bindFeatures();
+    protected abstract Multibinder<ScannerFeature> bindFeatures();
     
-    public void addFeature(Class<? extends AnnotationListener> listener){
+    public void addFeature(Class<? extends ScannerFeature> listener){
 	_features.add(listener);
     }
 
@@ -93,14 +93,14 @@ public abstract class StartupModule implements Module {
 	}
 
 	@Override
-	protected Multibinder<AnnotationListener> bindFeatures() {
-	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(_binder,
-		AnnotationListener.class);
+	protected Multibinder<ScannerFeature> bindFeatures() {
+	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(_binder,
+		ScannerFeature.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    listeners.addBinding().to(MultiBinding.MultiBindListener.class);
 	    listeners.addBinding().to(GuiceModule.ModuleListener.class);
 	    
-	    for(Class<? extends AnnotationListener> listener : _features){
+	    for(Class<? extends ScannerFeature> listener : _features){
 		listeners.addBinding().to(listener);
 	    }
 	    

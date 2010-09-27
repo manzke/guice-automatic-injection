@@ -37,7 +37,7 @@ import org.objectweb.asm.ClassReader;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 
 /**
@@ -47,16 +47,16 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  * @author Daniel Manzke
  * 
  */
-public class VirtualClasspathReader implements ClasspathScanner {
+public class ASMClasspathScanner implements ClasspathScanner {
     private static final int ASM_FLAGS = ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
-    private Logger _logger = Logger.getLogger(VirtualClasspathReader.class.getName());
+    private Logger _logger = Logger.getLogger(ASMClasspathScanner.class.getName());
     private File[] classPath;
     private LinkedList<Pattern> packagePatterns;
     private int count;
     private AnnotationCollector collector;
 
     @Inject
-    public VirtualClasspathReader(Set<AnnotationListener> listeners,
+    public ASMClasspathScanner(Set<ScannerFeature> listeners,
 	    @Named("packages") String... packages) {
 	this.collector = new AnnotationCollector();
 	this.packagePatterns = new LinkedList<Pattern>();
@@ -64,24 +64,24 @@ public class VirtualClasspathReader implements ClasspathScanner {
 	    includePackage(p);
 	}
 
-	for (AnnotationListener listener : listeners) {
-	    addAnnotationListener(listener);
+	for (ScannerFeature listener : listeners) {
+	    addScannerFeature(listener);
 	}
     }
 
     @Override
-    public void addAnnotationListener(AnnotationListener listener) {
-	collector.addListener(listener);
+    public void addScannerFeature(ScannerFeature listener) {
+	collector.addScannerFeature(listener);
     }
 
     @Override
-    public void removeAnnotationListener(AnnotationListener listener) {
-	collector.removerListener(listener);
+    public void removeScannerFeature(ScannerFeature listener) {
+	collector.removerScannerFeature(listener);
     }
 
     @Override
-    public List<AnnotationListener> getAnnotationListeners() {
-	return collector.getListeners();
+    public List<ScannerFeature> getScannerFeatures() {
+	return collector.getScannerFeatures();
     }
 
     @Override

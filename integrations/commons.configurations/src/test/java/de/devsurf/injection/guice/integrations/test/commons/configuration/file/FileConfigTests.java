@@ -29,17 +29,17 @@ import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.configuration.Configuration.PathType;
-import de.devsurf.injection.guice.integrations.commons.configuration.CommonsConfigurationListener;
+import de.devsurf.injection.guice.integrations.commons.configuration.CommonsConfigurationFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class FileConfigTests {
     @Test
     public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
 	    FileConfigTests.class.getPackage().getName());
-	startup.addFeature(CommonsConfigurationListener.class);
+	startup.addFeature(CommonsConfigurationFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
@@ -53,9 +53,9 @@ public class FileConfigTests {
 
     @Test
     public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
 	    FileConfigTests.class.getPackage().getName());
-	startup.addFeature(CommonsConfigurationListener.class);
+	startup.addFeature(CommonsConfigurationFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);

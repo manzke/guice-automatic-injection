@@ -31,14 +31,14 @@ import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.integrations.guicyfruit.JSR250Module;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class PostConstructionTests {
     private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
     
     @Test
     public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
 	    PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
 
 	Injector injector = Guice.createInjector(startup);
@@ -55,7 +55,7 @@ public class PostConstructionTests {
     public void createInheritedInterceptor() {
 	called.set(false);
 	
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
 	    PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
 
 	Injector injector = Guice.createInjector(startup);

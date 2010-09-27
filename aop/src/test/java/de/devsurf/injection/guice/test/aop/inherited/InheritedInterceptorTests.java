@@ -32,19 +32,19 @@ import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.aop.GuiceMethodInterceptor;
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor;
-import de.devsurf.injection.guice.aop.Interceptor.InterceptorListener;
+import de.devsurf.injection.guice.aop.Interceptor.InterceptorFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InheritedInterceptorTests {
     private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
     
     @Test
     public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
 	    InheritedInterceptorTests.class.getPackage().getName());
-	startup.addFeature(InterceptorListener.class);
+	startup.addFeature(InterceptorFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
@@ -60,9 +60,9 @@ public class InheritedInterceptorTests {
     public void createInheritedInterceptor() {
 	called.set(false);
 	
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
 	    InheritedInterceptorTests.class.getPackage().getName());
-	startup.addFeature(InterceptorListener.class);
+	startup.addFeature(InterceptorFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);

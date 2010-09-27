@@ -29,6 +29,6 @@ import java.util.Map;
  * @author Daniel Manzke
  * 
  */
-public interface AnnotationListener {
+public interface ScannerFeature {
     void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);
 }

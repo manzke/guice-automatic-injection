@@ -21,7 +21,7 @@ import com.google.inject.Module;
 import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.configuration.PropertiesListener;
+import de.devsurf.injection.guice.configuration.PropertiesConfigurationFeature;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.integrations.rocoto.ConfigurationStartupModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
@@ -29,11 +29,11 @@ import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
  * Example Application, which creates a new Injector with the help of the
- * provided {@link StartupModule}. It passes the {@link VirtualClasspathReader}
+ * provided {@link StartupModule}. It passes the {@link ASMClasspathScanner}
  * class for the {@link ClasspathScanner} and the packages (de.devsurf) which
  * should be scanned. The {@link StartupModule} binds these parameter, so we are
  * able to create and inject our {@link DynamicModule}. This Module uses the
@@ -50,8 +50,8 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 public class ExampleApp implements ExampleApplication{
     @Override
     public void run(){
-	StartupModule startupModule = StartupModule.create(VirtualClasspathReader.class, ExampleApp.class.getPackage().getName(), ConfigurationStartupModule.class.getPackage().getName());
-	startupModule.addFeature(PropertiesListener.class);
+	StartupModule startupModule = StartupModule.create(ASMClasspathScanner.class, ExampleApp.class.getPackage().getName(), ConfigurationStartupModule.class.getPackage().getName());
+	startupModule.addFeature(PropertiesConfigurationFeature.class);
 	Injector injector = Guice.createInjector(startupModule);
 
 	Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));

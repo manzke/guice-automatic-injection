@@ -34,7 +34,7 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
+import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
@@ -45,8 +45,8 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
  *
  */
 @Singleton
-public class CommonsConfigurationListener extends GuiceAnnotationListener {
-    private Logger _logger = Logger.getLogger(CommonsConfigurationListener.class.getName());
+public class CommonsConfigurationFeature extends BindingScannerFeature {
+    private Logger _logger = Logger.getLogger(CommonsConfigurationFeature.class.getName());
 
     @Override
     public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {

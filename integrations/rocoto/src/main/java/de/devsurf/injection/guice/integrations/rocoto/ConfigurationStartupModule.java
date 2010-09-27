@@ -17,13 +17,13 @@ package de.devsurf.injection.guice.integrations.rocoto;
 
 import com.google.inject.multibindings.Multibinder;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule.DefaultStartupModule;
 
 /**
  * Startup-Module which could be used, so you don't have to specify
- * {@link RocotoListener}, if this Feature should be used, too.
+ * {@link RocotoConfigurationFeature}, if this Feature should be used, too.
  * 
  * @author Daniel Manzke
  * 
@@ -34,11 +34,11 @@ public class ConfigurationStartupModule extends DefaultStartupModule {
     }
 
     @Override
-    protected Multibinder<AnnotationListener> bindFeatures() {
+    protected Multibinder<ScannerFeature> bindFeatures() {
 	super.bindFeatures();
-	Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
-	    AnnotationListener.class);
-	listeners.addBinding().to(RocotoListener.class);
+	Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder(),
+	    ScannerFeature.class);
+	listeners.addBinding().to(RocotoConfigurationFeature.class);
 
 	return listeners;
     }

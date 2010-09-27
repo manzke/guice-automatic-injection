@@ -29,7 +29,7 @@ import javax.inject.Qualifier;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 
-import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
+import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
@@ -46,7 +46,7 @@ public @interface GuiceModule {
     BindingStage stage() default BindingStage.BUILD;
 
     @Singleton
-    public class ModuleListener extends GuiceAnnotationListener {
+    public class ModuleListener extends BindingScannerFeature {
 	private Logger _logger = Logger.getLogger(ModuleListener.class.getName());
 
 	@Override

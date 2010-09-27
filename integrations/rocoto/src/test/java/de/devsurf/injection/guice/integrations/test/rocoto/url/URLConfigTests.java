@@ -27,17 +27,17 @@ import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.configuration.Configuration.PathType;
-import de.devsurf.injection.guice.integrations.rocoto.RocotoListener;
+import de.devsurf.injection.guice.integrations.rocoto.RocotoConfigurationFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class URLConfigTests {
     @Test
     public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
-	    URLConfigTests.class.getPackage().getName(), RocotoListener.class.getPackage().getName());
-	startup.addFeature(RocotoListener.class);
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+	    URLConfigTests.class.getPackage().getName(), RocotoConfigurationFeature.class.getPackage().getName());
+	startup.addFeature(RocotoConfigurationFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
@@ -51,9 +51,9 @@ public class URLConfigTests {
 
     @Test
     public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(VirtualClasspathReader.class,
-	    URLConfigTests.class.getPackage().getName(), RocotoListener.class.getPackage().getName());
-	startup.addFeature(RocotoListener.class);
+	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+	    URLConfigTests.class.getPackage().getName(), RocotoConfigurationFeature.class.getPackage().getName());
+	startup.addFeature(RocotoConfigurationFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);

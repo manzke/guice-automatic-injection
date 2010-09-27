@@ -19,13 +19,13 @@ import javax.inject.Named;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
  * This class implements the Example interface and uses the {@link AutoBind}-
  * Annotation, so it will be recognized by the {@link ClasspathScanner} and
  * bound to the Name "Example". In this Example the
- * {@link VirtualClasspathReader} is used.
+ * {@link ASMClasspathScanner} is used.
  * 
  * @author Daniel Manzke
  * 

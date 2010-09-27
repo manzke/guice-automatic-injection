@@ -27,7 +27,7 @@ import com.google.inject.Injector;
 import com.google.inject.multibindings.Multibinder;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
@@ -132,9 +132,9 @@ public class InterfaceAutobindTests {
 	}
 
 	@Override
-	protected Multibinder<AnnotationListener> bindFeatures() {  
-	    Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(),
-		AnnotationListener.class);
+	protected Multibinder<ScannerFeature> bindFeatures() {  
+	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder(),
+		ScannerFeature.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    
 	    return listeners;

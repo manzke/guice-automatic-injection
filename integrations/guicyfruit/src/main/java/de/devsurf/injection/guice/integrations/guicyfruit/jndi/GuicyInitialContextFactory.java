@@ -62,7 +62,7 @@ public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
 	try {
 	    String classpathScannerClass = (String) environment.get("guice.classpath.scanner");
 	    if (classpathScannerClass == null || classpathScannerClass.length() == 0) {
-		classpathScannerClass = "de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader";
+		classpathScannerClass = "de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner";
 	    }
 	    Class<ClasspathScanner> scannerClass = (Class<ClasspathScanner>) Class
 		.forName(classpathScannerClass.trim());

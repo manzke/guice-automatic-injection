@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,8 +40,8 @@ import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 
 /**
  * {@link ClasspathScanner} Implementation which uses the Reflections-API. This
@@ -53,34 +52,34 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
  */
 public class ReflectionsScanner implements ClasspathScanner {
     private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
-    private LinkedList<AnnotationListener> _listeners;
-    private LinkedList<Pattern> packagePatterns;
+    private List<ScannerFeature> _features;
+    private List<Pattern> packagePatterns;
     private String[] _packages;
 
     @Inject
-    public ReflectionsScanner(Set<AnnotationListener> listeners,
+    public ReflectionsScanner(Set<ScannerFeature> features,
 	    @Named("packages") String... packages) {
-	_listeners = new LinkedList<AnnotationListener>(listeners);
+	_features = new ArrayList<ScannerFeature>(features);
 	_packages = packages;
-	this.packagePatterns = new LinkedList<Pattern>();
+	this.packagePatterns = new ArrayList<Pattern>();
 	for (String p : packages) {
 	    includePackage(p);
 	}
     }
 
     @Override
-    public void addAnnotationListener(AnnotationListener listener) {
-	_listeners.add(listener);
+    public void addScannerFeature(ScannerFeature listener) {
+	_features.add(listener);
     }
 
     @Override
-    public void removeAnnotationListener(AnnotationListener listener) {
-	_listeners.remove(listener);
+    public void removeScannerFeature(ScannerFeature listener) {
+	_features.remove(listener);
     }
 
     @Override
-    public List<AnnotationListener> getAnnotationListeners() {
-	return new ArrayList<AnnotationListener>(_listeners);
+    public List<ScannerFeature> getScannerFeatures() {
+	return new ArrayList<ScannerFeature>(_features);
     }
 
     @Override
@@ -154,7 +153,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 		}
 	    }
 
-	    for (AnnotationListener listener : _listeners) {
+	    for (ScannerFeature listener : _features) {
 		listener.found(objectClass, map);
 	    }
 	}

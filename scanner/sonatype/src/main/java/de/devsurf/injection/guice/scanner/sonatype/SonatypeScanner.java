@@ -16,7 +16,7 @@
 package de.devsurf.injection.guice.scanner.sonatype;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -30,8 +30,8 @@ import org.sonatype.guice.bean.scanners.ClassSpaceScanner;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 
 /**
  * {@link ClasspathScanner} Implementation which uses the Google Guice-Extension
@@ -44,11 +44,11 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
 public class SonatypeScanner implements ClasspathScanner {
     private Logger _logger = Logger.getLogger(SonatypeScanner.class.getName());
     private FilterAnnotationCollector _collector;
-    private LinkedList<Pattern> _packagePatterns;
+    private List<Pattern> _packagePatterns;
 
     @Inject
-    public SonatypeScanner(Set<AnnotationListener> listeners, @Named("packages") String... packages) {
-	_packagePatterns = new LinkedList<Pattern>();
+    public SonatypeScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
+	_packagePatterns = new ArrayList<Pattern>();
 	_collector = new FilterAnnotationCollector() {
 	    @Override
 	    public boolean matches(String name) {
@@ -65,24 +65,24 @@ public class SonatypeScanner implements ClasspathScanner {
 	    includePackage(p);
 	}
 	
-	for (AnnotationListener listener : listeners) {
-	    addAnnotationListener(listener);
+	for (ScannerFeature feature : features) {
+	    addScannerFeature(feature);
 	}
     }
 
     @Override
-    public void addAnnotationListener(AnnotationListener listener) {
-	_collector.addListener(listener);
+    public void addScannerFeature(ScannerFeature listener) {
+	_collector.addScannerFeature(listener);
     }
 
     @Override
-    public void removeAnnotationListener(AnnotationListener listener) {
-	_collector.removerListener(listener);
+    public void removeScannerFeature(ScannerFeature listener) {
+	_collector.removerScannerFeature(listener);
     }
 
     @Override
-    public List<AnnotationListener> getAnnotationListeners() {
-	return _collector.getListeners();
+    public List<ScannerFeature> getScannerFeatures() {
+	return _collector.getScannerFeatures();
     }
 
     @Override

@@ -30,7 +30,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 
 /**
  * Visitor implementation to collect field annotation information from class.
@@ -40,10 +40,10 @@ public class AnnotationCollector implements ClassVisitor {
     protected Logger _logger = Logger.getLogger(AnnotationCollector.class.getName());
     protected String _name;
     protected Class<?> _class;
-    protected boolean _isAnnotation;
+    protected boolean _ignore;
     protected Map<String, Annotation> _annotations;
 
-    protected List<AnnotationListener> _listeners;
+    protected List<ScannerFeature> _features;
 
     public static final AnnotationVisitor EMPTY_ANNOTATION_VISITOR = new AnnotationVisitor() {
 	@Override
@@ -70,20 +70,20 @@ public class AnnotationCollector implements ClassVisitor {
     };
 
     public AnnotationCollector() {
-	_listeners = new LinkedList<AnnotationListener>();
+	_features = new LinkedList<ScannerFeature>();
 	_annotations = new HashMap<String, Annotation>();
     }
 
-    public void addListener(AnnotationListener listener) {
-	_listeners.add(listener);
+    public void addScannerFeature(ScannerFeature listener) {
+	_features.add(listener);
     }
 
-    public void removerListener(AnnotationListener listener) {
-	_listeners.remove(listener);
+    public void removerScannerFeature(ScannerFeature listener) {
+	_features.remove(listener);
     }
 
-    public List<AnnotationListener> getListeners() {
-	return new ArrayList<AnnotationListener>(_listeners);
+    public List<ScannerFeature> getScannerFeatures() {
+	return new ArrayList<ScannerFeature>(_features);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class AnnotationCollector implements ClassVisitor {
 	_name = name.replace('/', '.');
 	for (String interf : interfaces) {
 	    if (interf.equals("java/lang/annotation/Annotation")) {
-		_isAnnotation = true;
+		_ignore = true;
 		return;
 	    }
 	}
@@ -100,7 +100,7 @@ public class AnnotationCollector implements ClassVisitor {
 
     @SuppressWarnings("unchecked")
     public AnnotationVisitor visitAnnotation(String sig, boolean visible) {
-	if (_isAnnotation) {
+	if (_ignore) {
 	    return EMPTY_ANNOTATION_VISITOR;
 	}
 	String annotationClassStr = sig.replace('/', '.').substring(1, sig.length() - 1);
@@ -128,14 +128,14 @@ public class AnnotationCollector implements ClassVisitor {
     @SuppressWarnings("unchecked")
     @Override
     public void visitEnd() {
-	if (!_isAnnotation && _annotations.size() > 0) {
-	    for (AnnotationListener listener : _listeners) {
+	if (!_ignore && _annotations.size() > 0) {
+	    for (ScannerFeature listener : _features) {
 		listener.found((Class<Object>) _class, _annotations);
 	    }
 	}
 	_name = null;
 	_class = null;
-	_isAnnotation = false;
+	_ignore = false;
 	_annotations.clear();
     }
 

@@ -18,12 +18,12 @@ package de.devsurf.injection.guice.aop.example.interceptor;
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
  * This class implements the Example interface and uses the {@link AutoBind}-
  * Annotation, so it will be recognized by the {@link ClasspathScanner}. In this
- * Example the {@link VirtualClasspathReader} is used.
+ * Example the {@link ASMClasspathScanner} is used.
  * 
  * @author Daniel Manzke
  * 

@@ -37,7 +37,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
+import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
@@ -48,8 +48,8 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
  * 
  */
 @Singleton
-public class PropertiesListener extends GuiceAnnotationListener {
-    private Logger _logger = Logger.getLogger(PropertiesListener.class.getName());
+public class PropertiesConfigurationFeature extends BindingScannerFeature {
+    private Logger _logger = Logger.getLogger(PropertiesConfigurationFeature.class.getName());
 
     private Properties read(URL url, boolean isXML) throws IOException {
 	URLConnection connection = null;

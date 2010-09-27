@@ -38,7 +38,7 @@ import de.devsurf.injection.guice.scanner.InstallationContext.StageableRequest;
  * @author Daniel Manzke
  * 
  */
-public abstract class GuiceAnnotationListener implements AnnotationListener {
+public abstract class BindingScannerFeature implements ScannerFeature {
     protected Binder _binder;
     @Inject
     protected Injector injector;

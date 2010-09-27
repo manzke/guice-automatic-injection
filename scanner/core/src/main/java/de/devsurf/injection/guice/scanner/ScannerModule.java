@@ -41,15 +41,15 @@ public class ScannerModule implements DynamicModule {
     @Inject
     private ClasspathScanner _scanner;
     @Inject
-    private Set<AnnotationListener> _listeners;
+    private Set<ScannerFeature> _listeners;
     @Inject
     private InstallationContext _context;
 
     @Override
     public void configure(Binder binder) {
-	for (AnnotationListener listener : _listeners) {
-	    if (listener instanceof GuiceAnnotationListener) {
-		((GuiceAnnotationListener) listener).setBinder(binder);
+	for (ScannerFeature listener : _listeners) {
+	    if (listener instanceof BindingScannerFeature) {
+		((BindingScannerFeature) listener).setBinder(binder);
 		if (_logger.isLoggable(Level.FINE)) {
 		    _logger.fine("Binding AnnotationListeners " + listener.getClass().getName());
 		}

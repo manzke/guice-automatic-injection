@@ -32,7 +32,7 @@ import com.google.inject.Singleton;
 
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.integrations.rocoto.ConfigurationModuleInstaller.ExtendedConfigurationModule;
-import de.devsurf.injection.guice.scanner.AnnotationListener;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 
 /**
  * Adds all URLs of Configurations to the Rocoto-Configuration Module.
@@ -41,8 +41,8 @@ import de.devsurf.injection.guice.scanner.AnnotationListener;
  * 
  */
 @Singleton
-public class RocotoListener implements AnnotationListener {
-    private Logger _logger = Logger.getLogger(RocotoListener.class.getName());
+public class RocotoConfigurationFeature implements ScannerFeature {
+    private Logger _logger = Logger.getLogger(RocotoConfigurationFeature.class.getName());
     @Inject
     private ExtendedConfigurationModule module;
 

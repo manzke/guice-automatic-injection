@@ -18,12 +18,12 @@ package de.devsurf.injection.guice.integrations.example.rocoto;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
  * This class implements the Example interface and is not annotated like the
  * other Examples, due the fact, that the {@link ExampleModule} will bind it
- * manually. In this Example the {@link VirtualClasspathReader} is used, to find
+ * manually. In this Example the {@link ASMClasspathScanner} is used, to find
  * the {@link ExampleModule} and automatically install it.
  * 
  * @author Daniel Manzke

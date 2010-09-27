@@ -27,11 +27,11 @@ import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
  * Example Application, which creates a new Injector with the help of the
- * provided {@link StartupModule}. It passes the {@link VirtualClasspathReader}
+ * provided {@link StartupModule}. It passes the {@link ASMClasspathScanner}
  * class for the {@link ClasspathScanner} and the packages (de.devsurf) which
  * should be scanned. The {@link StartupModule} binds these parameter, so we are
  * able to create and inject our {@link DynamicModule}. This Module uses the
@@ -48,7 +48,7 @@ import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
 public class ExampleApp implements ExampleApplication{
     @Override
     public void run() {
-	Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class,
+	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
 	    ExampleApp.class.getPackage().getName()));
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
 	injector = injector.createChildInjector(dynamicModule);

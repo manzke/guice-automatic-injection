@@ -28,12 +28,12 @@ import com.google.inject.Injector;
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.asm.VirtualClasspathReader;
+import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InterfaceAutobindTests {
     @Test
     public void createDynamicModule(){
-	Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, InterfaceAutobindTests.class.getPackage().getName()));
+	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, InterfaceAutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
@@ -45,7 +45,7 @@ public class InterfaceAutobindTests {
     
     @Test
     public void testWithWrongPackage(){
-	Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, "java"));
+	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, "java"));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
@@ -64,7 +64,7 @@ public class InterfaceAutobindTests {
     
     @Test
     public void createTestInterface(){
-	Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, InterfaceAutobindTests.class.getPackage().getName()));
+	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, InterfaceAutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
@@ -83,7 +83,7 @@ public class InterfaceAutobindTests {
     
     @Test
     public void createSecondTestInterface(){
-	Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, InterfaceAutobindTests.class.getPackage().getName()));
+	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, InterfaceAutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);

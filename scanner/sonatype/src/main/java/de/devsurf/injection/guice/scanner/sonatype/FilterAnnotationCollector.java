@@ -39,12 +39,12 @@ public abstract class FilterAnnotationCollector extends AnnotationCollector impl
 	    String[] interfaces) {
 	_name = name.replace('/', '.');
 	if (!matches(_name)) {
-	    _isAnnotation = true;
+	    _ignore = true;
 	    return;
 	}
 	for (String interf : interfaces) {
 	    if (interf.equals("java/lang/annotation/Annotation")) {
-		_isAnnotation = true;
+		_ignore = true;
 		return;
 	    }
 	}

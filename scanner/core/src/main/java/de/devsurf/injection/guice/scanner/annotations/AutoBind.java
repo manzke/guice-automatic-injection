@@ -32,7 +32,7 @@ import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.scanner.GuiceAnnotationListener;
+import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
@@ -64,7 +64,7 @@ public @interface AutoBind {
     Class<? extends Object>[] bind() default {};
 
     @Singleton
-    public class AutoBindListener extends GuiceAnnotationListener {
+    public class AutoBindListener extends BindingScannerFeature {
 	private Logger _logger = Logger.getLogger(AutoBindListener.class.getName());
 
 	@Override
