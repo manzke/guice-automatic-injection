@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>extensions</artifactId>
 		<groupId>de.devsurf.injection.guice</groupId>
-		<version>0.7.0</version>
+		<version>0.7.1-SNAPSHOT</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>de.devsurf.injection.guice.commons</artifactId>
-	<version>0.7.0</version>
+	<version>0.7.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>
