@@ -7,6 +7,7 @@ Google Guice-Extension for automatic Modules and Beans Binding.
 [Part 2](http://devsurf.wordpress.com/2010/09/07/guice-automatic-injection-binding-listeners-parallel-scanning/)  
 [Part 3](http://devsurf.wordpress.com/2010/09/09/guice-automatic-injectionbinding-jsr330-fighting-with-maven-github-and-windows/)  
 [Part 4](http://devsurf.wordpress.com/2010/09/15/guice-automatic-injectionbinding-guicyfruit-integration-postconstructpredestroy-guicejndi-and-the-childinjector/)  
+[Part 5](http://devsurf.wordpress.com/2010/09/27/automatic-binding-for-guice-release-v0-7-aop-configuration-rocoto/)  
 
 
 [Ohloh.net](https://www.ohloh.net/p/guice-auto-injection)  

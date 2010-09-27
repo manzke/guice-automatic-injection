@@ -55,6 +55,12 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 @Qualifier
 @Target( { ElementType.TYPE })
 public @interface AutoBind {
+    /**
+     * Overwrite the Classes/Interfaces the annotated Class should be bound to.
+     * 
+     * @return All Classes/Interfaces the annotated Class should be bound to. If
+     *         empty, the implemented Interfaces will be used.
+     */
     Class<? extends Object>[] bind() default {};
 
     @Singleton
@@ -80,15 +86,16 @@ public @interface AutoBind {
 	    final boolean overwriteInterfaces = (annotation.bind().length > 0);
 	    final boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 		.getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
-	    
-	    if(filtered.containsKey(Named.class.getName())){
+
+	    if (filtered.containsKey(Named.class.getName())) {
 		Named named = (Named) filtered.remove(Named.class.getName());
-		filtered.put(com.google.inject.name.Named.class.getName(), Names.named(named.value()));
+		filtered.put(com.google.inject.name.Named.class.getName(), Names.named(named
+		    .value()));
 	    }
 
 	    final Class<Object>[] interfaces = (overwriteInterfaces ? (Class<Object>[]) annotation
 		.bind() : (Class<Object>[]) annotatedClass.getInterfaces());
-
+	    //TODO Should we add the Binding to the Super-Classes? Or only if there are no Interfaces?
 	    for (Class<Object> interf : interfaces) {
 		if (_logger.isLoggable(Level.FINE)) {
 		    _logger
