@@ -30,7 +30,7 @@ public class ExampleStarter {
 	Injector injector = Guice.createInjector(new ExampleStartupModule(ASMClasspathScanner.class,
 	    "de.devsurf.injection.guice"));
 	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	injector = injector.createChildInjector(dynamicModule);
+	injector = Guice.createInjector(dynamicModule);
 
 	Key<Set<ExampleApplication>> key = Key.get(new TypeLiteral<Set<ExampleApplication>>() {});
 	Set<ExampleApplication> apps = injector.getInstance(key);

@@ -40,7 +40,9 @@ Thumbs.db
 **/*.settings
 */target/*
 **/target/*
+target/*
 */bin/*
 **/bin/*
 *.classpath
+*.mymetadata
 #*.project

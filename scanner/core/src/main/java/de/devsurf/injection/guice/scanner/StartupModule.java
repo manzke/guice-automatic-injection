@@ -15,8 +15,16 @@
  */
 package de.devsurf.injection.guice.scanner;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,8 +60,8 @@ public abstract class StartupModule implements Module {
 	_packages = (packages == null ? new String[0] : packages);
 	_scanner = scanner;
     }
-    
-    protected Binder binder(){
+
+    protected Binder binder() {
 	return _binder;
     }
 
@@ -69,15 +77,52 @@ public abstract class StartupModule implements Module {
 
 	binder.bind(InstallationContext.class).asEagerSingleton();
 	binder.bind(ClasspathScanner.class).to(_scanner);
-	binder.bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages")).toInstance(
-	    _packages);
+	binder.bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages"))
+	    .toInstance(_packages);
+	Set<URL> classpath = findClassPaths();
+	binder.bind(TypeLiteral.get(URL[].class)).annotatedWith(Names.named("classpath"))
+	    .toInstance(classpath.toArray(new URL[classpath.size()]));
 	binder.bind(DynamicModule.class).to(ScannerModule.class);
 	bindFeatures();
     }
 
     protected abstract Multibinder<ScannerFeature> bindFeatures();
-    
-    public void addFeature(Class<? extends ScannerFeature> listener){
+
+    protected Set<URL> findClassPaths() {
+	Set<URL> urlSet = new HashSet<URL>();
+
+	ClassLoader loader = Thread.currentThread().getContextClassLoader();
+	while (loader != null) {
+	    if (loader instanceof URLClassLoader) {
+		URL[] urls = ((URLClassLoader) loader).getURLs();
+		Collections.addAll(urlSet, urls);
+	    }
+	    loader = loader.getParent();
+	}
+
+	String classpath = System.getProperty("java.class.path");
+	try {
+	    classpath = classpath + File.pathSeparator
+		    + new File(StartupModule.class.getResource("/").toURI()).getAbsolutePath();
+	} catch (URISyntaxException e) {
+	    // ignore
+	}
+
+	for (String path : classpath.split(File.pathSeparator)) {
+	    File file = new File(path);
+	    try {
+		if (file.exists()) {
+		    urlSet.add(file.toURI().toURL());
+		}
+	    } catch (MalformedURLException e) {
+		_logger.log(Level.INFO, "Found invalid URL in Classpath: " + path, e);
+	    }
+	}
+
+	return urlSet;
+    }
+
+    public void addFeature(Class<? extends ScannerFeature> listener) {
 	_features.add(listener);
     }
 
@@ -99,12 +144,13 @@ public abstract class StartupModule implements Module {
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    listeners.addBinding().to(MultiBinding.MultiBindListener.class);
 	    listeners.addBinding().to(GuiceModule.ModuleListener.class);
-	    
-	    for(Class<? extends ScannerFeature> listener : _features){
+
+	    for (Class<? extends ScannerFeature> listener : _features) {
 		listeners.addBinding().to(listener);
 	    }
-	    
+
 	    return listeners;
 	}
+
     }
 }

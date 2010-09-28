@@ -16,6 +16,7 @@
 package de.devsurf.injection.guice.scanner.sonatype;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +46,10 @@ public class SonatypeScanner implements ClasspathScanner {
     private Logger _logger = Logger.getLogger(SonatypeScanner.class.getName());
     private FilterAnnotationCollector _collector;
     private List<Pattern> _packagePatterns;
+    
+    @Inject
+    @Named("classpath")
+    private URL[] classPath;
 
     @Inject
     public SonatypeScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
@@ -100,7 +105,7 @@ public class SonatypeScanner implements ClasspathScanner {
 
     @Override
     public void scan() throws IOException {
-	ClassSpace space = new URLClassSpace(getClass().getClassLoader());
+	ClassSpace space = new URLClassSpace(getClass().getClassLoader(), classPath);
 	ClassSpaceScanner scanner = new ClassSpaceScanner(space);
 	scanner.accept(_collector);
     }

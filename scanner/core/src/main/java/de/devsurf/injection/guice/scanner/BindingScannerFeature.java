@@ -127,4 +127,19 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 	    }
 	}
     }
+    
+    @SuppressWarnings("unchecked")
+    protected <T> void bind(Class<T> impl, Annotation annotation, Scope scope) {
+	LinkedBindingBuilder builder;
+	synchronized (_binder) {
+	    builder = _binder.bind(impl);
+	    if (annotation != null) {
+		builder = ((AnnotatedBindingBuilder) builder).annotatedWith(annotation);
+	    }
+	    builder.to(impl);
+	    if (scope != null) {
+		builder.in(scope);
+	    }
+	}
+    }
 }

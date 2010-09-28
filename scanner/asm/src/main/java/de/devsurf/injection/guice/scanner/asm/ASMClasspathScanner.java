@@ -20,12 +20,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -37,8 +38,8 @@ import org.objectweb.asm.ClassReader;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 
 /**
  * This Implementation only uses the ASM-API to read all recognized classes. It
@@ -50,16 +51,20 @@ import de.devsurf.injection.guice.scanner.ClasspathScanner;
 public class ASMClasspathScanner implements ClasspathScanner {
     private static final int ASM_FLAGS = ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
     private Logger _logger = Logger.getLogger(ASMClasspathScanner.class.getName());
-    private File[] classPath;
-    private LinkedList<Pattern> packagePatterns;
+    
+    @Inject
+    @Named("classpath")
+    private URL[] classPath;
+    private List<Pattern> jarPatterns = new ArrayList<Pattern>();
+    private List<Pattern> filePatterns = new ArrayList<Pattern>();
     private int count;
     private AnnotationCollector collector;
+    private Set<String> visited;
 
     @Inject
     public ASMClasspathScanner(Set<ScannerFeature> listeners,
 	    @Named("packages") String... packages) {
 	this.collector = new AnnotationCollector();
-	this.packagePatterns = new LinkedList<Pattern>();
 	for (String p : packages) {
 	    includePackage(p);
 	}
@@ -67,6 +72,7 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	for (ScannerFeature listener : listeners) {
 	    addScannerFeature(listener);
 	}
+	visited = new HashSet<String>();
     }
 
     @Override
@@ -86,11 +92,13 @@ public class ASMClasspathScanner implements ClasspathScanner {
 
     @Override
     public void includePackage(final String packageName) {
-	String pattern = ".*" + packageName.replace(".", "\\\\") + ".*";
+	String jarPattern = ".*" + packageName.replace(".", "/") + ".*";
+	String filePattern = ".*" + packageName.replace(".", "\\\\") + ".*";
 	if(_logger.isLoggable(Level.FINE)){
-	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+pattern);
+	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+filePattern);
 	}
-	packagePatterns.add(Pattern.compile(pattern));
+	filePatterns.add(Pattern.compile(filePattern));
+	jarPatterns.add(Pattern.compile(jarPattern));
     }
 
     @Override
@@ -99,13 +107,28 @@ public class ASMClasspathScanner implements ClasspathScanner {
     }
 
     public void scan() throws IOException {
-	this.classPath = findClassPaths();
-	for (File entry : classPath) {
+	for (URL url : classPath) {
+	    File entry;
+	    try {
+		entry = new File(url.toURI());
+		if(!entry.exists()){
+		    _logger.log(Level.FINE, "Skipping Entry "+entry+", because it doesn't exists.");
+		    continue;
+		}
+	    } catch (URISyntaxException e) {
+		//ignore
+		_logger.log(Level.WARNING, "Using invalid URL for Classpath Scanning: "+url, e);
+		continue;
+	    }
+	    _logger.info("Using Root-Path "+entry.getAbsolutePath()+" for Classpath scanning.");
 	    if (entry.isDirectory()) {
 		visitFolder(entry);
 	    } else {
-		if (entry.getName().endsWith(".class")) {
-		    visitClass(new FileInputStream(entry));
+		if (entry.getName().endsWith(".class") && matches(entry.getAbsolutePath(), filePatterns)) {
+		    if(!visited.contains(entry.getAbsolutePath())){
+			visitClass(new FileInputStream(entry));
+			visited.add(entry.getAbsolutePath());
+		    }
 		} else if (entry.getName().endsWith(".jar")) {
 		    visitJar(entry);
 		}
@@ -114,14 +137,18 @@ public class ASMClasspathScanner implements ClasspathScanner {
     }
 
     private void visitFolder(File folder) throws IOException {
-	boolean matches = matches(folder.getAbsolutePath());
+	_logger.log(Level.FINE, "Scanning Folder: "+folder.getAbsolutePath());
+	boolean matches = matches(folder.getAbsolutePath(), filePatterns);
 	File[] files = folder.listFiles();
 	for (File file : files) {
 	    if (file.isDirectory()) {
 		visitFolder(file);
 	    } else {
 		if (file.getName().endsWith(".class") && matches) {
-		    visitClass(new FileInputStream(file));
+		    if(!visited.contains(file.getAbsolutePath())){
+			visitClass(new FileInputStream(file));
+			visited.add(file.getAbsolutePath());
+		    }
 		} else if (file.getName().endsWith(".jar")) {
 		    visitJar(file);
 		}
@@ -130,14 +157,19 @@ public class ASMClasspathScanner implements ClasspathScanner {
     }
 
     private void visitJar(File file) throws IOException {
+	_logger.log(Level.FINE, "Scanning JAR-File: "+file.getAbsolutePath());
 	JarFile jarFile = new JarFile(file);
 	Enumeration<JarEntry> jarEntries = jarFile.entries();
 	for (JarEntry jarEntry = null; jarEntries.hasMoreElements();) {
 	    count++;
 	    jarEntry = jarEntries.nextElement();
 	    String name = jarEntry.getName();
-	    if (!jarEntry.isDirectory() && name.endsWith(".class") && matches(name)) {
-		visitClass(jarFile.getInputStream(jarEntry));
+
+	    if (!jarEntry.isDirectory() && name.endsWith(".class") && matches(name, jarPatterns)) {
+		if(!visited.contains(name)){		    
+		    visitClass(jarFile.getInputStream(jarEntry));
+		    visited.add(name);
+		}
 	    }
 	}
     }
@@ -148,29 +180,12 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	reader.accept(collector, ASM_FLAGS);
     }
 
-    private boolean matches(String name) {
-	for (Pattern pattern : packagePatterns) {
+    private boolean matches(String name, List<Pattern> patterns) {
+	for (Pattern pattern : patterns) {
 	    if (pattern.matcher(name).matches()) {
 		return true;
 	    }
 	}
 	return false;
-    }
-
-    public static File[] findClassPaths() {
-	List<File> list = new ArrayList<File>();
-	String classpath = System.getProperty("java.class.path");
-	StringTokenizer tokenizer = new StringTokenizer(classpath, File.pathSeparator);
-
-	while (tokenizer.hasMoreTokens()) {
-	    String path = tokenizer.nextToken();
-	    File fp = new File(path);
-	    if (!fp.exists()){
-		continue;
-	    }
-		
-	    list.add(fp);
-	}
-	return list.toArray(new File[list.size()]);
     }
 }

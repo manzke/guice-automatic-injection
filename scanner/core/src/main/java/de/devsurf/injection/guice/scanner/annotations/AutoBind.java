@@ -95,7 +95,8 @@ public @interface AutoBind {
 
 	    final Class<Object>[] interfaces = (overwriteInterfaces ? (Class<Object>[]) annotation
 		.bind() : (Class<Object>[]) annotatedClass.getInterfaces());
-	    //TODO Should we add the Binding to the Super-Classes? Or only if there are no Interfaces?
+	    // TODO Should we add the Binding to the Super-Classes? Or only if
+	    // there are no Interfaces?
 	    for (Class<Object> interf : interfaces) {
 		if (_logger.isLoggable(Level.FINE)) {
 		    _logger
@@ -112,6 +113,10 @@ public @interface AutoBind {
 		} else {
 		    bind(annotatedClass, interf, null, (asSingleton ? Scopes.SINGLETON : null));
 		}
+	    }
+	    
+	    if(interfaces.length == 0){
+		_binder.bind(annotatedClass);
 	    }
 	}
 

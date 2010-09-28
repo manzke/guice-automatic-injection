@@ -27,8 +27,8 @@ import com.google.inject.Injector;
 import com.google.inject.multibindings.Multibinder;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;

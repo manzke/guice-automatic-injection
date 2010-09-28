@@ -60,8 +60,8 @@ public @interface GuiceModule {
 
 	@Override
 	public void process(final Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    if (_logger.isLoggable(Level.FINE)) {
-		_logger.fine("Installing Module: " + annotatedClass.getName());
+	    if (_logger.isLoggable(Level.INFO)) {
+		_logger.info("Installing Module: " + annotatedClass.getName());
 	    }
 	    synchronized (_binder) {
 		_binder.install((Module) injector.getInstance(annotatedClass));

@@ -17,6 +17,7 @@
 package de.devsurf.injection.guice.scanner;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -34,9 +35,16 @@ import de.devsurf.injection.guice.DynamicModule;
 public class InjectionUtil {
     private Injector injector;
 
-    public static InjectionUtil create(Class<? extends ClasspathScanner> scanner,
+    public static InjectionUtil create(Class<? extends ClasspathScanner> scanner, List<Class<? extends ScannerFeature>> features, 
 	    String... packages) {
-	Injector startupInjector = Guice.createInjector(StartupModule.create(scanner, packages));
+	StartupModule startup = StartupModule.create(scanner, packages);
+	Injector startupInjector = Guice.createInjector(startup);
+	if(features != null){
+	    for(Class<? extends ScannerFeature> feature : features){
+		    startup.addFeature(feature);
+		}    
+	}
+	
 	DynamicModule dynamicModule = startupInjector.getInstance(DynamicModule.class);
 
 	InjectionUtil util = new InjectionUtil();

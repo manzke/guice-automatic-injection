@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +32,6 @@ import javassist.bytecode.annotation.Annotation;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.AbstractScanner;
-import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
 import com.google.common.base.Predicate;
@@ -54,13 +52,15 @@ public class ReflectionsScanner implements ClasspathScanner {
     private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
     private List<ScannerFeature> _features;
     private List<Pattern> packagePatterns;
-    private String[] _packages;
+    
+    @Inject
+    @Named("classpath")
+    private URL[] classPath;
 
     @Inject
     public ReflectionsScanner(Set<ScannerFeature> features,
 	    @Named("packages") String... packages) {
 	_features = new ArrayList<ScannerFeature>(features);
-	_packages = packages;
 	this.packagePatterns = new ArrayList<Pattern>();
 	for (String p : packages) {
 	    includePackage(p);
@@ -97,19 +97,13 @@ public class ReflectionsScanner implements ClasspathScanner {
 
     @Override
     public void scan() throws IOException {
-	Set<URL> urls = new LinkedHashSet<URL>();
-	for (String p : _packages) {
-	    urls.addAll(ClasspathHelper.getUrlsForPackagePrefix(p));
-	}
-	urls.addAll(ClasspathHelper.getUrlsForCurrentClasspath());
-	
 	new Reflections(new ConfigurationBuilder().setScanners(new AnnotationScanner())
 	    .filterInputsBy(new Predicate<String>() {
 		@Override
 		public boolean apply(String input) {
 		    return matches(input);
 		}
-	    }).setUrls(urls).useParallelExecutor());
+	    }).setUrls(classPath).useParallelExecutor());
     }
 
     private boolean matches(String name) {
