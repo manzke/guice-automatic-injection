@@ -127,6 +127,7 @@ public @interface AutoBind {
 	    filtered.remove(GuiceModule.class.getName());
 	    filtered.remove(com.google.inject.Singleton.class.getName());
 	    filtered.remove(javax.inject.Singleton.class.getName());
+	    filtered.remove("de.devsurf.injection.guice.configuration.Configuration");
 
 	    return filtered;
 	}
