@@ -33,15 +33,12 @@ import org.guiceyfruit.jndi.JndiBindings;
 import org.guiceyfruit.jndi.internal.JndiContext;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
-import com.google.inject.util.Modules;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 
@@ -80,15 +77,8 @@ public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
 
 	    StartupModule startupModule = StartupModule.create(scannerClass, packages
 		.toArray(new String[packages.size()]));
-	    Injector injector = Guice.createInjector(startupModule);
-	    // FIXME we create a new Injector. We should use
-	    // createChildInjector, but
-	    // this is not recognizing any bindListeners, which are bound in the
-	    // Child
-	    // Modules.
 
-	    injector = Injectors.createInjector(environment, Modules.combine(startupModule,
-		injector.getInstance(DynamicModule.class)), new AbstractModule() {
+	    Injector injector = Injectors.createInjector(environment, startupModule, new AbstractModule() {
 		protected void configure() {
 		    bind(Context.class).toProvider(new Provider<Context>() {
 			@Inject

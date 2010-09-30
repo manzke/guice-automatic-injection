@@ -28,7 +28,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
@@ -37,24 +36,12 @@ public class AutobindOnlyTests {
     @Test
     public void createDynamicModule(){
 	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, AutobindOnlyTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
+	assertNotNull(injector);	
     }
     
     @Test
     public void testWithWrongPackage(){
 	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, "java"));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	TestInterfaceImplementation testInstance;
@@ -69,12 +56,6 @@ public class AutobindOnlyTests {
     @Test
     public void createTestInterface(){
 	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, AutobindOnlyTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	try {

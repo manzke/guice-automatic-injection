@@ -15,7 +15,8 @@
  */
 package de.devsurf.injection.guice.test.aop.invalid;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 
@@ -27,7 +28,6 @@ import com.google.inject.Injector;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.aop.ClassMatcher;
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor;
@@ -47,12 +47,6 @@ public class InvalidInterceptorTests {
 	
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
-	assertNotNull(injector);
     }
     
     @Test
@@ -62,12 +56,6 @@ public class InvalidInterceptorTests {
 	startup.addFeature(InterceptorFeature.class);
 	
 	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	TestInterface instance = injector.getInstance(TestInterface.class);

@@ -30,7 +30,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
@@ -41,23 +40,11 @@ public class MultibindTests {
     public void createDynamicModule(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, MultibindTests.class.getPackage().getName()));
 	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
     }
     
     @Test
     public void testWithWrongPackage1(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java.util.concurrent"));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	try {
@@ -73,12 +60,6 @@ public class MultibindTests {
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java.util.concurrent"));
 	assertNotNull(injector);
 	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
-	
 	try {
 	    SecondContainer container = injector.getInstance(SecondContainer.class);
 	    fail("The Scanner scanned the wrong package, so no Implementation should be bound to this Interface. Instance null? "+(container == null));
@@ -90,12 +71,6 @@ public class MultibindTests {
     @Test
     public void createFirstContainer(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, MultibindTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	FirstContainer container = injector.getInstance(FirstContainer.class);
@@ -113,12 +88,6 @@ public class MultibindTests {
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, MultibindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
-	
 	SecondContainer container = injector.getInstance(SecondContainer.class);
 	assertNotNull(container);
 	assertTrue(container.size() == 2);
@@ -132,12 +101,6 @@ public class MultibindTests {
     @Test
     public void createAllInterfaces(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, MultibindTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	FirstContainer firstContainer = injector.getInstance(FirstContainer.class);

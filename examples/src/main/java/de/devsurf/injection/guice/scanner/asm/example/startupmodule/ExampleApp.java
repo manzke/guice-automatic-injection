@@ -48,8 +48,6 @@ public class ExampleApp implements ExampleApplication{
     public void run(){
 	Injector injector = Guice.createInjector(new ExampleStartupModule(
 	    ASMClasspathScanner.class, ExampleApp.class.getPackage().getName()));
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	injector = Guice.createInjector(dynamicModule);
 	System.out.println(injector.getInstance(Example.class).sayHello());
     }
     

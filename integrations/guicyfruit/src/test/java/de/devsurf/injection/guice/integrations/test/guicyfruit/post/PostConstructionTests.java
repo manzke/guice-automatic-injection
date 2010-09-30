@@ -27,7 +27,6 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.integrations.guicyfruit.JSR250Module;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
@@ -43,12 +42,6 @@ public class PostConstructionTests {
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
-	assertNotNull(injector);
     }
 
     @Test
@@ -59,12 +52,6 @@ public class PostConstructionTests {
 	    PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
 
 	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
 	assertNotNull(injector);
 
 	TestInterface instance = injector.getInstance(TestInterface.class);

@@ -15,11 +15,12 @@
  */
 package de.devsurf.injection.guice.scanner.sonatype.example.automodule;
 
+import com.google.inject.Binder;
 import com.google.inject.CreationException;
 import com.google.inject.multibindings.Multibinder;
 
-import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
@@ -43,8 +44,8 @@ public class ExampleStartupModule extends StartupModule {
     }
 
     @Override
-    protected Multibinder<ScannerFeature> bindFeatures() {
-	Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder(),
+    protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {
+	Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder,
 	    ScannerFeature.class);
 	listeners.addBinding().to(GuiceModule.ModuleListener.class);
 	return listeners;

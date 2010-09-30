@@ -17,8 +17,6 @@ package de.devsurf.injection.guice.integrations.example.guicy.automodule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
@@ -52,8 +50,6 @@ public class ExampleApp implements ExampleApplication{
 	StartupModule startupModule = StartupModule.create(ASMClasspathScanner.class, ExampleApp.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
 	Injector injector = Guice.createInjector(startupModule);
 
-	Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));
-	injector = Guice.createInjector(m); //FIXME we create a new Injector. We should use createChildInjector, but this is not recognizing any bindListeners, which are bound in the Child Modules.
 	System.out.println(injector.getInstance(Example.class).sayHello());
     }
     

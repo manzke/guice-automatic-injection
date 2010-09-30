@@ -24,17 +24,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
-import com.google.inject.Module;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
@@ -49,44 +51,61 @@ import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
  * @author Daniel Manzke
  * 
  */
-public abstract class StartupModule implements Module {
+public abstract class StartupModule extends AbstractModule {
+    protected Logger _logger = Logger.getLogger(StartupModule.class.getName());
     protected String[] _packages;
     protected Class<? extends ClasspathScanner> _scanner;
     protected List<Class<? extends ScannerFeature>> _features = new ArrayList<Class<? extends ScannerFeature>>();
-    protected Logger _logger = Logger.getLogger(StartupModule.class.getName());
-    protected Binder _binder;
+    protected boolean bindSystemProperties;
+    protected boolean bindEnvironment;
 
     public StartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
 	_packages = (packages == null ? new String[0] : packages);
 	_scanner = scanner;
     }
 
-    protected Binder binder() {
-	return _binder;
-    }
-
     @Override
-    public void configure(Binder binder) {
-	_binder = binder;
-	if (_logger.isLoggable(Level.FINE)) {
-	    _logger.fine("Binding ClasspathScanner to " + _scanner.getName());
-	    for (String p : _packages) {
-		_logger.fine("Using Package " + p + " for scanning.");
-	    }
-	}
+    public void configure() {
+	Injector internal = Guice.createInjector(new AbstractModule() {
+	    @Override
+	    protected void configure() {
+		Binder binder = binder();
+		if (_logger.isLoggable(Level.FINE)) {
+		    _logger.fine("Binding ClasspathScanner to " + _scanner.getName());
+		    for (String p : _packages) {
+			_logger.fine("Using Package " + p + " for scanning.");
+		    }
+		}
 
-	binder.bind(InstallationContext.class).asEagerSingleton();
-	binder.bind(ClasspathScanner.class).to(_scanner);
-	binder.bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages"))
-	    .toInstance(_packages);
-	Set<URL> classpath = findClassPaths();
-	binder.bind(TypeLiteral.get(URL[].class)).annotatedWith(Names.named("classpath"))
-	    .toInstance(classpath.toArray(new URL[classpath.size()]));
-	binder.bind(DynamicModule.class).to(ScannerModule.class);
-	bindFeatures();
+		binder.bind(InstallationContext.class).asEagerSingleton();
+		binder.bind(ClasspathScanner.class).to(_scanner);
+		binder.bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages"))
+		    .toInstance(_packages);
+		Set<URL> classpath = findClassPaths();
+		binder.bind(TypeLiteral.get(URL[].class)).annotatedWith(Names.named("classpath"))
+		    .toInstance(classpath.toArray(new URL[classpath.size()]));
+
+		bindFeatures(binder);
+		if (bindSystemProperties) {
+		    bindProperties("sys.", System.getProperties());
+		}
+		if (bindEnvironment) {
+		    bindProperties("env.", System.getenv());
+		}
+	    }
+
+	    protected void bindProperties(String prefix, Map<?, ?> properties) {
+		for (Object key : properties.keySet()) {
+		    binder().bindConstant().annotatedWith(Names.named(prefix + key)).to(
+			(String) properties.get(key));
+		}
+	    }
+	});
+
+	binder().install(internal.getInstance(ScannerModule.class));
     }
 
-    protected abstract Multibinder<ScannerFeature> bindFeatures();
+    protected abstract Multibinder<ScannerFeature> bindFeatures(Binder binder);
 
     protected Set<URL> findClassPaths() {
 	Set<URL> urlSet = new HashSet<URL>();
@@ -126,6 +145,14 @@ public abstract class StartupModule implements Module {
 	_features.add(listener);
     }
 
+    public void bindSystemProperties() {
+	bindSystemProperties = true;
+    }
+
+    public void bindEnvironment() {
+	bindEnvironment = true;
+    }
+
     public static StartupModule create(Class<? extends ClasspathScanner> scanner,
 	    String... packages) {
 	return new DefaultStartupModule(scanner, packages);
@@ -138,8 +165,8 @@ public abstract class StartupModule implements Module {
 	}
 
 	@Override
-	protected Multibinder<ScannerFeature> bindFeatures() {
-	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(_binder,
+	protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {
+	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder,
 		ScannerFeature.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    listeners.addBinding().to(MultiBinding.MultiBindListener.class);

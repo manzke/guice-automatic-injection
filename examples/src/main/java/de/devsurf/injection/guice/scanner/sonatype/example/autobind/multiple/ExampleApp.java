@@ -48,8 +48,6 @@ public class ExampleApp implements ExampleApplication{
     public void run(){
 	Injector injector = Guice.createInjector(StartupModule.create(SonatypeScanner.class,
 	    ExampleApp.class.getPackage().getName()));
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	injector = injector.createChildInjector(dynamicModule);
 	
 	injector.getInstance(ExampleContainer.class).sayHello();
     }

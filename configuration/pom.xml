@@ -22,6 +22,11 @@
 			<artifactId>de.devsurf.injection.guice.commons</artifactId>
 			<version>0.7.1-SNAPSHOT</version>
 		</dependency>
+		<!--dependency>
+			<groupId>de.devsurf.injection.guice.integrations</groupId>
+			<artifactId>de.devsurf.injection.guice.integrations.rocoto</artifactId>
+			<version>0.7.1-SNAPSHOT</version>
+		</dependency-->
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>

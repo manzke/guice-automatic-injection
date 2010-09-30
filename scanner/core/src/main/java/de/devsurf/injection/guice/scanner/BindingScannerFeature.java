@@ -112,6 +112,12 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 	    }
 	}
     }
+    
+    protected void bindConstant(String value, Annotation annotation) {
+	synchronized (_binder) {
+	    _binder.bindConstant().annotatedWith(annotation).to(value);
+	}
+    }
 
     @SuppressWarnings("unchecked")
     protected <T> void bind(Class<T> impl, Class<? extends T> interf, Annotation annotation, Scope scope) {

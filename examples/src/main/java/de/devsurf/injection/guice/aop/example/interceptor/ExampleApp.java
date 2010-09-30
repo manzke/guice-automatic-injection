@@ -53,8 +53,6 @@ public class ExampleApp implements ExampleApplication{
 	    ExampleApp.class.getPackage().getName(), "de.devsurf.injection.guice.aop");
 	startup.addFeature(InterceptorFeature.class);
 	Injector injector = Guice.createInjector(startup);
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	injector = Guice.createInjector(dynamicModule);
 
 	Example example = injector.getInstance(Example.class);
 	System.out.println(example.sayHello());

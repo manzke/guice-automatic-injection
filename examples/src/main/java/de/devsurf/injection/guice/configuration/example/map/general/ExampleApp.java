@@ -17,13 +17,10 @@ package de.devsurf.injection.guice.configuration.example.map.general;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.configuration.PropertiesConfigurationFeature;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
-import de.devsurf.injection.guice.integrations.rocoto.ConfigurationStartupModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
@@ -50,12 +47,9 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 public class ExampleApp implements ExampleApplication{
     @Override
     public void run(){
-	StartupModule startupModule = StartupModule.create(ASMClasspathScanner.class, ExampleApp.class.getPackage().getName(), ConfigurationStartupModule.class.getPackage().getName());
+	StartupModule startupModule = StartupModule.create(ASMClasspathScanner.class, ExampleApp.class.getPackage().getName());
 	startupModule.addFeature(PropertiesConfigurationFeature.class);
 	Injector injector = Guice.createInjector(startupModule);
-
-	Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));
-	injector = Guice.createInjector(m); //FIXME we create a new Injector. We should use createChildInjector, but this is not recognizing any bindListeners, which are bound in the Child Modules.
 	System.out.println(injector.getInstance(Example.class).sayHello());
     }
     

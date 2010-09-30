@@ -25,7 +25,6 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
@@ -35,23 +34,11 @@ public class AutobindTests {
     public void createDynamicModule(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, AutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
     }
 
     @Test
     public void testWithWrongPackage(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, "java.util.concurrent"));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	TestInterface testInstance;
@@ -68,12 +55,6 @@ public class AutobindTests {
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, AutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
-	
 	TestInterface testInstance = injector.getInstance(TestInterface.class);
 	assertNotNull(testInstance);
 	assertTrue(testInstance.sayHello().equals(TestInterfaceImplementation.TEST));
@@ -86,12 +67,6 @@ public class AutobindTests {
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, AutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
-	
 	SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
 	assertNotNull(sameInstance);
 	assertTrue(sameInstance.fireEvent().equals(TestInterfaceImplementation.EVENT));
@@ -102,12 +77,6 @@ public class AutobindTests {
     @Test
     public void createAllInterfaces(){
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class, AutobindTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	TestInterface testInstance = injector.getInstance(TestInterface.class);

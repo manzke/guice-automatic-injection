@@ -49,8 +49,6 @@ public class ExampleApp implements ExampleApplication{
 	System.out.println(ExampleApp.class.getPackage().getName());
 	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
 	    ExampleApp.class.getPackage().getName()));
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	injector = injector.createChildInjector(dynamicModule);
 
 	System.out.println(injector.getInstance(Example.class).sayHello());
     }

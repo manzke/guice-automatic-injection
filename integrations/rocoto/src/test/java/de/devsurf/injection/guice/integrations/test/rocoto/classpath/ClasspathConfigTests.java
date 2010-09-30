@@ -25,7 +25,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.Configuration.PathType;
 import de.devsurf.injection.guice.integrations.rocoto.RocotoConfigurationFeature;
@@ -42,12 +41,6 @@ public class ClasspathConfigTests {
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
-	assertNotNull(injector);
     }
 
     @Test
@@ -57,12 +50,6 @@ public class ClasspathConfigTests {
 	startup.addFeature(RocotoConfigurationFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
 	assertNotNull(injector);
 
 	TestInterface instance = injector.getInstance(TestInterface.class);

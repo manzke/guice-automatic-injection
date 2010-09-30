@@ -45,9 +45,15 @@ public class MethodCallingInterceptor {
 	logMessageBuilder.append(destination.getClass().getName());
 	logMessageBuilder.append(" with Arguments: ");
 
-	for (Object parameter : invocation.getArguments()) {
+	Class<?>[] types = invocation.getMethod().getParameterTypes();
+	Object[] parameters = invocation.getArguments();
+
+	for (int i = 0; i < types.length; i++) {
+	    Object parameter = parameters[i];
+	    Class<?> type = types[i];
+
 	    logMessageBuilder.append(" \"");
-	    logMessageBuilder.append(parameter.getClass().getSimpleName());
+	    logMessageBuilder.append(type.getSimpleName());
 	    logMessageBuilder.append("\": ");
 	    logMessageBuilder.append(parameter);
 	}

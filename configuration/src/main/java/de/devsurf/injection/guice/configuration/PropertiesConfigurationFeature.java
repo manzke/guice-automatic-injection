@@ -28,6 +28,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +38,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
+import de.devsurf.injection.guice.configuration.dynamic.Formatter;
 import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
@@ -95,13 +97,20 @@ public class PropertiesConfigurationFeature extends BindingScannerFeature {
 	Configuration config = (Configuration) annotations.get(Configuration.class.getName());
 	String name = config.name();
 
+	String path = config.path();
+	Formatter formatter = new Formatter(path);
+	if(formatter.containsKeys()){
+	    formatter.setInjector(injector);
+	    path = formatter.get();
+	}
+
 	URL url;
 	switch (config.pathType()) {
 	case FILE:
-	    File file = new File(config.path());
+	    File file = new File(path);
 	    if (!file.exists()) {
 		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.path() + ". In the Path " + file.getAbsolutePath()
+			+ path + ". In the Path " + file.getAbsolutePath()
 			+ " no Configuration was found.");
 		return;
 	    }
@@ -109,38 +118,38 @@ public class PropertiesConfigurationFeature extends BindingScannerFeature {
 		url = file.toURI().toURL();
 	    } catch (MalformedURLException e) {
 		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.path() + ". It has an illegal URL-Format.", e);
+			+ path + ". It has an illegal URL-Format.", e);
 		return;
 	    }
 	    break;
 	case URL:
 	    try {
-		url = new URL(config.path());
+		url = new URL(path);
 	    } catch (MalformedURLException e) {
 		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.path() + ". It has an illegal URL-Format.", e);
+			+ path + ". It has an illegal URL-Format.", e);
 		return;
 	    }
 	    break;
 	case CLASSPATH:
 	default:
-	    url = this.getClass().getResource(config.path());
+	    url = this.getClass().getResource(path);
 	    break;
 	}
 
 	if (url == null) {
-	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + config.path()
+	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + path
 		    + ", because is couldn't be found in the Classpath.");
 	    // TODO Throw an exception if config doesn't exist?
 	    return;
 	}
 	boolean isXML;
-	if (config.path().endsWith(".xml")) {
+	if (path.endsWith(".xml")) {
 	    isXML = true;
-	} else if (config.path().endsWith(".properties")) {
+	} else if (path.endsWith(".properties")) {
 	    isXML = false;
 	} else {
-	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + config.path()
+	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + path
 		    + ", because is doesn't end with .xml or .properties.");
 	    // TODO Throw an exception if config has another format?
 	    return;
@@ -155,12 +164,23 @@ public class PropertiesConfigurationFeature extends BindingScannerFeature {
 	    try {
 		properties = read(url, isXML);
 	    } catch (IOException e) {
-		_logger.log(Level.WARNING, "Configuration " + name + " in " + config.path()
+		_logger.log(Level.WARNING, "Configuration " + name + " in " + path
 			+ ", couldn't be loaded: " + e.getMessage(), e);
 		return;
 	    }
-
-	    bindInstance(properties, Properties.class, named, null);
+	    
+	    switch(config.bindType()){
+	    case BOTH: bindInstance(properties, Properties.class, named, null);
+	    case VALUES: 
+		Set<String> keys = properties.stringPropertyNames();
+		for(String key : keys){
+		    bindConstant(properties.getProperty(key), Names.named(key));
+		}
+		break;
+	    case CONFIGURATION:;
+	    default: bindInstance(properties, Properties.class, named, null); break;
+	    }
+	    
 	} else {
 	    Provider<Properties> provider = new PropertiesProvider(url, isXML);
 	    bindProvider(provider, Properties.class, named, Scopes.SINGLETON);

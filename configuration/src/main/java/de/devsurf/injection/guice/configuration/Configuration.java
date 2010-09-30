@@ -67,7 +67,44 @@ public @interface Configuration {
      */
     Class<? extends Object> bind() default Properties.class;
 
+    /**
+     * Specify what should be bound for the Configuration
+     * 
+     * Configuration -> Configuration only Values -> Named Bindings for the
+     * Values Both -> Configuration and Named Bindings
+     * 
+     * @return
+     */
+    BindType bindType() default BindType.CONFIGURATION;
+
     public enum PathType {
-	CLASSPATH, FILE, URL
+	/**
+	 * Use the Classloader to fetch the Configuration
+	 */
+	CLASSPATH,
+	/**
+	 * Tries to load the Configuration from a File. Can be absolute or
+	 * relative. Relative to the the Path of ClassLoader.getResources("/").
+	 */
+	FILE, 
+	/**
+	 * Can be each Kind of URL. file:/, classpath:/, http:// 
+	 */
+	URL
+    }
+
+    public enum BindType {
+	/**
+	 * Binds only the Configuration itself.
+	 */
+	CONFIGURATION,
+	/**
+	 * Named Bindings for the Key/Values (only possible if not lazy)
+	 */
+	VALUES,
+	/**
+	 * The Configurationd and Named Bindings will be done. (only possible if not lazy)
+	 */
+	BOTH
     }
 }

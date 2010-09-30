@@ -22,15 +22,12 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class ExampleStarter {
     public static void main(String[] args) {
 	Injector injector = Guice.createInjector(new ExampleStartupModule(ASMClasspathScanner.class,
 	    "de.devsurf.injection.guice"));
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	injector = Guice.createInjector(dynamicModule);
 
 	Key<Set<ExampleApplication>> key = Key.get(new TypeLiteral<Set<ExampleApplication>>() {});
 	Set<ExampleApplication> apps = injector.getInstance(key);

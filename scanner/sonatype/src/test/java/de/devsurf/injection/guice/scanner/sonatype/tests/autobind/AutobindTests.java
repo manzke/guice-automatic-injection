@@ -21,12 +21,12 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.google.inject.Binder;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.multibindings.Multibinder;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
@@ -38,23 +38,11 @@ public class AutobindTests {
     public void createDynamicModule(){
 	Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class, AutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
     }
 
     @Test
     public void testWithWrongPackage(){
 	Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class, "java"));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	TestInterface testInstance;
@@ -71,12 +59,6 @@ public class AutobindTests {
 	Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class, AutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
-	
 	TestInterface testInstance = injector.getInstance(TestInterface.class);
 	assertNotNull(testInstance);
 	assertTrue(testInstance.sayHello().equals(TestInterfaceImplementation.TEST));
@@ -89,12 +71,6 @@ public class AutobindTests {
 	Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class, AutobindTests.class.getPackage().getName()));
 	assertNotNull(injector);
 	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
-	assertNotNull(injector);
-	
 	SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
 	assertNotNull(sameInstance);
 	assertTrue(sameInstance.fireEvent().equals(TestInterfaceImplementation.EVENT));
@@ -105,12 +81,6 @@ public class AutobindTests {
     @Test
     public void createAllInterfaces(){
 	Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class, AutobindTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-	
-	injector = injector.createChildInjector(dynamicModule);
 	assertNotNull(injector);
 	
 	TestInterface testInstance = injector.getInstance(TestInterface.class);
@@ -156,8 +126,8 @@ public class AutobindTests {
 	}
 
 	@Override
-	protected Multibinder<ScannerFeature> bindFeatures() {  
-	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder(),
+	protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {  
+	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder,
 		ScannerFeature.class);
 	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
 	    

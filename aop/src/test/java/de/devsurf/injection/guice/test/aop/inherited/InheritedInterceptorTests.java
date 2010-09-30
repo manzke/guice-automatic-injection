@@ -28,7 +28,6 @@ import com.google.inject.Injector;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.aop.GuiceMethodInterceptor;
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor;
@@ -48,12 +47,6 @@ public class InheritedInterceptorTests {
 
 	Injector injector = Guice.createInjector(startup);
 	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
-	assertNotNull(injector);
     }
 
     @Test
@@ -65,12 +58,6 @@ public class InheritedInterceptorTests {
 	startup.addFeature(InterceptorFeature.class);
 
 	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-	assertNotNull(dynamicModule);
-
-	injector = Guice.createInjector(dynamicModule);
 	assertNotNull(injector);
 
 	TestInterface instance = injector.getInstance(TestInterface.class);
