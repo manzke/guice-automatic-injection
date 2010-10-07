@@ -14,19 +14,13 @@
 	</properties>
 	<modules>
 		<module>guicyfruit</module>
-		<module>rocoto</module>
 		<module>MethodCallingInterceptor</module>
 		<module>commons.configurations</module>
 	</modules>
 	<dependencies>
 		<dependency>
-			<groupId>de.devsurf.injection.guice.scanner</groupId>
-			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.7.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
-			<artifactId>de.devsurf.injection.guice.commons</artifactId>
+			<artifactId>de.devsurf.injection.guice.core</artifactId>
 			<version>0.7.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

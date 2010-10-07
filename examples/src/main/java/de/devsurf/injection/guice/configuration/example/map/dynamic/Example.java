@@ -15,7 +15,6 @@
  */
 package de.devsurf.injection.guice.configuration.example.map.dynamic;
 
-
 /**
  * Interface which is used to bind an implementation too.
  * 

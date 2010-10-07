@@ -15,10 +15,12 @@
  */
 package de.devsurf.injection.guice.configuration.example.map.dynamic;
 
-import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import com.google.inject.name.Named;
 
-@Configuration(name="config", path="${sys.myconfig}", pathType=PathType.CLASSPATH)
+import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.PathConfig;
+
+@Configuration(name = @Named("config"), location = @PathConfig(path="${myconfig}"))
 public interface ExampleConfiguration {
 
 }

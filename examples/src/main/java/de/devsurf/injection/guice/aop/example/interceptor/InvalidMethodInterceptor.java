@@ -29,7 +29,7 @@ import de.devsurf.injection.guice.aop.Invoke;
 import de.devsurf.injection.guice.aop.MethodMatcher;
 
 @Interceptor
-public class InvalidMethodInterceptor{
+public class InvalidMethodInterceptor {
 
     @Invoke
     public Object invoke(MethodInvocation invocation, Object obj) throws Throwable {

@@ -16,9 +16,9 @@
 package de.devsurf.injection.guice.configuration.example.map.lazy;
 
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import de.devsurf.injection.guice.configuration.PathConfig;
 
-@Configuration(path="/configuration.properties", pathType=PathType.CLASSPATH, lazy=true)
+@Configuration(location = @PathConfig(path="/configuration.properties"), lazy = true)
 public interface ExampleConfiguration {
 
 }

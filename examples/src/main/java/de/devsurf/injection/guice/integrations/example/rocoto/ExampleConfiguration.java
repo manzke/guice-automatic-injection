@@ -16,9 +16,10 @@
 package de.devsurf.injection.guice.integrations.example.rocoto;
 
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import de.devsurf.injection.guice.configuration.PathConfig;
+import de.devsurf.injection.guice.configuration.Configuration.BindType;
 
-@Configuration(path="/configuration.properties", pathType=PathType.CLASSPATH)
+@Configuration(location = @PathConfig(path="/configuration.properties"), bindType=BindType.VALUES)
 public interface ExampleConfiguration {
 
 }

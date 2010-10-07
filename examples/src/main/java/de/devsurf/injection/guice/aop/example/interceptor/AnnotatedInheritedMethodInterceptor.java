@@ -29,11 +29,12 @@ import de.devsurf.injection.guice.aop.Interceptor;
 import de.devsurf.injection.guice.aop.MethodMatcher;
 
 @Interceptor
-public class AnnotatedInheritedMethodInterceptor implements MethodInterceptor{
+public class AnnotatedInheritedMethodInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-	System.out.println(AnnotatedInheritedMethodInterceptor.class.getSimpleName()+" - Trying to invoke: "+invocation.getMethod().getName());
+	System.out.println(AnnotatedInheritedMethodInterceptor.class.getSimpleName()
+		+ " - Trying to invoke: " + invocation.getMethod().getName());
 	return invocation.proceed();
     }
 

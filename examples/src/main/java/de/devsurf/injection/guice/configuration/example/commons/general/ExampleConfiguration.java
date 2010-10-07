@@ -17,10 +17,12 @@ package de.devsurf.injection.guice.configuration.example.commons.general;
 
 import org.apache.commons.configuration.plist.PropertyListConfiguration;
 
-import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import com.google.inject.name.Named;
 
-@Configuration(name="config", bind=PropertyListConfiguration.class, path="/configuration.plist", pathType=PathType.CLASSPATH)
+import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.PathConfig;
+
+@Configuration(name = @Named("config"), location = @PathConfig(path="/configuration.plist"), to = PropertyListConfiguration.class)
 public interface ExampleConfiguration {
 
 }

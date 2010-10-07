@@ -31,8 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class MultibindTests {
@@ -166,8 +165,7 @@ public class MultibindTests {
 	}	
     }
     
-    @AutoBind
-    @MultiBinding
+    @Bind(multiple=true)
     public static class FirstImplementation implements FirstInterface, SecondInterface{
 	public static final String TEST = "test1";
 	public static final String EVENT = "event1";
@@ -183,8 +181,7 @@ public class MultibindTests {
 	}
     }
     
-    @AutoBind
-    @MultiBinding
+    @Bind(multiple=true)
     public static class SecondImplementation implements FirstInterface, SecondInterface{
 	public static final String TEST = "test2";
 	public static final String EVENT = "event2";

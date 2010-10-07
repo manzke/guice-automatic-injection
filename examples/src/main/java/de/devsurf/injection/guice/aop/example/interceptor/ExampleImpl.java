@@ -17,18 +17,18 @@ package de.devsurf.injection.guice.aop.example.interceptor;
 
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
- * This class implements the Example interface and uses the {@link AutoBind}-
+ * This class implements the Example interface and uses the {@link Bind}-
  * Annotation, so it will be recognized by the {@link ClasspathScanner}. In this
  * Example the {@link ASMClasspathScanner} is used.
  * 
  * @author Daniel Manzke
  * 
  */
-@AutoBind
+@Bind
 public class ExampleImpl implements Example {
     @Override
     @Intercept
@@ -39,9 +39,9 @@ public class ExampleImpl implements Example {
     @Override
     @Intercept
     public String convert(String message, boolean enabled, int times) {
-	if(enabled){
+	if (enabled) {
 	    String part = message;
-	    for(int i=0;i<times;i++){
+	    for (int i = 0; i < times; i++) {
 		message += part;
 	    }
 	}

@@ -15,7 +15,6 @@
  */
 package de.devsurf.injection.guice.integrations.example.rocoto;
 
-
 /**
  * Interface which is used to bind an implementation too.
  * 

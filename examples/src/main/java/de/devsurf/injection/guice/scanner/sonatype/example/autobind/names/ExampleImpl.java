@@ -18,11 +18,11 @@ package de.devsurf.injection.guice.scanner.sonatype.example.autobind.names;
 import javax.inject.Named;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 /**
- * This class implements the Example interface and uses the {@link AutoBind}-
+ * This class implements the Example interface and uses the {@link Bind}-
  * Annotation, so it will be recognized by the {@link ClasspathScanner} and
  * bound to the Name "Example". In this Example the {@link SonatypeScanner} is
  * used.
@@ -30,7 +30,7 @@ import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
  * @author Daniel Manzke
  * 
  */
-@AutoBind
+@Bind
 @Named("Example")
 public class ExampleImpl implements Example {
     @Override

@@ -25,7 +25,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.Configuration.PathConfig;
+import de.devsurf.injection.guice.configuration.Configuration.PathConfig.PathType;
 import de.devsurf.injection.guice.integrations.rocoto.RocotoConfigurationFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
@@ -55,7 +57,7 @@ public class URLConfigTests {
 	Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
     }
 
-    @de.devsurf.injection.guice.configuration.Configuration(name = "config", path = "http://devsurf.de/guice/configuration.properties", pathType = PathType.URL)
+    @Configuration(name = @Named("config"), path = @PathConfig(pathtp://devsurf.de/guice/configuration.properties", type = PathType.URL))
     public interface TestConfiguration {
     }
 

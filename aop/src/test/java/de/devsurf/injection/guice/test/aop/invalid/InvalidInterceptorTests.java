@@ -35,7 +35,7 @@ import de.devsurf.injection.guice.aop.Invoke;
 import de.devsurf.injection.guice.aop.MethodMatcher;
 import de.devsurf.injection.guice.aop.Interceptor.InterceptorFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InvalidInterceptorTests {
@@ -87,7 +87,7 @@ public class InvalidInterceptorTests {
 	String sayHello();
     }
     
-    @AutoBind
+    @Bind
     public static class TestInterfaceImplementation implements TestInterface{
 	public static final String TEST = "test";
 	

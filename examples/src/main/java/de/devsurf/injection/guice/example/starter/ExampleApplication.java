@@ -15,6 +15,6 @@
  */
 package de.devsurf.injection.guice.example.starter;
 
-public interface ExampleApplication extends Runnable{
+public interface ExampleApplication extends Runnable {
 
 }

@@ -30,7 +30,7 @@ import com.google.inject.multibindings.Multibinder;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 public class AutobindTests {
@@ -104,7 +104,7 @@ public class AutobindTests {
 	String fireEvent();
     }
     
-    @AutoBind
+    @Bind
     public static class TestInterfaceImplementation implements TestInterface, SecondTestInterface{
 	public static final String TEST = "test";
 	public static final String EVENT = "event";
@@ -129,7 +129,7 @@ public class AutobindTests {
 	protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {  
 	    Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder,
 		ScannerFeature.class);
-	    listeners.addBinding().to(AutoBind.AutoBindListener.class);
+	    listeners.addBinding().to(Bind.AutoBindingFeature.class);
 	    
 	    return listeners;
 	}

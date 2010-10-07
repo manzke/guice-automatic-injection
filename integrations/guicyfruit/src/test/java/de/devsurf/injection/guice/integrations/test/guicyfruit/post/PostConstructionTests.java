@@ -29,7 +29,7 @@ import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.integrations.guicyfruit.JSR250Module;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class PostConstructionTests {
@@ -64,7 +64,7 @@ public class PostConstructionTests {
 	String sayHello();
     }
 
-    @AutoBind
+    @Bind
     public static class TestImplementation implements TestInterface {
 	@PostConstruct
 	public void inform() {

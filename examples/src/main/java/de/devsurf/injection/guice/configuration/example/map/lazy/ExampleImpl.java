@@ -33,9 +33,9 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 public class ExampleImpl implements Example {
     @Inject
     private Properties config;
-    
+
     @Override
     public String sayHello() {
-	return "sayHello() - "+config.getProperty("message");
+	return "sayHello() - " + config.getProperty("message");
     }
 }

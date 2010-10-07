@@ -26,7 +26,8 @@ import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import de.devsurf.injection.guice.configuration.Configuration.PathConfig;
+import de.devsurf.injection.guice.configuration.Configuration.PathConfig.PathType;
 import de.devsurf.injection.guice.integrations.rocoto.RocotoConfigurationFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.AutoBind;
@@ -56,7 +57,7 @@ public class ClasspathConfigTests {
 	Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
     }
 
-    @Configuration(name = "config", path = "/configuration.properties", pathType = PathType.CLASSPATH)
+    @Configuration(name = @Named("config"), path = @PathConfig(pathconfiguration.properties" ,type = PathType.CLASSPATH))
     public interface TestConfiguration {
     }
 

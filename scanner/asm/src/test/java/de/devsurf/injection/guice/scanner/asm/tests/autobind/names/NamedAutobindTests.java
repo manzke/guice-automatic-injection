@@ -30,7 +30,7 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class NamedAutobindTests {
@@ -104,7 +104,7 @@ public class NamedAutobindTests {
 	String fireEvent();
     }
     
-    @AutoBind
+    @Bind
     @Named("testname")
     public static class TestInterfaceImplementation implements TestInterface, SecondTestInterface{
 	public static final String TEST = "test";

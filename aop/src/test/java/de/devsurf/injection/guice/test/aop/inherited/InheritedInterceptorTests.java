@@ -33,7 +33,7 @@ import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.aop.Interceptor;
 import de.devsurf.injection.guice.aop.Interceptor.InterceptorFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InheritedInterceptorTests {
@@ -94,7 +94,7 @@ public class InheritedInterceptorTests {
 	String sayGoodBye();
     }
 
-    @AutoBind
+    @Bind
     public static class TestInterfaceImplementation implements TestInterface {
 	public static final String TEST = "test";
 

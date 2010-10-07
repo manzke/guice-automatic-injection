@@ -31,7 +31,6 @@ import org.apache.commons.configuration.FileConfiguration;
 
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.scanner.BindingScannerFeature;
@@ -52,7 +51,7 @@ public class CommonsConfigurationFeature extends BindingScannerFeature {
     public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
 	if (annotations.containsKey(Configuration.class.getName())) {
 	    Configuration config = (Configuration) annotations.get(Configuration.class.getName());
-	    if (FileConfiguration.class.isAssignableFrom(config.bind())) {
+	    if (FileConfiguration.class.isAssignableFrom(config.to())) {
 		return BindingStage.BOOT_BEFORE;
 	    }
 	}
@@ -63,15 +62,16 @@ public class CommonsConfigurationFeature extends BindingScannerFeature {
     @Override
     public void process(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
 	Configuration config = (Configuration) annotations.get(Configuration.class.getName());
-	String name = config.name();
+	Named name = config.name();
 
+	//TODO Implement Location overriding
 	URL url;
-	switch (config.pathType()) {
+	switch (config.location().type()) {
 	case FILE:
-	    File file = new File(config.path());
+	    File file = new File(config.location().path());
 	    if (!file.exists()) {
 		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.path() + ". In the Path " + file.getAbsolutePath()
+			+ config.location() + ". In the Path " + file.getAbsolutePath()
 			+ " no Configuration was found.");
 		return;
 	    }
@@ -79,44 +79,46 @@ public class CommonsConfigurationFeature extends BindingScannerFeature {
 		url = file.toURI().toURL();
 	    } catch (MalformedURLException e) {
 		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.path() + ". It has an illegal URL-Format.", e);
+			+ config.location() + ". It has an illegal URL-Format.", e);
 		return;
 	    }
 	    break;
 	case URL:
 	    try {
-		url = new URL(config.path());
+		url = new URL(config.location().path());
 	    } catch (MalformedURLException e) {
 		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.path() + ". It has an illegal URL-Format.", e);
+			+ config.location() + ". It has an illegal URL-Format.", e);
 		return;
 	    }
 	    break;
 	case CLASSPATH:
 	default:
-	    url = this.getClass().getResource(config.path());
+	    url = this.getClass().getResource(config.location().path());
 	    break;
 	}
 
 	if (url == null) {
-	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + config.path()
+	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + config.location()
 		    + ", because is couldn't be found in the Classpath.");
 	    // TODO Throw an exception if config doesn't exist?
 	    return;
 	}
 
 	Named named = null;
-	if(name.length() > 0){
-	    named = Names.named(name);
+	if(name.value().length() > 0){
+	    named = name;
 	}
 	
 	FileConfiguration configuration;
 	try {
-	    Class<FileConfiguration> interf = (Class<FileConfiguration>) config.bind();
-	    configuration = injector.getInstance(interf);
+//	    Class<? extends FileConfiguration> interf = config.to().asSubclass(FileConfiguration.class);
+	    Class<FileConfiguration> interf = (Class<FileConfiguration>)config.to();
+	    configuration = (FileConfiguration) injector.getInstance(interf);
 	    configuration.load(url);
 		
-	    bindInstance(configuration, config.bind(), named, null);
+	    bindInstance(configuration, interf, named, null);
+	    bindInstance(configuration, FileConfiguration.class, named, null);
 	    bindInstance(configuration, org.apache.commons.configuration.Configuration.class, named, null);
 	} catch (ConfigurationException e) {
 	    _logger.log(Level.WARNING, "Configuration "+name+" couldn't be loaded/bound: "+e.getMessage(), e);

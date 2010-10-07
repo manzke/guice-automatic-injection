@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
-			<artifactId>de.devsurf.injection.guice.configuration</artifactId>
+			<artifactId>de.devsurf.injection.guice.core</artifactId>
 			<version>0.7.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
@@ -24,12 +24,6 @@
 			<artifactId>commons-configuration</artifactId>
 			<version>1.6</version>
 			<scope>compile</scope>
-			<!--
-				exclusions> <exclusion> <groupId>commons-digester</groupId>
-				<artifactId>commons-digester</artifactId> </exclusion> <exclusion>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils-core</artifactId> </exclusion>
-				</exclusions -->
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>

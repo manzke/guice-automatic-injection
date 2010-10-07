@@ -22,17 +22,16 @@ import com.google.inject.multibindings.Multibinder;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.ScannerFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind.AutoBindListener;
+import de.devsurf.injection.guice.scanner.annotations.Bind.AutoBindingFeature;
 
 /**
  * The {@link ExampleStartupModule} overwrites the
  * bindAnnotationListeners-Method, because our Example has several Classes
- * annotated with {@link AutoBind} and {@link GuiceModule}. Due the fact, that
+ * annotated with {@link Bind} and {@link GuiceModule}. Due the fact, that
  * our GuiceModule binds the {@link Example}-Interface to the
- * {@link ExampleImpl}-Class and the {@link AutoBindListener} too, we would get
+ * {@link ExampleImpl}-Class and the {@link AutoBindingFeature} too, we would get
  * a {@link CreationException}.
  * 
  * @author Daniel Manzke
@@ -48,7 +47,7 @@ public class ExampleStartupModule extends StartupModule {
     protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {
 	Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder,
 	    ScannerFeature.class);
-	listeners.addBinding().to(MultiBinding.MultiBindListener.class);
+	listeners.addBinding().to(Bind.MultiBindingFeature.class);
 	return listeners;
     }
 

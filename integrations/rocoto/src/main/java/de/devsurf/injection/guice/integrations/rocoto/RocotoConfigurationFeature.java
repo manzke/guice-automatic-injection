@@ -50,22 +50,23 @@ public class RocotoConfigurationFeature implements ScannerFeature {
     public void found(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
 	if (annotations.containsKey(Configuration.class.getName())) {
 	    Configuration config = (Configuration) annotations.get(Configuration.class.getName());
+	    //TODO Implement location overriding
 	    URL url;
-	    switch (config.pathType()) {
+	    switch (config.path().type()) {
 	    case FILE:
-		module.addProperties(new File(config.path()));
+		module.addProperties(new File(config.path().location()));
 		break;
 	    case URL:
 		try {
-		    url = new URL(config.path());
+		    url = new URL(config.path().location());
 		} catch (MalformedURLException e) {
 		    _logger.log(Level.WARNING, "Ignoring Configuration " + config.name() + " in "
 			    + config.path() + ". It has an illegal URL-Format.", e);
 		    return;
 		}
-		if (config.path().endsWith(".xml")) {
+		if (config.path().location().endsWith(".xml")) {
 		    module.addXMLProperties(url);
-		} else if (config.path().endsWith(".properties")) {
+		} else if (config.path().location().endsWith(".properties")) {
 		    module.addProperties(url);
 		} else {
 		    _logger.log(Level.WARNING, "Ignoring Configuration " + config.name() + " in "
@@ -74,7 +75,7 @@ public class RocotoConfigurationFeature implements ScannerFeature {
 		break;
 	    case CLASSPATH:
 	    default:
-		url = this.getClass().getResource(config.path());
+		url = this.getClass().getResource(config.path().location());
 		if (url != null) {
 		    try {
 			module.addProperties(new File(url.toURI()));

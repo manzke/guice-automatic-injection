@@ -26,7 +26,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 
 public class JNDIConstructionTests {
     private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
@@ -65,7 +65,7 @@ public class JNDIConstructionTests {
 	String sayHello();
     }
 
-    @AutoBind
+    @Bind
     public static class TestImplementation implements TestInterface {
 	@PostConstruct
 	public void inform() {

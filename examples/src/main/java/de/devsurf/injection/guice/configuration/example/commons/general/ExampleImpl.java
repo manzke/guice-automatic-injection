@@ -32,11 +32,12 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * 
  */
 public class ExampleImpl implements Example {
-    @Inject @Named("config")
+    @Inject
+    @Named("config")
     private Configuration config;
-    
+
     @Override
     public String sayHello() {
-	return "sayHello() - "+config.getString("de.devsurf.configuration.message");
+	return "sayHello() - " + config.getString("de.devsurf.configuration.message");
     }
 }

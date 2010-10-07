@@ -16,21 +16,19 @@
 package de.devsurf.injection.guice.scanner.sonatype.example.autobind.multiple;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
-import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 /**
- * This class implements the Example interface and uses the {@link AutoBind}-
+ * This class implements the Example interface and uses the {@link Bind}-
  * Annotation, so it will be recognized by the {@link ClasspathScanner} and
- * bound to the Name "Example". In this Example the
- * {@link SonatypeScanner} is used.
+ * bound to the Name "Example". In this Example the {@link SonatypeScanner} is
+ * used.
  * 
  * @author Daniel Manzke
  * 
  */
-@AutoBind
-@MultiBinding
+@Bind(multiple=true)
 public class ExampleOneImpl implements Example {
     @Override
     public String sayHello() {

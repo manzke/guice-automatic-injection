@@ -29,7 +29,7 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class AutobindOnlyTests {
@@ -66,7 +66,7 @@ public class AutobindOnlyTests {
 	}
     }
         
-    @AutoBind
+    @Bind
     @Named("testname")
     public static class TestInterfaceImplementation{
 	public static final String TEST = "test";

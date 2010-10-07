@@ -22,12 +22,12 @@
 	</properties>
 
 	<modules>
+		<module>core</module>
 		<module>examples</module>
 		<module>integrations</module>
 		<module>scanner</module>
-		<module>commons</module>
-		<module>configuration</module>
 		<module>aop</module>
+		<module>tests</module>
   </modules>
 
 	<scm>

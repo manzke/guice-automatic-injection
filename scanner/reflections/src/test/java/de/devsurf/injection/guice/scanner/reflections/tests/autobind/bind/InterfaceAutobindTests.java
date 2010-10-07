@@ -26,7 +26,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 public class InterfaceAutobindTests {
@@ -82,7 +82,7 @@ public class InterfaceAutobindTests {
 	String fireEvent();
     }
     
-    @AutoBind(bind={SecondTestInterface.class})
+    @Bind(to={SecondTestInterface.class})
     public static class TestInterfaceImplementation implements TestInterface, SecondTestInterface{
 	public static final String TEST = "test";
 	public static final String EVENT = "event";

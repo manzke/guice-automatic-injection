@@ -23,5 +23,6 @@ package de.devsurf.injection.guice.aop.example.interceptor;
  */
 public interface Example {
     String sayHello();
+
     String convert(String message, boolean enabled, int times);
 }

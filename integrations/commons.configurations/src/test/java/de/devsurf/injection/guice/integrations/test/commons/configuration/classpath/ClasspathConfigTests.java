@@ -18,7 +18,6 @@ package de.devsurf.injection.guice.integrations.test.commons.configuration.class
 import static org.junit.Assert.assertNotNull;
 import junit.framework.Assert;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.plist.PropertyListConfiguration;
 import org.junit.Test;
 
@@ -27,10 +26,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
-import de.devsurf.injection.guice.configuration.Configuration.PathType;
+import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.PathConfig;
+import de.devsurf.injection.guice.configuration.PathConfig.PathType;
 import de.devsurf.injection.guice.integrations.commons.configuration.CommonsConfigurationFeature;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class ClasspathConfigTests {
@@ -57,7 +58,7 @@ public class ClasspathConfigTests {
 	Assert.assertTrue("sayHello() - yeahhh out of the package :)".equals(instance.sayHello()));
     }
 
-    @de.devsurf.injection.guice.configuration.Configuration(name = "config", bind = PropertyListConfiguration.class, path = "/configuration.plist", pathType = PathType.CLASSPATH)
+    @Configuration(name = @Named("config"), location = @PathConfig(path="/configuration.plist" , type = PathType.CLASSPATH), to = PropertyListConfiguration.class)
     public interface TestConfiguration {
     }
 
@@ -65,11 +66,11 @@ public class ClasspathConfigTests {
 	String sayHello();
     }
 
-    @AutoBind
+    @Bind
     public static class TestImplementations implements TestInterface {
 	@Inject
 	@Named("config")
-	private Configuration config;
+	private org.apache.commons.configuration.Configuration config;
 
 	@Override
 	public String sayHello() {

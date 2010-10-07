@@ -205,13 +205,10 @@ After that you can create a new InitialContext and with some Magic everything ca
 - Test Automatic Binding under Linux (v0.8/0.9)
 	- in Java Application
 	- in Web Application
-- Test Automatic Binding under Windows (v0.8/0.9)
-	- in Web Application
 - Automatic Binding of Configuration
 	- missing: check if configuration already bound
 	- missing: bind configurations w/o named to the configuration class, so not only values can be injected
 	- add reloading feature
-- Extend JUnit-Tests and JavaDoc (v0.8/0.9)
 - Stabilize APIs and Code Quality (v0.8/0.9)
-- Create a Web Application which uses Automatic Binding (v0.8/0.9)
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)
+- use Java EE 6 Annotations for Automatic Binding (Interceptor, AroundInvoke, ...)

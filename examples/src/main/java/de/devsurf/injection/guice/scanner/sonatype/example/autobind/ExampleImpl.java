@@ -16,18 +16,18 @@
 package de.devsurf.injection.guice.scanner.sonatype.example.autobind;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 /**
- * This class implements the Example interface and uses the {@link AutoBind}-
+ * This class implements the Example interface and uses the {@link Bind}-
  * Annotation, so it will be recognized by the {@link ClasspathScanner}. In this
  * Example the {@link SonatypeScanner} is used.
  * 
  * @author Daniel Manzke
  * 
  */
-@AutoBind
+@Bind
 public class ExampleImpl implements Example {
     @Override
     public String sayHello() {

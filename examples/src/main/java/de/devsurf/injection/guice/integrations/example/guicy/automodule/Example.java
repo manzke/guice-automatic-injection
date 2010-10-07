@@ -15,7 +15,6 @@
  */
 package de.devsurf.injection.guice.integrations.example.guicy.automodule;
 
-
 /**
  * Interface which is used to bind an implementation too.
  * 
@@ -24,5 +23,6 @@ package de.devsurf.injection.guice.integrations.example.guicy.automodule;
  */
 public interface Example {
     String sayHello();
+
     void inform();
 }

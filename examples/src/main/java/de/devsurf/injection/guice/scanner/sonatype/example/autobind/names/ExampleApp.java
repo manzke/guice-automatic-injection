@@ -24,9 +24,8 @@ import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.AutoBind;
+import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-import de.devsurf.injection.guice.scanner.annotations.MultiBinding;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 import de.devsurf.injection.guice.scanner.sonatype.example.autobind.ExampleStartupModule;
 
@@ -39,23 +38,22 @@ import de.devsurf.injection.guice.scanner.sonatype.example.autobind.ExampleStart
  * {@link ClasspathScanner} to explore the Classpath and scans for Annotations.
  * 
  * All recognized Classes annotated with {@link GuiceModule} are installed in
- * the child injector and with {@link AutoBind} are automatically bound.
+ * the child injector and with {@link Bind} are automatically bound.
  * 
  * @author Daniel Manzke
  * 
  */
-@AutoBind
-@MultiBinding
-public class ExampleApp implements ExampleApplication{
+@Bind(multiple=true)
+public class ExampleApp implements ExampleApplication {
     @Override
-    public void run(){
+    public void run() {
 	Injector injector = Guice.createInjector(new ExampleStartupModule(SonatypeScanner.class,
 	    ExampleApp.class.getPackage().getName()));
 
 	System.out.println(injector.getInstance(Key.get(Example.class, Names.named("Example")))
 	    .sayHello());
     }
-    
+
     public static void main(String[] args) {
 	new ExampleApp().run();
     }

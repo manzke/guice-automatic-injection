@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.devsurf.injection.guice.scanner</groupId>
-		<artifactId>automatic-binding</artifactId>
+		<groupId>de.devsurf.injection.guice</groupId>
+		<artifactId>scanner</artifactId>
 		<version>0.7.1-SNAPSHOT</version>
 	</parent>	
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
@@ -12,11 +12,6 @@
 		<main.basedir>${project.parent.parent.basedir}</main.basedir>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>de.devsurf.injection.guice.scanner</groupId>
-			<artifactId>de.devsurf.injection.guice.scanner.core</artifactId>
-			<version>0.7.1-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>

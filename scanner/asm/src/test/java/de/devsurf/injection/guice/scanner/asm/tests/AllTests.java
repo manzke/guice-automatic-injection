@@ -20,6 +20,7 @@ import org.junit.runners.Suite;
 
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.AutobindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.bind.InterfaceAutobindTests;
+import de.devsurf.injection.guice.scanner.asm.tests.autobind.duplicate.DuplicateAutobindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.multiple.MultibindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.names.NamedAutobindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.only.AutobindOnlyTests;
@@ -28,6 +29,7 @@ import de.devsurf.injection.guice.scanner.asm.tests.autobind.only.AutobindOnlyTe
 @Suite.SuiteClasses({
   AutobindTests.class,
   InterfaceAutobindTests.class,
+  DuplicateAutobindTests.class,
   NamedAutobindTests.class,
   MultibindTests.class,
   AutobindOnlyTests.class

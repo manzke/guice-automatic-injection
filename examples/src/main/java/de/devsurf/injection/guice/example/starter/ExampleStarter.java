@@ -26,16 +26,17 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class ExampleStarter {
     public static void main(String[] args) {
-	Injector injector = Guice.createInjector(new ExampleStartupModule(ASMClasspathScanner.class,
-	    "de.devsurf.injection.guice"));
+	Injector injector = Guice.createInjector(new ExampleStartupModule(
+	    ASMClasspathScanner.class, "de.devsurf.injection.guice"));
 
-	Key<Set<ExampleApplication>> key = Key.get(new TypeLiteral<Set<ExampleApplication>>() {});
+	Key<Set<ExampleApplication>> key = Key.get(new TypeLiteral<Set<ExampleApplication>>() {
+	});
 	Set<ExampleApplication> apps = injector.getInstance(key);
-	for(ExampleApplication app : apps){
-	    System.out.println("Starting App: "+app.getClass().getName());
+	for (ExampleApplication app : apps) {
+	    System.out.println("Starting App: " + app.getClass().getName());
 	    app.run();
 	    System.out.println();
 	}
-	System.out.println("Run "+apps.size()+" Applications.");
+	System.out.println("Run " + apps.size() + " Applications.");
     }
 }

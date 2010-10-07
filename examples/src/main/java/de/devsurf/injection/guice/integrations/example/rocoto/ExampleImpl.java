@@ -30,11 +30,12 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * 
  */
 public class ExampleImpl implements Example {
-    @Inject @Named("message")
+    @Inject
+    @Named("message")
     private String message;
-    
+
     @Override
     public String sayHello() {
-	return "sayHello() - "+message;
+	return "sayHello() - " + message;
     }
 }
