@@ -60,7 +60,7 @@ public class OverrideFileConfigTests {
 	Assert.assertTrue(instance.sayHello(), "sayHello() - overriden yeahh!!".equals(instance.sayHello()));
     }
 
-    @Configuration(name = @Named("override"), location = @PathConfig(path="src/test/resources/configuration.properties", type=PathType.FILE), override=@PathConfig(path="src/test/resources/configuration.override.properties" ,type = PathType.FILE))
+    @Configuration(name = @Named("override"), location = @PathConfig(path="src/test/resources/configuration.properties", type=PathType.FILE), alternative=@PathConfig(path="src/test/resources/configuration.override.properties" ,type = PathType.FILE))
     public interface OverrideConfiguration {
     }
 

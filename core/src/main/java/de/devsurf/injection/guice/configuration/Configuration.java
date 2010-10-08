@@ -47,7 +47,7 @@ public @interface Configuration {
      */
     PathConfig location();
     
-    PathConfig override() default @PathConfig(path="");
+    PathConfig alternative() default @PathConfig(path="");
 
     /**
      * Class/Interface where the Configuration should be bound to.

@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
@@ -40,6 +41,7 @@ import com.googlecode.rocoto.simpleconfig.Formatter;
 
 import de.devsurf.injection.guice.configuration.Configuration.BindType;
 import de.devsurf.injection.guice.configuration.rocoto.ConfigurationModule;
+import de.devsurf.injection.guice.configuration.trace.BindingJob;
 import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
@@ -74,8 +76,8 @@ public class ConfigurationFeature extends BindingScannerFeature {
 	Named name = config.name();
 
 	URL url = null;
-	if (config.override().path().length() > 0) {
-	    url = findURL(name, config.override());
+	if (config.alternative().path().length() > 0) {
+	    url = findURL(name, config.alternative());
 	    if (url != null) {
 		try {
 		    url.openConnection().getInputStream();
@@ -97,7 +99,21 @@ public class ConfigurationFeature extends BindingScannerFeature {
 	}
 
 	if (config.bindType() == BindType.VALUES || config.bindType() == BindType.BOTH) {
-	    module.addProperties(url);
+	    BindingJob job = new BindingJob(null, null, null, url.toString(), null);
+	    if(!tracer.contains(job)){
+		/*  && !(url.toString().startsWith("jar:")) */
+		_logger.log(Level.INFO, "Trying to bind \""+url.toString()+"\" to rocoto Module.");
+		if(url.toString().startsWith("file:")){
+		    try {
+			module.addProperties(new File(url.toURI()));
+		    } catch (URISyntaxException e) {
+			_logger.log(Level.WARNING, "Configuration for the URL \""+url.toString()+"\" couldn't be read.",e);
+		    }
+		}else{
+		    module.addProperties(url);
+		}
+		tracer.add(job);
+	    }
 	}
 
 	if (config.bindType() == BindType.CONFIGURATION || config.bindType() == BindType.BOTH) {

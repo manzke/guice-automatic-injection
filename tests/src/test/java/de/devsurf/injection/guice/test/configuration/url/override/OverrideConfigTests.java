@@ -60,7 +60,7 @@ public class OverrideConfigTests {
 	Assert.assertTrue(instance.sayHello(), "sayHello() - overriden yeahh!!".equals(instance.sayHello()));
     }
 
-    @Configuration(name = @Named("override"), location = @PathConfig(path="http://devsurf.de/guice/configuration.properties", type=PathType.URL), override=@PathConfig(path="http://devsurf.de/guice/configuration.override.properties" ,type = PathType.URL))
+    @Configuration(name = @Named("override"), location = @PathConfig(path="http://devsurf.de/guice/configuration.properties", type=PathType.URL), alternative=@PathConfig(path="http://devsurf.de/guice/configuration.override.properties" ,type = PathType.URL))
     public interface OverrideConfiguration {
     }
 

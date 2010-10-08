@@ -48,6 +48,8 @@ public class ScannerModule implements DynamicModule {
     @Override
     public void configure(Binder binder) {
 	for (ScannerFeature listener : _listeners) {
+	    _logger.log(Level.INFO, "Binding Feature \"" + listener.getClass().getName()
+		    + "\" to ScannerModule.");
 	    if (listener instanceof BindingScannerFeature) {
 		((BindingScannerFeature) listener).setBinder(binder);
 		if (_logger.isLoggable(Level.FINE)) {
@@ -61,7 +63,8 @@ public class ScannerModule implements DynamicModule {
 	try {
 	    _scanner.scan();
 	} catch (IOException e) {
-	    _logger.log(Level.SEVERE, "Failure while Scanning the Classpath for Classes with Annotations.", e);
+	    _logger.log(Level.SEVERE,
+		"Failure while Scanning the Classpath for Classes with Annotations.", e);
 	}
 	try {
 	    _context.process();

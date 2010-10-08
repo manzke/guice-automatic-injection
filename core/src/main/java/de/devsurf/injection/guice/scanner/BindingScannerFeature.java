@@ -51,7 +51,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
     protected Injector injector;
 
     @Inject
-    private BindTracer tracer;
+    protected BindTracer tracer;
 
     protected InstallationContext context;
 

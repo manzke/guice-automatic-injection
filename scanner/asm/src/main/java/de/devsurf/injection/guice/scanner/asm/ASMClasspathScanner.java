@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -108,6 +109,10 @@ public class ASMClasspathScanner implements ClasspathScanner {
 
     public void scan() throws IOException {
 	for (URL url : classPath) {
+	    if(url.toString().startsWith("jar:")){
+		visitJar(url);
+		continue;
+	    }
 	    File entry;
 	    try {
 		entry = new File(url.toURI());
@@ -155,10 +160,21 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	    }
 	}
     }
-
+    
+    private void visitJar(URL url) throws IOException {
+	_logger.log(Level.FINE, "Scanning JAR-File: "+url);
+	JarURLConnection conn = (JarURLConnection) url.openConnection();
+	
+	_visitJar(conn.getJarFile());
+    }
+    
     private void visitJar(File file) throws IOException {
 	_logger.log(Level.FINE, "Scanning JAR-File: "+file.getAbsolutePath());
 	JarFile jarFile = new JarFile(file);
+	_visitJar(jarFile);
+    }
+
+    private void _visitJar(JarFile jarFile) throws IOException {
 	Enumeration<JarEntry> jarEntries = jarFile.entries();
 	for (JarEntry jarEntry = null; jarEntries.hasMoreElements();) {
 	    count++;

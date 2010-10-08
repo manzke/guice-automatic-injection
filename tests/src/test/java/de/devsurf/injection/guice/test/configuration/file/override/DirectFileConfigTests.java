@@ -60,7 +60,7 @@ public class DirectFileConfigTests {
 	Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
     }
 
-    @Configuration(name = @Named("direct"), location = @PathConfig(path="src/test/resources/configuration.properties", type=PathType.FILE), override=@PathConfig(path="src/test/resources/configuration.nonexisting.properties" ,type = PathType.FILE))
+    @Configuration(name = @Named("direct"), location = @PathConfig(path="src/test/resources/configuration.properties", type=PathType.FILE), alternative=@PathConfig(path="src/test/resources/configuration.nonexisting.properties" ,type = PathType.FILE))
     public interface DirectConfiguration {
     }
 
