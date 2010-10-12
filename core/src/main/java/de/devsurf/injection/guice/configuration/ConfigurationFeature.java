@@ -110,7 +110,11 @@ public class ConfigurationFeature extends BindingScannerFeature {
 			_logger.log(Level.WARNING, "Configuration for the URL \""+url.toString()+"\" couldn't be read.",e);
 		    }
 		}else{
-		    module.addProperties(url);
+		    if(url.toString().endsWith(".xml")){
+			module.addXMLProperties(url); //TODO Discuss with Simone
+		    }else{
+			module.addProperties(url);
+		    }
 		}
 		tracer.add(job);
 	    }
