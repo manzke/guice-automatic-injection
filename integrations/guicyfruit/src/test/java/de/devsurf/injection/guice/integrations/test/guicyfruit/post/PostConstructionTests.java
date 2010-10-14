@@ -33,52 +33,54 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class PostConstructionTests {
-    private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
-    
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
+	private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage()
+				.getName());
 
-    @Test
-    public void createInheritedInterceptor() {
-	called.set(false);
-	
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	instance.sayHello();
-	
-	assertTrue("@PostConstruction was not evaluated and Method was not invoked", called.get());
-    }
-    
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class TestImplementation implements TestInterface {
-	@PostConstruct
-	public void inform() {
-	    called.set(true);
-	}
-	
-	public void cancel(){
-	    Assert.fail("Should not be invoked.");
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
 
-	@Override
-	public String sayHello() {
-	    return "Good Morning!";
+	@Test
+	public void createInheritedInterceptor() {
+		called.set(false);
+
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage()
+				.getName());
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		instance.sayHello();
+
+		assertTrue("@PostConstruction was not evaluated and Method was not invoked", called.get());
 	}
 
-    }
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class TestImplementation implements TestInterface {
+		@PostConstruct
+		public void inform() {
+			called.set(true);
+		}
+
+		public void cancel() {
+			Assert.fail("Should not be invoked.");
+		}
+
+		@Override
+		public String sayHello() {
+			return "Good Morning!";
+		}
+
+	}
 }

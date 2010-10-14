@@ -37,39 +37,39 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  * 
  */
 public class ScannerModule implements DynamicModule {
-    private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
-    @Inject
-    private ClasspathScanner _scanner;
-    @Inject
-    private Set<ScannerFeature> _listeners;
-    @Inject
-    private InstallationContext _context;
+	private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
+	@Inject
+	private ClasspathScanner _scanner;
+	@Inject
+	private Set<ScannerFeature> _listeners;
+	@Inject
+	private InstallationContext _context;
 
-    @Override
-    public void configure(Binder binder) {
-	for (ScannerFeature listener : _listeners) {
-	    _logger.log(Level.INFO, "Binding Feature \"" + listener.getClass().getName()
-		    + "\" to ScannerModule.");
-	    if (listener instanceof BindingScannerFeature) {
-		((BindingScannerFeature) listener).setBinder(binder);
-		if (_logger.isLoggable(Level.FINE)) {
-		    _logger.fine("Binding AnnotationListeners " + listener.getClass().getName());
+	@Override
+	public void configure(Binder binder) {
+		for (ScannerFeature listener : _listeners) {
+			_logger.log(Level.INFO, "Binding Feature \"" + listener.getClass().getName()
+					+ "\" to ScannerModule.");
+			if (listener instanceof BindingScannerFeature) {
+				((BindingScannerFeature) listener).setBinder(binder);
+				if (_logger.isLoggable(Level.FINE)) {
+					_logger.fine("Binding AnnotationListeners " + listener.getClass().getName());
+				}
+			}
 		}
-	    }
+		if (_logger.isLoggable(Level.FINE)) {
+			_logger.fine("Binding ClasspathScanner to " + _scanner.getClass().getName());
+		}
+		try {
+			_scanner.scan();
+		} catch (IOException e) {
+			_logger.log(Level.SEVERE,
+				"Failure while Scanning the Classpath for Classes with Annotations.", e);
+		}
+		try {
+			_context.process();
+		} catch (Exception e) {
+			_logger.log(Level.SEVERE, "Failure while executing the collected Tasks.", e);
+		}
 	}
-	if (_logger.isLoggable(Level.FINE)) {
-	    _logger.fine("Binding ClasspathScanner to " + _scanner.getClass().getName());
-	}
-	try {
-	    _scanner.scan();
-	} catch (IOException e) {
-	    _logger.log(Level.SEVERE,
-		"Failure while Scanning the Classpath for Classes with Annotations.", e);
-	}
-	try {
-	    _context.process();
-	} catch (Exception e) {
-	    _logger.log(Level.SEVERE, "Failure while executing the collected Tasks.", e);
-	}
-    }
 }

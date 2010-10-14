@@ -43,7 +43,7 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 /**
  * This Annotation marks a {@link MethodInterceptor}, which provides a Method
  * which should be invoked for each Method, which is recognized by the Methods
- * annotated with {@link MethodMatcher} and {@link ClassMatcher}. 
+ * annotated with {@link MethodMatcher} and {@link ClassMatcher}.
  * 
  * @author Daniel Manzke
  * 
@@ -52,127 +52,127 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 @Qualifier
 @Target( { ElementType.TYPE })
 public @interface Interceptor {
-    @Singleton
-    public class InterceptorFeature extends BindingScannerFeature {
-	private Logger _logger = Logger.getLogger(InterceptorFeature.class.getName());
+	@Singleton
+	public class InterceptorFeature extends BindingScannerFeature {
+		private Logger _logger = Logger.getLogger(InterceptorFeature.class.getName());
 
-	@Override
-	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    if (annotations.containsKey(Interceptor.class.getName())) {
-		return BindingStage.BOOT;
-	    }
-	    return BindingStage.IGNORE;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void process(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    MethodInterceptor interceptor;
-	    final Object possibleInterceptor = injector.getInstance(annotatedClass);
-
-	    Matcher<? super Class<?>> classMatcher = null;
-	    Matcher<? super Method> methodMatcher = null;
-	    if (possibleInterceptor instanceof GuiceMethodInterceptor) {
-		interceptor = (MethodInterceptor) possibleInterceptor;
-		GuiceMethodInterceptor guiceInterceptor = (GuiceMethodInterceptor) interceptor;
-		classMatcher = guiceInterceptor.getClassMatcher();
-		methodMatcher = guiceInterceptor.getMethodMatcher();
-	    } else {
-		Method[] declaredMethods = annotatedClass.getDeclaredMethods();
-		Map<Class<? extends Annotation>, Method> methods = new HashMap<Class<? extends Annotation>, Method>();
-
-		for (Method method : declaredMethods) {
-		    Annotation[] methodAnnotations = method.getAnnotations();
-		    for (Annotation methodAnnotation : methodAnnotations) {
-			methods.put(methodAnnotation.annotationType(), method);
-		    }
-		}
-		try {
-		    if (methods.containsKey(ClassMatcher.class)) {
-			Method method = methods.get(ClassMatcher.class);
-			Type genericReturnType = method.getGenericReturnType();
-			if (GuiceMethodInterceptor.CLASS_MATCHER_TYPE.equals(genericReturnType)) {
-			    classMatcher = (Matcher<? super Class<?>>) method.invoke(
-				possibleInterceptor, new Object[0]);
-			} else {
-			    _logger.log(Level.WARNING,
-				"Return Type of the annotated @ClassMatcher-Method, does not return: "
-					+ GuiceMethodInterceptor.CLASS_MATCHER_TYPE
-					+ " instead it returns " + genericReturnType);
+		@Override
+		public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+			if (annotations.containsKey(Interceptor.class.getName())) {
+				return BindingStage.BOOT;
 			}
-		    }
-
-		    if (methods.containsKey(MethodMatcher.class)) {
-			Method method = methods.get(MethodMatcher.class);
-			Type genericReturnType = method.getGenericReturnType();
-			if (GuiceMethodInterceptor.METHOD_MATCHER_TYPE.equals(genericReturnType)) {
-			    methodMatcher = (Matcher<? super Method>) method.invoke(
-				possibleInterceptor, new Object[0]);
-			} else {
-			    _logger.log(Level.WARNING,
-				"Return Type of the annotated @MethodMatcher-Method, does not return: "
-					+ GuiceMethodInterceptor.METHOD_MATCHER_TYPE
-					+ " instead it returns " + genericReturnType);
-			}
-		    }
-		} catch (Exception e) {
-		    _logger
-			.log(
-			    Level.WARNING,
-			    "Skipping process(..) of \""
-				    + annotatedClass
-				    + "\", because an Exception occured while trying to invoke a Method of the found Intercepter.",
-			    e);
-		    return;
+			return BindingStage.IGNORE;
 		}
 
-		if (possibleInterceptor instanceof MethodInterceptor) {
-		    interceptor = (MethodInterceptor) possibleInterceptor;
-		} else {
-		    if (methods.containsKey(Invoke.class)) {
-			final Method method = methods.get(Invoke.class);
-			Class<?>[] parameterTypes = method.getParameterTypes();
-			if (parameterTypes != null && parameterTypes.length == 1
-				&& parameterTypes[0] == MethodInvocation.class) {
-			    interceptor = new MethodInterceptor() {
-				@Override
-				public Object invoke(MethodInvocation invocation) throws Throwable {
-				    return method.invoke(possibleInterceptor, invocation);
+		@SuppressWarnings("unchecked")
+		@Override
+		public void process(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+			MethodInterceptor interceptor;
+			final Object possibleInterceptor = injector.getInstance(annotatedClass);
+
+			Matcher<? super Class<?>> classMatcher = null;
+			Matcher<? super Method> methodMatcher = null;
+			if (possibleInterceptor instanceof GuiceMethodInterceptor) {
+				interceptor = (MethodInterceptor) possibleInterceptor;
+				GuiceMethodInterceptor guiceInterceptor = (GuiceMethodInterceptor) interceptor;
+				classMatcher = guiceInterceptor.getClassMatcher();
+				methodMatcher = guiceInterceptor.getMethodMatcher();
+			} else {
+				Method[] declaredMethods = annotatedClass.getDeclaredMethods();
+				Map<Class<? extends Annotation>, Method> methods = new HashMap<Class<? extends Annotation>, Method>();
+
+				for (Method method : declaredMethods) {
+					Annotation[] methodAnnotations = method.getAnnotations();
+					for (Annotation methodAnnotation : methodAnnotations) {
+						methods.put(methodAnnotation.annotationType(), method);
+					}
 				}
-			    };
-			} else {
-			    _logger
-				.log(
-				    Level.WARNING,
-				    "Skipping \""
-					    + annotatedClass
-					    + "\", because the Parameter of the with @Invoke annotated Method \""
-					    + method.getName()
-					    + "\" doesn't match the expected one. "
-					    + method.getName() + "(MethodInvocation invocation)");
-			    return;
+				try {
+					if (methods.containsKey(ClassMatcher.class)) {
+						Method method = methods.get(ClassMatcher.class);
+						Type genericReturnType = method.getGenericReturnType();
+						if (GuiceMethodInterceptor.CLASS_MATCHER_TYPE.equals(genericReturnType)) {
+							classMatcher = (Matcher<? super Class<?>>) method.invoke(
+								possibleInterceptor, new Object[0]);
+						} else {
+							_logger.log(Level.WARNING,
+								"Return Type of the annotated @ClassMatcher-Method, does not return: "
+										+ GuiceMethodInterceptor.CLASS_MATCHER_TYPE
+										+ " instead it returns " + genericReturnType);
+						}
+					}
+
+					if (methods.containsKey(MethodMatcher.class)) {
+						Method method = methods.get(MethodMatcher.class);
+						Type genericReturnType = method.getGenericReturnType();
+						if (GuiceMethodInterceptor.METHOD_MATCHER_TYPE.equals(genericReturnType)) {
+							methodMatcher = (Matcher<? super Method>) method.invoke(
+								possibleInterceptor, new Object[0]);
+						} else {
+							_logger.log(Level.WARNING,
+								"Return Type of the annotated @MethodMatcher-Method, does not return: "
+										+ GuiceMethodInterceptor.METHOD_MATCHER_TYPE
+										+ " instead it returns " + genericReturnType);
+						}
+					}
+				} catch (Exception e) {
+					_logger
+						.log(
+							Level.WARNING,
+							"Skipping process(..) of \""
+									+ annotatedClass
+									+ "\", because an Exception occured while trying to invoke a Method of the found Intercepter.",
+							e);
+					return;
+				}
+
+				if (possibleInterceptor instanceof MethodInterceptor) {
+					interceptor = (MethodInterceptor) possibleInterceptor;
+				} else {
+					if (methods.containsKey(Invoke.class)) {
+						final Method method = methods.get(Invoke.class);
+						Class<?>[] parameterTypes = method.getParameterTypes();
+						if (parameterTypes != null && parameterTypes.length == 1
+								&& parameterTypes[0] == MethodInvocation.class) {
+							interceptor = new MethodInterceptor() {
+								@Override
+								public Object invoke(MethodInvocation invocation) throws Throwable {
+									return method.invoke(possibleInterceptor, invocation);
+								}
+							};
+						} else {
+							_logger
+								.log(
+									Level.WARNING,
+									"Skipping \""
+											+ annotatedClass
+											+ "\", because the Parameter of the with @Invoke annotated Method \""
+											+ method.getName()
+											+ "\" doesn't match the expected one. "
+											+ method.getName() + "(MethodInvocation invocation)");
+							return;
+						}
+					} else {
+						_logger.log(Level.WARNING, "Skipping \"" + annotatedClass
+								+ "\" is either Child of \""
+								+ GuiceMethodInterceptor.class.getName() + "\" / \""
+								+ MethodInterceptor.class.getName()
+								+ "\" nor has a Method annotated with \"" + Invoke.class.getName()
+								+ "\"");
+						return;
+					}
+				}
 			}
-		    } else {
-			_logger.log(Level.WARNING, "Skipping \"" + annotatedClass
-				+ "\" is either Child of \""
-				+ GuiceMethodInterceptor.class.getName() + "\" / \""
-				+ MethodInterceptor.class.getName()
-				+ "\" nor has a Method annotated with \"" + Invoke.class.getName()
-				+ "\"");
-			return;
-		    }
+
+			if (classMatcher == null) {
+				classMatcher = Matchers.any();
+			}
+
+			if (methodMatcher == null) {
+				methodMatcher = Matchers.any();
+			}
+
+			_binder.bindInterceptor(classMatcher, methodMatcher, interceptor);
 		}
-	    }
-
-	    if (classMatcher == null) {
-		classMatcher = Matchers.any();
-	    }
-
-	    if (methodMatcher == null) {
-		methodMatcher = Matchers.any();
-	    }
-
-	    _binder.bindInterceptor(classMatcher, methodMatcher, interceptor);
 	}
-    }
 }

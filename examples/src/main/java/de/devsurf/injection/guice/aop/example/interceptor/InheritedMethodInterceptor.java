@@ -31,23 +31,23 @@ import de.devsurf.injection.guice.aop.MethodMatcher;
 @Interceptor
 public class InheritedMethodInterceptor extends GuiceMethodInterceptor {
 
-    @Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-	System.out.println(InheritedMethodInterceptor.class.getSimpleName()
-		+ " - Trying to invoke: " + invocation.getMethod().getName());
-	return invocation.proceed();
-    }
+	@Override
+	public Object invoke(MethodInvocation invocation) throws Throwable {
+		System.out.println(InheritedMethodInterceptor.class.getSimpleName()
+				+ " - Trying to invoke: " + invocation.getMethod().getName());
+		return invocation.proceed();
+	}
 
-    @Override
-    @ClassMatcher
-    public Matcher<? super Class<?>> getClassMatcher() {
-	return Matchers.any();
-    }
+	@Override
+	@ClassMatcher
+	public Matcher<? super Class<?>> getClassMatcher() {
+		return Matchers.any();
+	}
 
-    @Override
-    @MethodMatcher
-    public Matcher<? super Method> getMethodMatcher() {
-	return Matchers.annotatedWith(Intercept.class);
-    }
+	@Override
+	@MethodMatcher
+	public Matcher<? super Method> getMethodMatcher() {
+		return Matchers.annotatedWith(Intercept.class);
+	}
 
 }

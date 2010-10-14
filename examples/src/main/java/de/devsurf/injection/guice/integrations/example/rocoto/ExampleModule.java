@@ -31,8 +31,8 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  */
 @GuiceModule
 public class ExampleModule extends AbstractModule {
-    @Override
-    protected void configure() {
-	bind(Example.class).to(ExampleImpl.class);
-    }
+	@Override
+	protected void configure() {
+		bind(Example.class).to(ExampleImpl.class);
+	}
 }

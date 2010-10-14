@@ -15,26 +15,24 @@
  */
 package de.devsurf.injection.guice.configuration;
 
-
-
 public @interface PathConfig {
-    String path();
+	String value();
 
-    PathType type() default PathType.CLASSPATH;
-    
-    public enum PathType {
-	/**
-	 * Use the Classloader to fetch the Configuration
-	 */
-	CLASSPATH,
-	/**
-	 * Tries to load the Configuration from a File. Can be absolute or
-	 * relative. Relative to the the Path of ClassLoader.getResources("/").
-	 */
-	FILE,
-	/**
-	 * Can be each Kind of URL. file:/, classpath:/, http://
-	 */
-	URL
-    }
+	PathType type() default PathType.CLASSPATH;
+
+	public enum PathType {
+		/**
+		 * Use the Classloader to fetch the Configuration
+		 */
+		CLASSPATH,
+		/**
+		 * Tries to load the Configuration from a File. Can be absolute or
+		 * relative. Relative to the the Path of ClassLoader.getResources("/").
+		 */
+		FILE,
+		/**
+		 * Can be each Kind of URL. file:/, classpath:/, http://
+		 */
+		URL
+	}
 }

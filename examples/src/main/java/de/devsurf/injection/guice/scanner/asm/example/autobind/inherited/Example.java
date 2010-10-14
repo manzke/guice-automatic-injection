@@ -22,5 +22,5 @@ package de.devsurf.injection.guice.scanner.asm.example.autobind.inherited;
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 }

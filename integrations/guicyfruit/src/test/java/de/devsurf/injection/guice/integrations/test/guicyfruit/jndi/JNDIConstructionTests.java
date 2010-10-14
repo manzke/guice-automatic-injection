@@ -29,57 +29,57 @@ import org.junit.Test;
 import de.devsurf.injection.guice.scanner.annotations.Bind;
 
 public class JNDIConstructionTests {
-    private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
-    
-    @Test
-    public void createDynamicModule() {
-	try {
-	    InitialContext context = new InitialContext();
-	    assertNotNull(context);
-	    context.getEnvironment();
-	} catch (NamingException e) {
-	    Assert.fail(e.getMessage());
-	}
-    }
+	private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
 
-    @Test
-    public void createInheritedInterceptor() {
-	called.set(false);
-	
-	try {
-	    InitialContext context = new InitialContext();
-	    assertNotNull(context);
-	    context.getEnvironment();
-	    
-	    TestInterface instance = (TestInterface) context.lookup(TestInterface.class.getName());
-	    instance.sayHello();
-	} catch (NamingException e) {
-	    e.printStackTrace();
-	    Assert.fail(e.getMessage());
-	}
-	
-	assertTrue("@PostConstruction was not evaluated and Method was not invoked", called.get());
-    }
-    
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class TestImplementation implements TestInterface {
-	@PostConstruct
-	public void inform() {
-	    called.set(true);
-	}
-	
-	public void cancel(){
-	    Assert.fail("Should not be invoked.");
+	@Test
+	public void createDynamicModule() {
+		try {
+			InitialContext context = new InitialContext();
+			assertNotNull(context);
+			context.getEnvironment();
+		} catch (NamingException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
-	@Override
-	public String sayHello() {
-	    return "Good Morning!";
+	@Test
+	public void createInheritedInterceptor() {
+		called.set(false);
+
+		try {
+			InitialContext context = new InitialContext();
+			assertNotNull(context);
+			context.getEnvironment();
+
+			TestInterface instance = (TestInterface) context.lookup(TestInterface.class.getName());
+			instance.sayHello();
+		} catch (NamingException e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+
+		assertTrue("@PostConstruction was not evaluated and Method was not invoked", called.get());
 	}
 
-    }
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class TestImplementation implements TestInterface {
+		@PostConstruct
+		public void inform() {
+			called.set(true);
+		}
+
+		public void cancel() {
+			Assert.fail("Should not be invoked.");
+		}
+
+		@Override
+		public String sayHello() {
+			return "Good Morning!";
+		}
+
+	}
 }

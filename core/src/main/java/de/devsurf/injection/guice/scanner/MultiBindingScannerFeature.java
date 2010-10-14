@@ -29,41 +29,43 @@ import com.google.inject.multibindings.Multibinder;
  * @author Daniel Manzke
  * 
  */
-public abstract class MultiBindingScannerFeature extends BindingScannerFeature {   
-    protected <T, V extends T> void bindInstance(V impl, Class<T> interf, Annotation annotation, Scope scope) {
-	Multibinder<T> builder;
-	synchronized (_binder) {
-	    if(annotation != null){
-		builder = Multibinder.newSetBinder(_binder, interf, annotation);
-	    }else{
-		builder = Multibinder.newSetBinder(_binder, interf);
-	    }
+public abstract class MultiBindingScannerFeature extends BindingScannerFeature {
+	protected <T, V extends T> void bindInstance(V impl, Class<T> interf, Annotation annotation,
+			Scope scope) {
+		Multibinder<T> builder;
+		synchronized (_binder) {
+			if (annotation != null) {
+				builder = Multibinder.newSetBinder(_binder, interf, annotation);
+			} else {
+				builder = Multibinder.newSetBinder(_binder, interf);
+			}
 
-	    builder.addBinding().toInstance(impl);
+			builder.addBinding().toInstance(impl);
+		}
 	}
-    }
-    
-    protected void bindConstant(String value, Annotation annotation) {
-	Multibinder<String> builder;
-	synchronized (_binder) {
-	    builder = Multibinder.newSetBinder(_binder, String.class, annotation);
-	    builder.addBinding().toInstance(value);
-	}
-    }
 
-    protected <T, V extends T> void bind(Class<V> impl, Class<T> interf, Annotation annotation, Scope scope) {
-	Multibinder<T> builder;
-	synchronized (_binder) {
-	    if(annotation != null){
-		builder = Multibinder.newSetBinder(_binder, interf, annotation);
-	    }else{
-		builder = Multibinder.newSetBinder(_binder, interf);
-	    }
-	    
-	    ScopedBindingBuilder scopedBindingBuilder = builder.addBinding().to(impl);
-	    if (scope != null) {
-		scopedBindingBuilder.in(scope);
-	    }
+	protected void bindConstant(String value, Annotation annotation) {
+		Multibinder<String> builder;
+		synchronized (_binder) {
+			builder = Multibinder.newSetBinder(_binder, String.class, annotation);
+			builder.addBinding().toInstance(value);
+		}
 	}
-    }
+
+	protected <T, V extends T> void bind(Class<V> impl, Class<T> interf, Annotation annotation,
+			Scope scope) {
+		Multibinder<T> builder;
+		synchronized (_binder) {
+			if (annotation != null) {
+				builder = Multibinder.newSetBinder(_binder, interf, annotation);
+			} else {
+				builder = Multibinder.newSetBinder(_binder, interf);
+			}
+
+			ScopedBindingBuilder scopedBindingBuilder = builder.addBinding().to(impl);
+			if (scope != null) {
+				scopedBindingBuilder.in(scope);
+			}
+		}
+	}
 }

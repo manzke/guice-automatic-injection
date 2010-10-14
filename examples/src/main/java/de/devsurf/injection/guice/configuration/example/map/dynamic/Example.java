@@ -22,5 +22,5 @@ package de.devsurf.injection.guice.configuration.example.map.dynamic;
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 }

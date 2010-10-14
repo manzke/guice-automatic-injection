@@ -37,46 +37,46 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class DirectOverrideConfigTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    DirectOverrideConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			DirectOverrideConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-
-    @Test
-    public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    DirectOverrideConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
-    }
-
-    @Configuration(name = @Named("direct"), location = @PathConfig(path="http://devsurf.de/guice/configuration.properties", type=PathType.URL), alternative=@PathConfig(path="http://devsurf.de/guice/nonexisting.properties" ,type = PathType.URL))
-    public interface DirectConfiguration {
-    }
-
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class DirectImplementations implements TestInterface {
-	@Inject
-	@Named("direct")
-	private Properties config;
-
-	@Override
-	public String sayHello() {
-	    return "sayHello() - " + config.getProperty("message");
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
-    }
+
+	@Test
+	public void createPListConfiguration() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			DirectOverrideConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
+	}
+
+	@Configuration(value = @Named("direct"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), alternative = @PathConfig(value = "http://devsurf.de/guice/nonexisting.properties", type = PathType.URL))
+	public interface DirectConfiguration {
+	}
+
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class DirectImplementations implements TestInterface {
+		@Inject
+		@Named("direct")
+		private Properties config;
+
+		@Override
+		public String sayHello() {
+			return "sayHello() - " + config.getProperty("message");
+		}
+	}
 }

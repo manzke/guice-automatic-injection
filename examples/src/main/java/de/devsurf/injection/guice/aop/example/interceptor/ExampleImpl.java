@@ -30,21 +30,21 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  */
 @Bind
 public class ExampleImpl implements Example {
-    @Override
-    @Intercept
-    public String sayHello() {
-	return "yeahhh!!!";
-    }
-
-    @Override
-    @Intercept
-    public String convert(String message, boolean enabled, int times) {
-	if (enabled) {
-	    String part = message;
-	    for (int i = 0; i < times; i++) {
-		message += part;
-	    }
+	@Override
+	@Intercept
+	public String sayHello() {
+		return "yeahhh!!!";
 	}
-	return message;
-    }
+
+	@Override
+	@Intercept
+	public String convert(String message, boolean enabled, int times) {
+		if (enabled) {
+			String part = message;
+			for (int i = 0; i < times; i++) {
+				message += part;
+			}
+		}
+		return message;
+	}
 }

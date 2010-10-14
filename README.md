@@ -211,4 +211,6 @@ After that you can create a new InitialContext and with some Magic everything ca
 	- add reloading feature
 - Stabilize APIs and Code Quality (v0.8/0.9)
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)
+- Add a Clojure Classpath Scanner
+- Implement Spring-Annotation Binder (automatic Binding of Beans to Guice annotated with Spring-Annotations)
 - use Java EE 6 Annotations for Automatic Binding (Interceptor, AroundInvoke, ...)

@@ -30,75 +30,75 @@ import java.util.concurrent.Callable;
  * 
  */
 public class InstallationContext {
-    private Map<BindingStage, List<Callable<?>>> context = new HashMap<BindingStage, List<Callable<?>>>();
+	private Map<BindingStage, List<Callable<?>>> context = new HashMap<BindingStage, List<Callable<?>>>();
 
-    public void process() throws Exception {
-	for (BindingStage stage : BindingStage.ORDERED) {
-	    List<Callable<?>> requests = context.get(stage);
-	    if (requests != null) {
-		for (Callable<?> request : requests) {
-		    request.call();
+	public void process() throws Exception {
+		for (BindingStage stage : BindingStage.ORDERED) {
+			List<Callable<?>> requests = context.get(stage);
+			if (requests != null) {
+				for (Callable<?> request : requests) {
+					request.call();
+				}
+			}
 		}
-	    }
 	}
-    }
 
-    public void add(BindingStage stage, Callable<?> request) {
-	synchronized (context) {
-	    List<Callable<?>> requests = context.get(stage);
-	    if (requests == null) {
-		requests = new ArrayList<Callable<?>>();
-		context.put(stage, requests);
-	    }
-	    requests.add(request);
+	public void add(BindingStage stage, Callable<?> request) {
+		synchronized (context) {
+			List<Callable<?>> requests = context.get(stage);
+			if (requests == null) {
+				requests = new ArrayList<Callable<?>>();
+				context.put(stage, requests);
+			}
+			requests.add(request);
+		}
 	}
-    }
 
-    public void add(StageableRequest request) {
-	synchronized (context) {
-	    List<Callable<?>> requests = context.get(request.getExecutionStage());
-	    if (requests == null) {
-		requests = new ArrayList<Callable<?>>();
-		context.put(request.getExecutionStage(), requests);
-	    }
-	    requests.add(request);
+	public void add(StageableRequest request) {
+		synchronized (context) {
+			List<Callable<?>> requests = context.get(request.getExecutionStage());
+			if (requests == null) {
+				requests = new ArrayList<Callable<?>>();
+				context.put(request.getExecutionStage(), requests);
+			}
+			requests.add(request);
+		}
 	}
-    }
 
-    public static interface StageableRequest extends java.util.concurrent.Callable<Void> {
-	BindingStage getExecutionStage();
-    }
-
-    public static enum BindingStage {
-	BOOT_BEFORE,
-	BOOT,
-	BOOT_POST,
-	BINDING_BEFORE,
-	BINDING,
-	BINDING_POST,
-	INSTALL_BEFORE,
-	INSTALL,
-	INSTALL_POST,
-	BUILD_BEFORE,
-	BUILD,
-	BUILD_POST,
-	IGNORE;
-
-	public static final List<BindingStage> ORDERED = new LinkedList<BindingStage>();
-
-	static {
-	    ORDERED.add(BOOT_BEFORE);
-	    ORDERED.add(BOOT);
-	    ORDERED.add(BOOT_POST);
-	    ORDERED.add(BINDING_BEFORE);
-	    ORDERED.add(BINDING);
-	    ORDERED.add(BINDING_POST);
-	    ORDERED.add(INSTALL_BEFORE);
-	    ORDERED.add(INSTALL);
-	    ORDERED.add(INSTALL_POST);
-	    ORDERED.add(BUILD_BEFORE);
-	    ORDERED.add(BUILD);
-	    ORDERED.add(BUILD_POST);
+	public static interface StageableRequest extends java.util.concurrent.Callable<Void> {
+		BindingStage getExecutionStage();
 	}
-    }
+
+	public static enum BindingStage {
+		BOOT_BEFORE,
+		BOOT,
+		BOOT_POST,
+		BINDING_BEFORE,
+		BINDING,
+		BINDING_POST,
+		INSTALL_BEFORE,
+		INSTALL,
+		INSTALL_POST,
+		BUILD_BEFORE,
+		BUILD,
+		BUILD_POST,
+		IGNORE;
+
+		public static final List<BindingStage> ORDERED = new LinkedList<BindingStage>();
+
+		static {
+			ORDERED.add(BOOT_BEFORE);
+			ORDERED.add(BOOT);
+			ORDERED.add(BOOT_POST);
+			ORDERED.add(BINDING_BEFORE);
+			ORDERED.add(BINDING);
+			ORDERED.add(BINDING_POST);
+			ORDERED.add(INSTALL_BEFORE);
+			ORDERED.add(INSTALL);
+			ORDERED.add(INSTALL_POST);
+			ORDERED.add(BUILD_BEFORE);
+			ORDERED.add(BUILD);
+			ORDERED.add(BUILD_POST);
+		}
+	}
 }

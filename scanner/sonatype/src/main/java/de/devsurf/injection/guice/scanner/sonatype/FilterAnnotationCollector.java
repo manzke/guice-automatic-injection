@@ -29,35 +29,35 @@ import de.devsurf.injection.guice.scanner.asm.AnnotationCollector;
  * @author Daniel Manzke
  */
 public abstract class FilterAnnotationCollector extends AnnotationCollector implements
-	ClassSpaceVisitor {
-    public FilterAnnotationCollector() {
-	super();
-    }
-
-    @Override
-    public void visit(int version, int access, String name, String signature, String superName,
-	    String[] interfaces) {
-	_name = name.replace('/', '.');
-	if (!matches(_name)) {
-	    _ignore = true;
-	    return;
+		ClassSpaceVisitor {
+	public FilterAnnotationCollector() {
+		super();
 	}
-	for (String interf : interfaces) {
-	    if (interf.equals("java/lang/annotation/Annotation")) {
-		_ignore = true;
-		return;
-	    }
+
+	@Override
+	public void visit(int version, int access, String name, String signature, String superName,
+			String[] interfaces) {
+		_name = name.replace('/', '.');
+		if (!matches(_name)) {
+			_ignore = true;
+			return;
+		}
+		for (String interf : interfaces) {
+			if (interf.equals("java/lang/annotation/Annotation")) {
+				_ignore = true;
+				return;
+			}
+		}
 	}
-    }
 
-    public abstract boolean matches(String name);
+	public abstract boolean matches(String name);
 
-    @Override
-    public void visit(ClassSpace space) {
-    }
+	@Override
+	public void visit(ClassSpace space) {
+	}
 
-    @Override
-    public ClassVisitor visitClass(URL url) {
-	return this;
-    }
+	@Override
+	public ClassVisitor visitClass(URL url) {
+		return this;
+	}
 }

@@ -43,29 +43,29 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 @Qualifier
 @Target( { ElementType.TYPE })
 public @interface GuiceModule {
-    BindingStage stage() default BindingStage.BUILD;
+	BindingStage stage() default BindingStage.BUILD;
 
-    @Singleton
-    public class ModuleListener extends BindingScannerFeature {
-	private Logger _logger = Logger.getLogger(ModuleListener.class.getName());
+	@Singleton
+	public class ModuleListener extends BindingScannerFeature {
+		private Logger _logger = Logger.getLogger(ModuleListener.class.getName());
 
-	@Override
-	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    if (annotations.containsKey(GuiceModule.class.getName())) {
-		GuiceModule module = (GuiceModule) annotations.get(GuiceModule.class.getName());
-		return module.stage();
-	    }
-	    return BindingStage.IGNORE;
+		@Override
+		public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+			if (annotations.containsKey(GuiceModule.class.getName())) {
+				GuiceModule module = (GuiceModule) annotations.get(GuiceModule.class.getName());
+				return module.stage();
+			}
+			return BindingStage.IGNORE;
+		}
+
+		@Override
+		public void process(final Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.info("Installing Module: " + annotatedClass.getName());
+			}
+			synchronized (_binder) {
+				_binder.install((Module) injector.getInstance(annotatedClass));
+			}
+		}
 	}
-
-	@Override
-	public void process(final Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	    if (_logger.isLoggable(Level.INFO)) {
-		_logger.info("Installing Module: " + annotatedClass.getName());
-	    }
-	    synchronized (_binder) {
-		_binder.install((Module) injector.getInstance(annotatedClass));
-	    }
-	}
-    }
 }

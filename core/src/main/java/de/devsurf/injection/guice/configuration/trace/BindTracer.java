@@ -22,13 +22,13 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class BindTracer {
-    private Set<BindingJob> jobs = new HashSet<BindingJob>();
+	private Set<BindingJob> jobs = new HashSet<BindingJob>();
 
-    public synchronized boolean add(BindingJob e) {
-	return jobs.add(e);
-    }
+	public synchronized boolean add(BindingJob e) {
+		return jobs.add(e);
+	}
 
-    public synchronized boolean contains(Object o) {
-	return jobs.contains(o);
-    }
+	public synchronized boolean contains(Object o) {
+		return jobs.contains(o);
+	}
 }

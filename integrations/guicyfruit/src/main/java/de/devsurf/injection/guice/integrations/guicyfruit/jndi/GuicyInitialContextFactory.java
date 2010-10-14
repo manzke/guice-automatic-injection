@@ -49,75 +49,77 @@ import de.devsurf.injection.guice.scanner.StartupModule;
  * 
  */
 public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
-    public GuicyInitialContextFactory() {
-	super();
-    }
+	public GuicyInitialContextFactory() {
+		super();
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Context getInitialContext(final Hashtable environment) throws NamingException {
-	try {
-	    String classpathScannerClass = (String) environment.get("guice.classpath.scanner");
-	    if (classpathScannerClass == null || classpathScannerClass.length() == 0) {
-		classpathScannerClass = "de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner";
-	    }
-	    Class<ClasspathScanner> scannerClass = (Class<ClasspathScanner>) Class
-		.forName(classpathScannerClass.trim());
-
-	    String classpathPackages = (String) environment.get("guice.classpath.packages");
-	    if (classpathPackages == null || classpathPackages.length() == 0) {
-		classpathPackages = "com;de;org;net";
-	    }
-	    List<String> packages = new ArrayList<String>();
-
-	    StringTokenizer tok = new StringTokenizer(classpathPackages.trim(), ";");
-	    while (tok.hasMoreElements()) {
-		packages.add(tok.nextToken().trim());
-	    }
-
-	    StartupModule startupModule = StartupModule.create(scannerClass, packages
-		.toArray(new String[packages.size()]));
-
-	    Injector injector = Injectors.createInjector(environment, startupModule, new AbstractModule() {
-		protected void configure() {
-		    bind(Context.class).toProvider(new Provider<Context>() {
-			@Inject
-			Injector injector;
-
-			public Context get() {
-			    JndiContext context = new JndiContext(environment);
-			    Properties jndiNames = createJndiNamesProperties(environment);
-			    try {
-				JndiBindings.bindInjectorAndBindings(context, injector, jndiNames);
-				return context;
-			    } catch (NamingException e) {
-				throw new ProvisionException(
-				    "Failed to create JNDI bindings. Reason: " + e, e);
-			    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public Context getInitialContext(final Hashtable environment) throws NamingException {
+		try {
+			String classpathScannerClass = (String) environment.get("guice.classpath.scanner");
+			if (classpathScannerClass == null || classpathScannerClass.length() == 0) {
+				classpathScannerClass = "de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner";
 			}
-		    }).in(Scopes.SINGLETON);
-		}
-	    });
-	    return injector.getInstance(Context.class);
-	} catch (Exception e) {
-	    NamingException exception = new NamingException(e.getMessage());
-	    exception.initCause(e);
-	    throw exception;
-	}
-    }
+			Class<ClasspathScanner> scannerClass = (Class<ClasspathScanner>) Class
+				.forName(classpathScannerClass.trim());
 
-    @SuppressWarnings("unchecked")
-    private Properties createJndiNamesProperties(Hashtable environment) {
-	Set<Map.Entry> set = environment.entrySet();
-	Properties answer = new Properties();
-	for (Entry entry : set) {
-	    String key = entry.getKey().toString();
-	    if (key.startsWith(NAME_PREFIX)) {
-		String name = key.substring(NAME_PREFIX.length());
-		Object value = entry.getValue();
-		answer.put(name, value);
-	    }
+			String classpathPackages = (String) environment.get("guice.classpath.packages");
+			if (classpathPackages == null || classpathPackages.length() == 0) {
+				classpathPackages = "com;de;org;net";
+			}
+			List<String> packages = new ArrayList<String>();
+
+			StringTokenizer tok = new StringTokenizer(classpathPackages.trim(), ";");
+			while (tok.hasMoreElements()) {
+				packages.add(tok.nextToken().trim());
+			}
+
+			StartupModule startupModule = StartupModule.create(scannerClass, packages
+				.toArray(new String[packages.size()]));
+
+			Injector injector = Injectors.createInjector(environment, startupModule,
+				new AbstractModule() {
+					protected void configure() {
+						bind(Context.class).toProvider(new Provider<Context>() {
+							@Inject
+							Injector injector;
+
+							public Context get() {
+								JndiContext context = new JndiContext(environment);
+								Properties jndiNames = createJndiNamesProperties(environment);
+								try {
+									JndiBindings.bindInjectorAndBindings(context, injector,
+										jndiNames);
+									return context;
+								} catch (NamingException e) {
+									throw new ProvisionException(
+										"Failed to create JNDI bindings. Reason: " + e, e);
+								}
+							}
+						}).in(Scopes.SINGLETON);
+					}
+				});
+			return injector.getInstance(Context.class);
+		} catch (Exception e) {
+			NamingException exception = new NamingException(e.getMessage());
+			exception.initCause(e);
+			throw exception;
+		}
 	}
-	return answer;
-    }
+
+	@SuppressWarnings("unchecked")
+	private Properties createJndiNamesProperties(Hashtable environment) {
+		Set<Map.Entry> set = environment.entrySet();
+		Properties answer = new Properties();
+		for (Entry entry : set) {
+			String key = entry.getKey().toString();
+			if (key.startsWith(NAME_PREFIX)) {
+				String name = key.substring(NAME_PREFIX.length());
+				Object value = entry.getValue();
+				answer.put(name, value);
+			}
+		}
+		return answer;
+	}
 }

@@ -31,11 +31,11 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * 
  */
 public class ExampleImpl implements Example {
-    @Inject
-    private Properties config;
+	@Inject
+	private Properties config;
 
-    @Override
-    public String sayHello() {
-	return "sayHello() - " + config.getProperty("message");
-    }
+	@Override
+	public String sayHello() {
+		return "sayHello() - " + config.getProperty("message");
+	}
 }

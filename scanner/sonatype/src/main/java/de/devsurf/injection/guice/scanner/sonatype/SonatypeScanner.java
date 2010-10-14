@@ -43,70 +43,71 @@ import de.devsurf.injection.guice.scanner.ScannerFeature;
  * 
  */
 public class SonatypeScanner implements ClasspathScanner {
-    private Logger _logger = Logger.getLogger(SonatypeScanner.class.getName());
-    private FilterAnnotationCollector _collector;
-    private List<Pattern> _packagePatterns;
-    
-    @Inject
-    @Named("classpath")
-    private URL[] classPath;
+	private Logger _logger = Logger.getLogger(SonatypeScanner.class.getName());
+	private FilterAnnotationCollector _collector;
+	private List<Pattern> _packagePatterns;
 
-    @Inject
-    public SonatypeScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
-	_packagePatterns = new ArrayList<Pattern>();
-	_collector = new FilterAnnotationCollector() {
-	    @Override
-	    public boolean matches(String name) {
-		for (Pattern pattern : _packagePatterns) {
-		    if (pattern.matcher(name).matches()) {
-			return true;
-		    }
+	@Inject
+	@Named("classpath")
+	private URL[] classPath;
+
+	@Inject
+	public SonatypeScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
+		_packagePatterns = new ArrayList<Pattern>();
+		_collector = new FilterAnnotationCollector() {
+			@Override
+			public boolean matches(String name) {
+				for (Pattern pattern : _packagePatterns) {
+					if (pattern.matcher(name).matches()) {
+						return true;
+					}
+				}
+				return false;
+			}
+		};
+
+		for (String p : packages) {
+			includePackage(p);
 		}
-		return false;
-	    }
-	};
-	
-	for (String p : packages) {
-	    includePackage(p);
+
+		for (ScannerFeature feature : features) {
+			addScannerFeature(feature);
+		}
 	}
-	
-	for (ScannerFeature feature : features) {
-	    addScannerFeature(feature);
+
+	@Override
+	public void addScannerFeature(ScannerFeature listener) {
+		_collector.addScannerFeature(listener);
 	}
-    }
 
-    @Override
-    public void addScannerFeature(ScannerFeature listener) {
-	_collector.addScannerFeature(listener);
-    }
-
-    @Override
-    public void removeScannerFeature(ScannerFeature listener) {
-	_collector.removerScannerFeature(listener);
-    }
-
-    @Override
-    public List<ScannerFeature> getScannerFeatures() {
-	return _collector.getScannerFeatures();
-    }
-
-    @Override
-    public void excludePackage(String packageName) {
-    }
-
-    @Override
-    public void includePackage(String packageName) {
-	String pattern = ".*" + packageName + ".*";
-	if(_logger.isLoggable(Level.FINE)){
-	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+pattern);
+	@Override
+	public void removeScannerFeature(ScannerFeature listener) {
+		_collector.removerScannerFeature(listener);
 	}
-	_packagePatterns.add(Pattern.compile(pattern));
-    }
 
-    @Override
-    public void scan() throws IOException {
-	ClassSpace space = new URLClassSpace(getClass().getClassLoader(), classPath);
-	ClassSpaceScanner scanner = new ClassSpaceScanner(space);
-	scanner.accept(_collector);
-    }
+	@Override
+	public List<ScannerFeature> getScannerFeatures() {
+		return _collector.getScannerFeatures();
+	}
+
+	@Override
+	public void excludePackage(String packageName) {
+	}
+
+	@Override
+	public void includePackage(String packageName) {
+		String pattern = ".*" + packageName + ".*";
+		if (_logger.isLoggable(Level.FINE)) {
+			_logger.fine("Including Package for scanning: " + packageName + " generating Pattern: "
+					+ pattern);
+		}
+		_packagePatterns.add(Pattern.compile(pattern));
+	}
+
+	@Override
+	public void scan() throws IOException {
+		ClassSpace space = new URLClassSpace(getClass().getClassLoader(), classPath);
+		ClassSpaceScanner scanner = new ClassSpaceScanner(space);
+		scanner.accept(_collector);
+	}
 }

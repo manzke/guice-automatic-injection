@@ -22,7 +22,7 @@ package de.devsurf.injection.guice.integrations.example.guicy.automodule;
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 
-    void inform();
+	void inform();
 }

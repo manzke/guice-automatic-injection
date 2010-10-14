@@ -28,11 +28,11 @@ import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
  * @author Daniel Manzke
  * 
  */
-@Bind(multiple=true)
+@Bind(multiple = true)
 public class ExampleOneImpl implements Example {
-    @Override
-    public String sayHello() {
-	return "one - yeahhh!!!";
+	@Override
+	public String sayHello() {
+		return "one - yeahhh!!!";
 
-    }
+	}
 }

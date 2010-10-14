@@ -22,5 +22,5 @@ package de.devsurf.injection.guice.scanner.reflections.example.autobind.multiple
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 }

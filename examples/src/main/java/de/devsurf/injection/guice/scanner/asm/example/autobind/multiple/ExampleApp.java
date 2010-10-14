@@ -40,16 +40,16 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * @author Daniel Manzke
  * 
  */
-@Bind(multiple=true)
+@Bind(multiple = true)
 public class ExampleApp implements ExampleApplication {
-    @Override
-    public void run() {
-	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-	    ExampleApp.class.getPackage().getName()));
-	injector.getInstance(ExampleContainer.class).sayHello();
-    }
+	@Override
+	public void run() {
+		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
+			ExampleApp.class.getPackage().getName()));
+		injector.getInstance(ExampleContainer.class).sayHello();
+	}
 
-    public static void main(String[] args) {
-	new ExampleApp().run();
-    }
+	public static void main(String[] args) {
+		new ExampleApp().run();
+	}
 }

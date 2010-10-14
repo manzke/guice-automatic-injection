@@ -28,10 +28,10 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * @author Daniel Manzke
  * 
  */
-@Bind(multiple=true)
+@Bind(multiple = true)
 public class ExampleTwoImpl implements Example {
-    @Override
-    public String sayHello() {
-	return "two - yeahhh!!!";
-    }
+	@Override
+	public String sayHello() {
+		return "two - yeahhh!!!";
+	}
 }

@@ -44,171 +44,180 @@ import de.devsurf.injection.guice.scanner.InstallationContext.StageableRequest;
  * 
  */
 public abstract class BindingScannerFeature implements ScannerFeature {
-    private Logger _logger = Logger.getLogger(BindingScannerFeature.class.getName());
-    
-    protected Binder _binder;
-    @Inject
-    protected Injector injector;
+	private Logger _logger = Logger.getLogger(BindingScannerFeature.class.getName());
 
-    @Inject
-    protected BindTracer tracer;
+	protected Binder _binder;
+	@Inject
+	protected Injector injector;
 
-    protected InstallationContext context;
+	@Inject
+	protected BindTracer tracer;
 
-    public void setBinder(Binder binder) {
-	_binder = binder;
-    }
+	protected InstallationContext context;
 
-    @Inject
-    public void configure(InstallationContext context) {
-	this.context = context;
-    }
-
-    @Override
-    public void found(final Class<Object> annotatedClass, final Map<String, Annotation> annotations) {
-	final BindingStage stage = accept(annotatedClass, annotations);
-	if (stage != BindingStage.IGNORE) {
-	    context.add(new StageableRequest() {
-		private Class<Object> _annotatedClass = annotatedClass;
-		private Map<String, Annotation> _annotations = new HashMap<String, Annotation>(
-		    annotations);
-
-		@Override
-		public Void call() throws Exception {
-		    process(_annotatedClass, _annotations);
-		    return null;
-		}
-
-		@Override
-		public BindingStage getExecutionStage() {
-		    return stage;
-		}
-	    });
-	}
-    }
-
-    public abstract BindingStage accept(Class<Object> annotatedClass,
-	    Map<String, Annotation> annotations);
-
-    public abstract void process(Class<Object> annotatedClass, Map<String, Annotation> annotations);
-
-    protected <T, V extends T> void bindProvider(Provider<V> provider, Class<T> interf,
-	    Annotation annotation, Scope scope) {
-	BindingJob job = new BindingJob(scope, provider, annotation, null, interf
-	    .getName());
-	if (!tracer.contains(job)) {
-	    LinkedBindingBuilder<T> builder;
-	    synchronized (_binder) {
-		builder = _binder.bind(interf);
-		if (annotation != null) {
-		    builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
-		}
-		ScopedBindingBuilder scopedBuilder = builder.toProvider(provider);
-		if (scope != null) {
-		    scopedBuilder.in(scope);
-		}
-	    }
-	    tracer.add(job);
-	}else{
-	    if(_logger.isLoggable(Level.INFO)){
-		_logger.log(Level.INFO, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.", new Exception());
-	    }else if(_logger.isLoggable(Level.WARNING)){
-		_logger.log(Level.WARNING, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.");
-	    }
-	}
-    }
-
-    protected <T, V extends T> void bindInstance(V implementation, Class<T> interf,
-	    Annotation annotation, Scope scope) {
-	BindingJob job = new BindingJob(scope, null, annotation,
-	    implementation.getClass().getName(), interf.getName());
-
-	if (!tracer.contains(job)) {
-	    LinkedBindingBuilder<T> builder;
-	    synchronized (_binder) {
-		builder = _binder.bind(interf);
-		if (annotation != null) {
-		    builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
-		}
-		builder.toInstance(implementation);
-	    }
-	    tracer.add(job);
-	}else{
-	    if(_logger.isLoggable(Level.INFO)){
-		_logger.log(Level.INFO, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.", new Exception());
-	    }else if(_logger.isLoggable(Level.WARNING)){
-		_logger.log(Level.WARNING, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.");
-	    }
-	}
-    }
-
-    protected void bindConstant(String value, Annotation annotation) {
-	BindingJob job = new BindingJob(null, null, annotation, value.getClass()
-	    .getName(), "constant");
-	if (!tracer.contains(job)) {
-	    synchronized (_binder) {
-		_binder.bindConstant().annotatedWith(annotation).to(value);
-	    }
-	    tracer.add(job);
-	}else{
-	    if(_logger.isLoggable(Level.INFO)){
-		_logger.log(Level.INFO, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.", new Exception());
-	    }else if(_logger.isLoggable(Level.WARNING)){
-		_logger.log(Level.WARNING, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.");
-	    }
+	public void setBinder(Binder binder) {
+		_binder = binder;
 	}
 
-    }
-
-    protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
-	    Annotation annotation, Scope scope) {
-	BindingJob job = new BindingJob(scope, null, annotation,
-	    implementationClass.getName(), interf.getName());
-
-	if (!tracer.contains(job)) {
-	    LinkedBindingBuilder<T> builder;
-	    synchronized (_binder) {
-		builder = _binder.bind(interf);
-		if (annotation != null) {
-		    builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
-		}
-		ScopedBindingBuilder scopedBindingBuilder = builder.to(implementationClass);
-		if (scope != null) {
-		    scopedBindingBuilder.in(scope);
-		}
-	    }
-	    tracer.add(job);
-	}else{
-	    if(_logger.isLoggable(Level.INFO)){
-		_logger.log(Level.INFO, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.", new Exception());
-	    }else if(_logger.isLoggable(Level.WARNING)){
-		_logger.log(Level.WARNING, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.");
-	    }
+	@Inject
+	public void configure(InstallationContext context) {
+		this.context = context;
 	}
-    }
 
-    protected <T> void bind(Class<T> implementationClass, Annotation annotation, Scope scope) {
-	BindingJob job = new BindingJob(scope, null, annotation,
-	    implementationClass.getName(), null);
+	@Override
+	public void found(final Class<Object> annotatedClass, final Map<String, Annotation> annotations) {
+		final BindingStage stage = accept(annotatedClass, annotations);
+		if (stage != BindingStage.IGNORE) {
+			context.add(new StageableRequest() {
+				private Class<Object> _annotatedClass = annotatedClass;
+				private Map<String, Annotation> _annotations = new HashMap<String, Annotation>(
+					annotations);
 
-	if (!tracer.contains(job)) {
-	    LinkedBindingBuilder<T> builder;
-	    synchronized (_binder) {
-		builder = _binder.bind(implementationClass);
-		if (annotation != null) {
-		    builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
+				@Override
+				public Void call() throws Exception {
+					process(_annotatedClass, _annotations);
+					return null;
+				}
+
+				@Override
+				public BindingStage getExecutionStage() {
+					return stage;
+				}
+			});
 		}
-		if (scope != null) {
-		    builder.in(scope);
-		}
-	    }
-	    tracer.add(job);
-	}else{	    
-	    if(_logger.isLoggable(Level.INFO)){
-		_logger.log(Level.INFO, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.", new Exception());
-	    }else if(_logger.isLoggable(Level.WARNING)){
-		_logger.log(Level.WARNING, "Ignoring BindingJob \""+job.toString()+"\", because it was already bound.");
-	    }
 	}
-    }
+
+	public abstract BindingStage accept(Class<Object> annotatedClass,
+			Map<String, Annotation> annotations);
+
+	public abstract void process(Class<Object> annotatedClass, Map<String, Annotation> annotations);
+
+	protected <T, V extends T> void bindProvider(Provider<V> provider, Class<T> interf,
+			Annotation annotation, Scope scope) {
+		BindingJob job = new BindingJob(scope, provider, annotation, null, interf.getName());
+		if (!tracer.contains(job)) {
+			LinkedBindingBuilder<T> builder;
+			synchronized (_binder) {
+				builder = _binder.bind(interf);
+				if (annotation != null) {
+					builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
+				}
+				ScopedBindingBuilder scopedBuilder = builder.toProvider(provider);
+				if (scope != null) {
+					scopedBuilder.in(scope);
+				}
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception());
+			} else if (_logger.isLoggable(Level.WARNING)) {
+				_logger.log(Level.WARNING, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
+			}
+		}
+	}
+
+	protected <T, V extends T> void bindInstance(V implementation, Class<T> interf,
+			Annotation annotation, Scope scope) {
+		BindingJob job = new BindingJob(scope, null, annotation, implementation.getClass()
+			.getName(), interf.getName());
+
+		if (!tracer.contains(job)) {
+			LinkedBindingBuilder<T> builder;
+			synchronized (_binder) {
+				builder = _binder.bind(interf);
+				if (annotation != null) {
+					builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
+				}
+				builder.toInstance(implementation);
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception());
+			} else if (_logger.isLoggable(Level.WARNING)) {
+				_logger.log(Level.WARNING, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
+			}
+		}
+	}
+
+	protected void bindConstant(String value, Annotation annotation) {
+		BindingJob job = new BindingJob(null, null, annotation, value.getClass().getName(),
+			"constant");
+		if (!tracer.contains(job)) {
+			synchronized (_binder) {
+				_binder.bindConstant().annotatedWith(annotation).to(value);
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception());
+			} else if (_logger.isLoggable(Level.WARNING)) {
+				_logger.log(Level.WARNING, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
+			}
+		}
+
+	}
+
+	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
+			Annotation annotation, Scope scope) {
+		BindingJob job = new BindingJob(scope, null, annotation, implementationClass.getName(),
+			interf.getName());
+
+		if (!tracer.contains(job)) {
+			LinkedBindingBuilder<T> builder;
+			synchronized (_binder) {
+				builder = _binder.bind(interf);
+				if (annotation != null) {
+					builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
+				}
+				ScopedBindingBuilder scopedBindingBuilder = builder.to(implementationClass);
+				if (scope != null) {
+					scopedBindingBuilder.in(scope);
+				}
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception());
+			} else if (_logger.isLoggable(Level.WARNING)) {
+				_logger.log(Level.WARNING, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
+			}
+		}
+	}
+
+	protected <T> void bind(Class<T> implementationClass, Annotation annotation, Scope scope) {
+		BindingJob job = new BindingJob(scope, null, annotation, implementationClass.getName(),
+			null);
+
+		if (!tracer.contains(job)) {
+			LinkedBindingBuilder<T> builder;
+			synchronized (_binder) {
+				builder = _binder.bind(implementationClass);
+				if (annotation != null) {
+					builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
+				}
+				if (scope != null) {
+					builder.in(scope);
+				}
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception());
+			} else if (_logger.isLoggable(Level.WARNING)) {
+				_logger.log(Level.WARNING, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
+			}
+		}
+	}
 }

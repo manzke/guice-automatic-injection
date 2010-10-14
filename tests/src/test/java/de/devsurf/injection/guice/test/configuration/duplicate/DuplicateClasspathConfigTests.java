@@ -36,54 +36,54 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class DuplicateClasspathConfigTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    DuplicateClasspathConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			DuplicateClasspathConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-
-    @Test
-    public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    DuplicateClasspathConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
-    }
-    
-    @Configuration(name = @Named("ok"), location = @PathConfig(path="/configuration.properties"))
-    public interface ValidConfiguration {
-    }
-
-    @Configuration(name = @Named("one"), location = @PathConfig(path="/configuration.override.properties"))
-    public interface FirstConfiguration {
-    }
-    
-    @Configuration(name = @Named("one"), location = @PathConfig(path="/configuration.override.properties"))
-    public interface SecondConfiguration {
-    }
-
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class TestImplementations implements TestInterface {
-	@Inject
-	@Named("ok")
-	private Properties config;
-
-	@Override
-	public String sayHello() {
-	    return "sayHello() - " + config.getProperty("message");
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
-    }
+
+	@Test
+	public void createPListConfiguration() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			DuplicateClasspathConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
+	}
+
+	@Configuration(value = @Named("ok"), location = @PathConfig(value = "/configuration.properties"))
+	public interface ValidConfiguration {
+	}
+
+	@Configuration(value = @Named("one"), location = @PathConfig(value = "/configuration.override.properties"))
+	public interface FirstConfiguration {
+	}
+
+	@Configuration(value = @Named("one"), location = @PathConfig(value = "/configuration.override.properties"))
+	public interface SecondConfiguration {
+	}
+
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class TestImplementations implements TestInterface {
+		@Inject
+		@Named("ok")
+		private Properties config;
+
+		@Override
+		public String sayHello() {
+			return "sayHello() - " + config.getProperty("message");
+		}
+	}
 }

@@ -49,107 +49,110 @@ import de.devsurf.injection.guice.scanner.ScannerFeature;
  * 
  */
 public class ReflectionsScanner implements ClasspathScanner {
-    private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
-    private List<ScannerFeature> _features;
-    private List<Pattern> packagePatterns;
-    
-    @Inject
-    @Named("classpath")
-    private URL[] classPath;
+	private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
+	private List<ScannerFeature> _features;
+	private List<Pattern> packagePatterns;
 
-    @Inject
-    public ReflectionsScanner(Set<ScannerFeature> features,
-	    @Named("packages") String... packages) {
-	_features = new ArrayList<ScannerFeature>(features);
-	this.packagePatterns = new ArrayList<Pattern>();
-	for (String p : packages) {
-	    includePackage(p);
-	}
-    }
+	@Inject
+	@Named("classpath")
+	private URL[] classPath;
 
-    @Override
-    public void addScannerFeature(ScannerFeature listener) {
-	_features.add(listener);
-    }
-
-    @Override
-    public void removeScannerFeature(ScannerFeature listener) {
-	_features.remove(listener);
-    }
-
-    @Override
-    public List<ScannerFeature> getScannerFeatures() {
-	return new ArrayList<ScannerFeature>(_features);
-    }
-
-    @Override
-    public void excludePackage(String packageName) {
-    }
-
-    @Override
-    public void includePackage(final String packageName) {
-	String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
-	if(_logger.isLoggable(Level.FINE)){
-	    _logger.fine("Including Package for scanning: "+packageName+" generating Pattern: "+pattern);
-	}
-	packagePatterns.add(Pattern.compile(pattern));
-    }
-
-    @Override
-    public void scan() throws IOException {
-	new Reflections(new ConfigurationBuilder().setScanners(new AnnotationScanner())
-	    .filterInputsBy(new Predicate<String>() {
-		@Override
-		public boolean apply(String input) {
-		    return matches(input);
+	@Inject
+	public ReflectionsScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
+		_features = new ArrayList<ScannerFeature>(features);
+		this.packagePatterns = new ArrayList<Pattern>();
+		for (String p : packages) {
+			includePackage(p);
 		}
-	    }).setUrls(classPath).useParallelExecutor());
-    }
-
-    private boolean matches(String name) {
-	for (Pattern pattern : packagePatterns) {
-	    if (pattern.matcher(name).matches()) {
-		return true;
-	    }
 	}
-	return false;
-    }
 
-    private class AnnotationScanner extends AbstractScanner {
-	@SuppressWarnings("unchecked")
 	@Override
-	public void scan(final Object cls) {
-	    ClassFile classFile = (ClassFile) cls;
-	    AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
-		.getAttribute(AnnotationsAttribute.visibleTag);
-	    if (annotationsAttribute == null) {
-		return;
-	    }
-
-	    Class<Object> objectClass;
-	    try {
-		objectClass = (Class<Object>) Class.forName(classFile.getName());
-	    } catch (ClassNotFoundException e) {
-		ReflectionsScanner.this._logger.log(Level.WARNING, "Failure while trying to load the Class \""+classFile.getName()+"\" from Classpath.", e);
-		return;
-	    }
-
-	    Map<String, java.lang.annotation.Annotation> map = new HashMap<String, java.lang.annotation.Annotation>();
-	    for (Annotation annotation : annotationsAttribute.getAnnotations()) {
-		Class<java.lang.annotation.Annotation> annotationClass;
-		try {
-		    annotationClass = (Class<java.lang.annotation.Annotation>) Class
-			.forName(annotation.getTypeName());
-		    map.put(annotationClass.getName(), objectClass.getAnnotation(annotationClass));
-		} catch (ClassNotFoundException e) {
-		    ReflectionsScanner.this._logger.log(Level.WARNING, "Failure while trying to load the Annotations from Classpath.", e);
-		    continue;
-		}
-	    }
-
-	    for (ScannerFeature listener : _features) {
-		listener.found(objectClass, map);
-	    }
+	public void addScannerFeature(ScannerFeature listener) {
+		_features.add(listener);
 	}
-    }
+
+	@Override
+	public void removeScannerFeature(ScannerFeature listener) {
+		_features.remove(listener);
+	}
+
+	@Override
+	public List<ScannerFeature> getScannerFeatures() {
+		return new ArrayList<ScannerFeature>(_features);
+	}
+
+	@Override
+	public void excludePackage(String packageName) {
+	}
+
+	@Override
+	public void includePackage(final String packageName) {
+		String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
+		if (_logger.isLoggable(Level.FINE)) {
+			_logger.fine("Including Package for scanning: " + packageName + " generating Pattern: "
+					+ pattern);
+		}
+		packagePatterns.add(Pattern.compile(pattern));
+	}
+
+	@Override
+	public void scan() throws IOException {
+		new Reflections(new ConfigurationBuilder().setScanners(new AnnotationScanner())
+			.filterInputsBy(new Predicate<String>() {
+				@Override
+				public boolean apply(String input) {
+					return matches(input);
+				}
+			}).setUrls(classPath).useParallelExecutor());
+	}
+
+	private boolean matches(String name) {
+		for (Pattern pattern : packagePatterns) {
+			if (pattern.matcher(name).matches()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private class AnnotationScanner extends AbstractScanner {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void scan(final Object cls) {
+			ClassFile classFile = (ClassFile) cls;
+			AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
+				.getAttribute(AnnotationsAttribute.visibleTag);
+			if (annotationsAttribute == null) {
+				return;
+			}
+
+			Class<Object> objectClass;
+			try {
+				objectClass = (Class<Object>) Class.forName(classFile.getName());
+			} catch (ClassNotFoundException e) {
+				ReflectionsScanner.this._logger.log(Level.WARNING,
+					"Failure while trying to load the Class \"" + classFile.getName()
+							+ "\" from Classpath.", e);
+				return;
+			}
+
+			Map<String, java.lang.annotation.Annotation> map = new HashMap<String, java.lang.annotation.Annotation>();
+			for (Annotation annotation : annotationsAttribute.getAnnotations()) {
+				Class<java.lang.annotation.Annotation> annotationClass;
+				try {
+					annotationClass = (Class<java.lang.annotation.Annotation>) Class
+						.forName(annotation.getTypeName());
+					map.put(annotationClass.getName(), objectClass.getAnnotation(annotationClass));
+				} catch (ClassNotFoundException e) {
+					ReflectionsScanner.this._logger.log(Level.WARNING,
+						"Failure while trying to load the Annotations from Classpath.", e);
+					continue;
+				}
+			}
+
+			for (ScannerFeature listener : _features) {
+				listener.found(objectClass, map);
+			}
+		}
+	}
 }

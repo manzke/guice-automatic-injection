@@ -22,5 +22,5 @@ package de.devsurf.injection.guice.integrations.example.rocoto;
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 }

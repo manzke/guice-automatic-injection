@@ -37,46 +37,46 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class DirectFileConfigTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    DirectFileConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			DirectFileConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-
-    @Test
-    public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    DirectFileConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
-    }
-
-    @Configuration(name = @Named("direct"), location = @PathConfig(path="src/test/resources/configuration.properties", type=PathType.FILE), alternative=@PathConfig(path="src/test/resources/configuration.nonexisting.properties" ,type = PathType.FILE))
-    public interface DirectConfiguration {
-    }
-
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class DirectImplementations implements TestInterface {
-	@Inject
-	@Named("direct")
-	private Properties config;
-
-	@Override
-	public String sayHello() {
-	    return "sayHello() - " + config.getProperty("message");
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
-    }
+
+	@Test
+	public void createPListConfiguration() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			DirectFileConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
+	}
+
+	@Configuration(value = @Named("direct"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), alternative = @PathConfig(value = "src/test/resources/configuration.nonexisting.properties", type = PathType.FILE))
+	public interface DirectConfiguration {
+	}
+
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class DirectImplementations implements TestInterface {
+		@Inject
+		@Named("direct")
+		private Properties config;
+
+		@Override
+		public String sayHello() {
+			return "sayHello() - " + config.getProperty("message");
+		}
+	}
 }

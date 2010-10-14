@@ -39,74 +39,76 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class AnnotatedInterceptorTests {
-    private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    AnnotatedInterceptorTests.class.getPackage().getName());
-	startup.addFeature(InterceptorFeature.class);
+	private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			AnnotatedInterceptorTests.class.getPackage().getName());
+		startup.addFeature(InterceptorFeature.class);
 
-    @Test
-    public void createInheritedInterceptor() {
-	called.set(false);
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    AnnotatedInterceptorTests.class.getPackage().getName());
-	startup.addFeature(InterceptorFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	instance.sayHello(); //should be intercepted
-	instance.sayGoodBye(); //if intercepted an exception is thrown
-	
-	assertTrue("Interceptor was not invoked", called.get());
-    }
-
-    @Interceptor
-    public static class InheritedMethodInterceptor {
-
-	@Invoke
-	public Object invoke(MethodInvocation invocation) throws Throwable {
-	    assertTrue(invocation.getMethod().getName().equals("sayHello"));
-	    called.set(true);
-	    return invocation.proceed();
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
 
-	@ClassMatcher
-	public Matcher<? super Class<?>> getClassMatcher() {
-	    return Matchers.any();
+	@Test
+	public void createInheritedInterceptor() {
+		called.set(false);
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			AnnotatedInterceptorTests.class.getPackage().getName());
+		startup.addFeature(InterceptorFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		instance.sayHello(); // should be intercepted
+		instance.sayGoodBye(); // if intercepted an exception is thrown
+
+		assertTrue("Interceptor was not invoked", called.get());
 	}
 
-	@MethodMatcher
-	public Matcher<? super Method> getMethodMatcher() {
-	    return Matchers.annotatedWith(Intercept.class);
+	@Interceptor
+	public static class InheritedMethodInterceptor {
+
+		@Invoke
+		public Object invoke(MethodInvocation invocation) throws Throwable {
+			assertTrue(invocation.getMethod().getName().equals("sayHello"));
+			called.set(true);
+			return invocation.proceed();
+		}
+
+		@ClassMatcher
+		public Matcher<? super Class<?>> getClassMatcher() {
+			return Matchers.any();
+		}
+
+		@MethodMatcher
+		public Matcher<? super Method> getMethodMatcher() {
+			return Matchers.annotatedWith(Intercept.class);
+		}
+
 	}
 
-    }
+	public static interface TestInterface {
+		String sayHello();
 
-    public static interface TestInterface {
-	String sayHello();
-	String sayGoodBye();
-    }
-
-    @Bind
-    public static class TestInterfaceImplementation implements TestInterface {
-	public static final String TEST = "test";
-
-	@Override
-	@Intercept
-	public String sayHello() {
-	    return TEST;
+		String sayGoodBye();
 	}
 
-	@Override
-	public String sayGoodBye() {
-	    return "Good Bye!";
+	@Bind
+	public static class TestInterfaceImplementation implements TestInterface {
+		public static final String TEST = "test";
+
+		@Override
+		@Intercept
+		public String sayHello() {
+			return TEST;
+		}
+
+		@Override
+		public String sayGoodBye() {
+			return "Good Bye!";
+		}
 	}
-    }
 }

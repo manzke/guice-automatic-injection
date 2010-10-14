@@ -39,62 +39,62 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InvalidInterceptorTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    InvalidInterceptorTests.class.getPackage().getName());
-	startup.addFeature(InterceptorFeature.class);
-	
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-    
-    @Test
-    public void createInvalidInterceptor() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    InvalidInterceptorTests.class.getPackage().getName());
-	startup.addFeature(InterceptorFeature.class);
-	
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-	
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	instance.sayHello();
-    }
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			InvalidInterceptorTests.class.getPackage().getName());
+		startup.addFeature(InterceptorFeature.class);
 
-    @Interceptor
-    public static class InvalidMethodInterceptor {
-
-	@Invoke
-	public Object invoke(MethodInvocation invocation, Object obj) throws Throwable {
-	    fail("This is an invalid Interceptor, it should never be called.");
-	    return invocation.proceed();
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
 
-	@ClassMatcher
-	public Matcher<? super Class<?>> getClassMatcher() {
-	    return Matchers.any();
+	@Test
+	public void createInvalidInterceptor() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			InvalidInterceptorTests.class.getPackage().getName());
+		startup.addFeature(InterceptorFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		instance.sayHello();
 	}
 
-	@MethodMatcher
-	public Matcher<? super Method> getMethodMatcher() {
-	    return Matchers.any();//Matchers.annotatedWith(Intercept.class);
+	@Interceptor
+	public static class InvalidMethodInterceptor {
+
+		@Invoke
+		public Object invoke(MethodInvocation invocation, Object obj) throws Throwable {
+			fail("This is an invalid Interceptor, it should never be called.");
+			return invocation.proceed();
+		}
+
+		@ClassMatcher
+		public Matcher<? super Class<?>> getClassMatcher() {
+			return Matchers.any();
+		}
+
+		@MethodMatcher
+		public Matcher<? super Method> getMethodMatcher() {
+			return Matchers.any();// Matchers.annotatedWith(Intercept.class);
+		}
+
 	}
 
-    }
-    
-    public static interface TestInterface{
-	String sayHello();
-    }
-    
-    @Bind
-    public static class TestInterfaceImplementation implements TestInterface{
-	public static final String TEST = "test";
-	
-	@Override
-	@Intercept
-	public String sayHello() {
-	    return TEST;
+	public static interface TestInterface {
+		String sayHello();
 	}
-    }
+
+	@Bind
+	public static class TestInterfaceImplementation implements TestInterface {
+		public static final String TEST = "test";
+
+		@Override
+		@Intercept
+		public String sayHello() {
+			return TEST;
+		}
+	}
 }

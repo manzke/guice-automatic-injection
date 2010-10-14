@@ -24,10 +24,7 @@ import de.devsurf.injection.guice.test.aop.inherited.InheritedInterceptorTests;
 import de.devsurf.injection.guice.test.aop.invalid.InvalidInterceptorTests;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  AnnoheritedInterceptorTests.class,
-  AnnotatedInterceptorTests.class,
-  InheritedInterceptorTests.class,
-  InvalidInterceptorTests.class
-})
-public class AllTests {}
+@Suite.SuiteClasses( { AnnoheritedInterceptorTests.class, AnnotatedInterceptorTests.class,
+		InheritedInterceptorTests.class, InvalidInterceptorTests.class })
+public class AllTests {
+}

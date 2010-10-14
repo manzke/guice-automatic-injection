@@ -29,15 +29,9 @@ import de.devsurf.injection.guice.test.configuration.url.override.DirectOverride
 import de.devsurf.injection.guice.test.configuration.url.override.OverrideConfigTests;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  ClasspathConfigTests.class,
-  DuplicateClasspathConfigTests.class,
-  FailureConfigTests.class,
-  FileConfigTests.class,
-  URLConfigTests.class,
-  DirectOverrideConfigTests.class,
-  OverrideConfigTests.class,
-  DirectFileConfigTests.class,
-  OverrideFileConfigTests.class
-})
-public class AllTests {}
+@Suite.SuiteClasses( { ClasspathConfigTests.class, DuplicateClasspathConfigTests.class,
+		FailureConfigTests.class, FileConfigTests.class, URLConfigTests.class,
+		DirectOverrideConfigTests.class, OverrideConfigTests.class, DirectFileConfigTests.class,
+		OverrideFileConfigTests.class })
+public class AllTests {
+}

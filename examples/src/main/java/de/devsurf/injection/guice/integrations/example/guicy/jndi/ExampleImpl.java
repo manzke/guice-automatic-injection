@@ -29,13 +29,13 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * 
  */
 public class ExampleImpl implements Example {
-    @PostConstruct
-    public void inform() {
-	System.out.println("inform about post construction!");
-    }
+	@PostConstruct
+	public void inform() {
+		System.out.println("inform about post construction!");
+	}
 
-    @Override
-    public String sayHello() {
-	return "yeahhh!!!";
-    }
+	@Override
+	public String sayHello() {
+		return "yeahhh!!!";
+	}
 }

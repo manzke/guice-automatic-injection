@@ -24,10 +24,7 @@ import de.devsurf.injection.guice.scanner.reflections.tests.autobind.multiple.Mu
 import de.devsurf.injection.guice.scanner.reflections.tests.autobind.names.NamedAutobindTests;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  AutobindTests.class,
-  InterfaceAutobindTests.class,
-  NamedAutobindTests.class,
-  MultibindTests.class
-})
-public class AllTests {}
+@Suite.SuiteClasses( { AutobindTests.class, InterfaceAutobindTests.class, NamedAutobindTests.class,
+		MultibindTests.class })
+public class AllTests {
+}

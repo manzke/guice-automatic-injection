@@ -28,8 +28,8 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * 
  */
 public class InheritedExampleImpl extends ExampleImpl {
-    @Override
-    public String sayHello() {
-	return "yeahhh I'm inherited!!!";
-    }
+	@Override
+	public String sayHello() {
+		return "yeahhh I'm inherited!!!";
+	}
 }

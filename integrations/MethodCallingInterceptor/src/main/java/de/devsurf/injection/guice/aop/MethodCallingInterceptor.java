@@ -32,44 +32,44 @@ import com.google.inject.matcher.Matchers;
  */
 @Interceptor
 public class MethodCallingInterceptor {
-    private Logger _logger = Logger.getLogger(MethodCallingInterceptor.class.getName());
+	private Logger _logger = Logger.getLogger(MethodCallingInterceptor.class.getName());
 
-    @Invoke
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-	Object destination = invocation.getThis();
-	StringBuilder logMessageBuilder = new StringBuilder(250);
+	@Invoke
+	public Object invoke(MethodInvocation invocation) throws Throwable {
+		Object destination = invocation.getThis();
+		StringBuilder logMessageBuilder = new StringBuilder(250);
 
-	logMessageBuilder.append("Invoking Method \"");
-	logMessageBuilder.append(invocation.getMethod().getName());
-	logMessageBuilder.append("\" on ");
-	logMessageBuilder.append(destination.getClass().getName());
-	logMessageBuilder.append(" with Arguments: ");
+		logMessageBuilder.append("Invoking Method \"");
+		logMessageBuilder.append(invocation.getMethod().getName());
+		logMessageBuilder.append("\" on ");
+		logMessageBuilder.append(destination.getClass().getName());
+		logMessageBuilder.append(" with Arguments: ");
 
-	Class<?>[] types = invocation.getMethod().getParameterTypes();
-	Object[] parameters = invocation.getArguments();
+		Class<?>[] types = invocation.getMethod().getParameterTypes();
+		Object[] parameters = invocation.getArguments();
 
-	for (int i = 0; i < types.length; i++) {
-	    Object parameter = parameters[i];
-	    Class<?> type = types[i];
+		for (int i = 0; i < types.length; i++) {
+			Object parameter = parameters[i];
+			Class<?> type = types[i];
 
-	    logMessageBuilder.append(" \"");
-	    logMessageBuilder.append(type.getSimpleName());
-	    logMessageBuilder.append("\": ");
-	    logMessageBuilder.append(parameter);
+			logMessageBuilder.append(" \"");
+			logMessageBuilder.append(type.getSimpleName());
+			logMessageBuilder.append("\": ");
+			logMessageBuilder.append(parameter);
+		}
+		_logger.log(Level.SEVERE, logMessageBuilder.toString());
+
+		return invocation.proceed();
 	}
-	_logger.log(Level.SEVERE, logMessageBuilder.toString());
 
-	return invocation.proceed();
-    }
+	@ClassMatcher
+	public Matcher<? super Class<?>> getClassMatcher() {
+		return Matchers.any();
+	}
 
-    @ClassMatcher
-    public Matcher<? super Class<?>> getClassMatcher() {
-	return Matchers.any();
-    }
-
-    @MethodMatcher
-    public Matcher<? super Method> getMethodMatcher() {
-	return Matchers.annotatedWith(Intercept.class);
-    }
+	@MethodMatcher
+	public Matcher<? super Method> getMethodMatcher() {
+		return Matchers.annotatedWith(Intercept.class);
+	}
 
 }

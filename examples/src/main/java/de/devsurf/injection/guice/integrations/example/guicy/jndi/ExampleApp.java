@@ -40,21 +40,21 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * @author Daniel Manzke
  * 
  */
-@Bind(multiple=true)
+@Bind(multiple = true)
 public class ExampleApp implements ExampleApplication {
-    @Override
-    public void run() {
-	try {
-	    InitialContext context = new InitialContext();
-	    Example example = (Example) context.lookup(Example.class.getName());
+	@Override
+	public void run() {
+		try {
+			InitialContext context = new InitialContext();
+			Example example = (Example) context.lookup(Example.class.getName());
 
-	    System.out.println(example.sayHello());
-	} catch (NamingException e) {
-	    e.printStackTrace();
+			System.out.println(example.sayHello());
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 	}
-    }
 
-    public static void main(String[] args) {
-	new ExampleApp().run();
-    }
+	public static void main(String[] args) {
+		new ExampleApp().run();
+	}
 }

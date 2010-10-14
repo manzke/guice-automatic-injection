@@ -29,8 +29,8 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  */
 @Bind
 public class ExampleImpl implements Example {
-    @Override
-    public String sayHello() {
-	return "yeahhh!!!";
-    }
+	@Override
+	public String sayHello() {
+		return "yeahhh!!!";
+	}
 }

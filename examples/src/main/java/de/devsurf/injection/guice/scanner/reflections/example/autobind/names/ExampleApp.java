@@ -42,18 +42,18 @@ import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
  * @author Daniel Manzke
  * 
  */
-@Bind(multiple=true)
+@Bind(multiple = true)
 public class ExampleApp implements ExampleApplication {
-    @Override
-    public void run() {
-	Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-	    ExampleApp.class.getPackage().getName()));
+	@Override
+	public void run() {
+		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
+			ExampleApp.class.getPackage().getName()));
 
-	System.out.println(injector.getInstance(Key.get(Example.class, Names.named("Example")))
-	    .sayHello());
-    }
+		System.out.println(injector.getInstance(Key.get(Example.class, Names.named("Example")))
+			.sayHello());
+	}
 
-    public static void main(String[] args) {
-	new ExampleApp().run();
-    }
+	public static void main(String[] args) {
+		new ExampleApp().run();
+	}
 }

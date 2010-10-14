@@ -25,94 +25,95 @@ import com.google.inject.Provider;
 
 /**
  * 
- *
+ * 
  * @author Simone Tripodi
  * @version $Id: Formatter.java 490 2010-09-29 19:19:24Z simone.tripodi $
  */
 public class Formatter implements Provider<String> {
 
-    private static final String VAR_BEGIN = "$";
+	private static final String VAR_BEGIN = "$";
 
-    private static final String PIPE_SEPARATOR = "|";
+	private static final String PIPE_SEPARATOR = "|";
 
-    private final List<Appender> appenders = new ArrayList<Appender>();
+	private final List<Appender> appenders = new ArrayList<Appender>();
 
-    private boolean containsKeys = false;
+	private boolean containsKeys = false;
 
-    @Inject
-    private Injector injector;
+	@Inject
+	private Injector injector;
 
-    public Formatter(final String pattern) {
-        int prev = 0;
-        int pos;
-        while ((pos = pattern.indexOf(VAR_BEGIN, prev)) >= 0) {
-            if (pos > 0) {
-                this.appenders.add(new TextAppender(pattern.substring(prev, pos)));
-            }
-            if (pos == pattern.length() - 1) {
-                this.appenders.add(new TextAppender(VAR_BEGIN));
-                prev = pos + 1;
-            } else if (pattern.charAt(pos + 1) != '{') {
-                if (pattern.charAt(pos + 1) == '$') {
-                    this.appenders.add(new TextAppender(VAR_BEGIN));
-                    prev = pos + 2;
-                } else {
-                    this.appenders.add(new TextAppender(pattern.substring(pos, pos + 2)));
-                    prev = pos + 2;
-                }
-            } else {
-                int endName = pattern.indexOf('}', pos);
-                if (endName < 0) {
-                    throw new IllegalArgumentException("Syntax error in property: " + pattern);
-                }
-                StringTokenizer keyTokenizer = new StringTokenizer(pattern.substring(pos + 2, endName), PIPE_SEPARATOR);
-                String key = keyTokenizer.nextToken().trim();
-                String defaultValue = null;
-                if (keyTokenizer.hasMoreTokens()) {
-                    defaultValue = keyTokenizer.nextToken().trim();
-                }
-                this.appenders.add(new KeyAppender(key, defaultValue));
-                prev = endName + 1;
-                this.containsKeys = true;
-            }
-        }
-        if (prev < pattern.length()) {
-            this.appenders.add(new TextAppender(pattern.substring(prev)));
-        }
-    }
+	public Formatter(final String pattern) {
+		int prev = 0;
+		int pos;
+		while ((pos = pattern.indexOf(VAR_BEGIN, prev)) >= 0) {
+			if (pos > 0) {
+				this.appenders.add(new TextAppender(pattern.substring(prev, pos)));
+			}
+			if (pos == pattern.length() - 1) {
+				this.appenders.add(new TextAppender(VAR_BEGIN));
+				prev = pos + 1;
+			} else if (pattern.charAt(pos + 1) != '{') {
+				if (pattern.charAt(pos + 1) == '$') {
+					this.appenders.add(new TextAppender(VAR_BEGIN));
+					prev = pos + 2;
+				} else {
+					this.appenders.add(new TextAppender(pattern.substring(pos, pos + 2)));
+					prev = pos + 2;
+				}
+			} else {
+				int endName = pattern.indexOf('}', pos);
+				if (endName < 0) {
+					throw new IllegalArgumentException("Syntax error in property: " + pattern);
+				}
+				StringTokenizer keyTokenizer = new StringTokenizer(pattern.substring(pos + 2,
+					endName), PIPE_SEPARATOR);
+				String key = keyTokenizer.nextToken().trim();
+				String defaultValue = null;
+				if (keyTokenizer.hasMoreTokens()) {
+					defaultValue = keyTokenizer.nextToken().trim();
+				}
+				this.appenders.add(new KeyAppender(key, defaultValue));
+				prev = endName + 1;
+				this.containsKeys = true;
+			}
+		}
+		if (prev < pattern.length()) {
+			this.appenders.add(new TextAppender(pattern.substring(prev)));
+		}
+	}
 
-    /**
-     * Return true, if the text contains at least one key in the ${} pattern,
-     * false otherwise.
-     *
-     * @return true, if the text contains at least one key in the ${} pattern,
-     *         false otherwise.
-     */
-    public boolean containsKeys() {
-        return this.containsKeys;
-    }
+	/**
+	 * Return true, if the text contains at least one key in the ${} pattern,
+	 * false otherwise.
+	 * 
+	 * @return true, if the text contains at least one key in the ${} pattern,
+	 *         false otherwise.
+	 */
+	public boolean containsKeys() {
+		return this.containsKeys;
+	}
 
-    public void setInjector(Injector injector) {
-        this.injector = injector;
-    }
+	public void setInjector(Injector injector) {
+		this.injector = injector;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public String get() {
-        StringBuilder buffer = new StringBuilder();
-        for (Appender appender : this.appenders) {
-            appender.append(buffer, this.injector);
-        }
-        return buffer.toString();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public String get() {
+		StringBuilder buffer = new StringBuilder();
+		for (Appender appender : this.appenders) {
+			appender.append(buffer, this.injector);
+		}
+		return buffer.toString();
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return this.appenders.toString();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		return this.appenders.toString();
+	}
 
 }

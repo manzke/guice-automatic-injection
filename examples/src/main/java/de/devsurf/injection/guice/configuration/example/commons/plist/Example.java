@@ -22,5 +22,5 @@ package de.devsurf.injection.guice.configuration.example.commons.plist;
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 }

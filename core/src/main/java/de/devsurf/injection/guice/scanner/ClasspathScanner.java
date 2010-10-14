@@ -28,15 +28,15 @@ import java.util.List;
  * 
  */
 public interface ClasspathScanner {
-    void scan() throws IOException;
+	void scan() throws IOException;
 
-    void addScannerFeature(ScannerFeature feature);
+	void addScannerFeature(ScannerFeature feature);
 
-    void removeScannerFeature(ScannerFeature feature);
+	void removeScannerFeature(ScannerFeature feature);
 
-    List<ScannerFeature> getScannerFeatures();
+	List<ScannerFeature> getScannerFeatures();
 
-    void includePackage(String packageName);
+	void includePackage(String packageName);
 
-    void excludePackage(String packageName);
+	void excludePackage(String packageName);
 }

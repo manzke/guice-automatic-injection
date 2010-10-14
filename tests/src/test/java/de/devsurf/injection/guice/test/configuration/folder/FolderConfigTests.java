@@ -28,57 +28,59 @@ import com.google.inject.name.Named;
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.ConfigurationFeature;
 import de.devsurf.injection.guice.configuration.PathConfig;
-import de.devsurf.injection.guice.configuration.Configuration.BindType;
+import de.devsurf.injection.guice.configuration.Configuration.Type;
 import de.devsurf.injection.guice.configuration.PathConfig.PathType;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class FolderConfigTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    FolderConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			FolderConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-
-    @Test
-    public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    FolderConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	Assert.assertTrue("sayHello() - loaded by iterating through folder / read all files of this folder".equals(instance.sayHello()));
-    }
-
-    @Configuration(name = @Named("config"), location = @PathConfig(path="/conf/" , type = PathType.CLASSPATH), bindType=BindType.VALUES)
-    public interface TestConfiguration {
-    }
-
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class TestImplementations implements TestInterface {
-	@Inject
-	@Named("message.1")
-	private String msg1;
-	
-	@Inject
-	@Named("function.1")
-	private String func1;
-	
-	@Override
-	public String sayHello() {
-	    return "sayHello() - " + msg1 + " / " +func1;
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
-    }
+
+	@Test
+	public void createPListConfiguration() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			FolderConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		Assert
+			.assertTrue("sayHello() - loaded by iterating through folder / read all files of this folder"
+				.equals(instance.sayHello()));
+	}
+
+	@Configuration(value = @Named("config"), location = @PathConfig(value = "/conf/", type = PathType.CLASSPATH), type = Type.VALUES)
+	public interface TestConfiguration {
+	}
+
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class TestImplementations implements TestInterface {
+		@Inject
+		@Named("message.1")
+		private String msg1;
+
+		@Inject
+		@Named("function.1")
+		private String func1;
+
+		@Override
+		public String sayHello() {
+			return "sayHello() - " + msg1 + " / " + func1;
+		}
+	}
 }

@@ -30,8 +30,8 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 @Bind
 @FirstMarker
 public class FirstImpl implements Example {
-    @Override
-    public String sayHello() {
-	return "first - yeahhh!!!";
-    }
+	@Override
+	public String sayHello() {
+		return "first - yeahhh!!!";
+	}
 }

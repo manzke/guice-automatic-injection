@@ -33,7 +33,7 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  */
 @GuiceModule(stage = BindingStage.BOOT)
 public class JSR250Module extends Jsr250Module {
-    public JSR250Module() {
-	super();
-    }
+	public JSR250Module() {
+		super();
+	}
 }

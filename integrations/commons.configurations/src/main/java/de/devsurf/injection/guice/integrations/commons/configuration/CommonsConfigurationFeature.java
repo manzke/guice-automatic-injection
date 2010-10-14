@@ -37,91 +37,94 @@ import de.devsurf.injection.guice.scanner.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
 
 /**
- * This Class will be called for each Class, which is annotated with {@link Configuration}
- * and which needs an Apache Commons-based Configuration. 
+ * This Class will be called for each Class, which is annotated with
+ * {@link Configuration} and which needs an Apache Commons-based Configuration.
  * 
  * @author Daniel Manzke
- *
+ * 
  */
 @Singleton
 public class CommonsConfigurationFeature extends BindingScannerFeature {
-    private Logger _logger = Logger.getLogger(CommonsConfigurationFeature.class.getName());
+	private Logger _logger = Logger.getLogger(CommonsConfigurationFeature.class.getName());
 
-    @Override
-    public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	if (annotations.containsKey(Configuration.class.getName())) {
-	    Configuration config = (Configuration) annotations.get(Configuration.class.getName());
-	    if (FileConfiguration.class.isAssignableFrom(config.to())) {
-		return BindingStage.BOOT_BEFORE;
-	    }
-	}
-	return BindingStage.IGNORE;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void process(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-	Configuration config = (Configuration) annotations.get(Configuration.class.getName());
-	Named name = config.name();
-
-	//TODO Implement Location overriding
-	URL url;
-	switch (config.location().type()) {
-	case FILE:
-	    File file = new File(config.location().path());
-	    if (!file.exists()) {
-		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.location() + ". In the Path " + file.getAbsolutePath()
-			+ " no Configuration was found.");
-		return;
-	    }
-	    try {
-		url = file.toURI().toURL();
-	    } catch (MalformedURLException e) {
-		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.location() + ". It has an illegal URL-Format.", e);
-		return;
-	    }
-	    break;
-	case URL:
-	    try {
-		url = new URL(config.location().path());
-	    } catch (MalformedURLException e) {
-		_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
-			+ config.location() + ". It has an illegal URL-Format.", e);
-		return;
-	    }
-	    break;
-	case CLASSPATH:
-	default:
-	    url = this.getClass().getResource(config.location().path());
-	    break;
+	@Override
+	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+		if (annotations.containsKey(Configuration.class.getName())) {
+			Configuration config = (Configuration) annotations.get(Configuration.class.getName());
+			if (FileConfiguration.class.isAssignableFrom(config.to())) {
+				return BindingStage.BOOT_BEFORE;
+			}
+		}
+		return BindingStage.IGNORE;
 	}
 
-	if (url == null) {
-	    _logger.log(Level.WARNING, "Ignoring Configuration " + name + " in " + config.location()
-		    + ", because is couldn't be found in the Classpath.");
-	    // TODO Throw an exception if config doesn't exist?
-	    return;
-	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public void process(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
+		Configuration config = (Configuration) annotations.get(Configuration.class.getName());
+		Named name = config.value();
 
-	Named named = null;
-	if(name.value().length() > 0){
-	    named = name;
+		// TODO Implement Location overriding
+		URL url;
+		switch (config.location().type()) {
+		case FILE:
+			File file = new File(config.location().value());
+			if (!file.exists()) {
+				_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
+						+ config.location() + ". In the Path " + file.getAbsolutePath()
+						+ " no Configuration was found.");
+				return;
+			}
+			try {
+				url = file.toURI().toURL();
+			} catch (MalformedURLException e) {
+				_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
+						+ config.location() + ". It has an illegal URL-Format.", e);
+				return;
+			}
+			break;
+		case URL:
+			try {
+				url = new URL(config.location().value());
+			} catch (MalformedURLException e) {
+				_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
+						+ config.location() + ". It has an illegal URL-Format.", e);
+				return;
+			}
+			break;
+		case CLASSPATH:
+		default:
+			url = this.getClass().getResource(config.location().value());
+			break;
+		}
+
+		if (url == null) {
+			_logger.log(Level.WARNING, "Ignoring Configuration " + name + " in "
+					+ config.location() + ", because is couldn't be found in the Classpath.");
+			// TODO Throw an exception if config doesn't exist?
+			return;
+		}
+
+		Named named = null;
+		if (name.value().length() > 0) {
+			named = name;
+		}
+
+		FileConfiguration configuration;
+		try {
+			// Class<? extends FileConfiguration> interf =
+			// config.to().asSubclass(FileConfiguration.class);
+			Class<FileConfiguration> interf = (Class<FileConfiguration>) config.to();
+			configuration = (FileConfiguration) injector.getInstance(interf);
+			configuration.load(url);
+
+			bindInstance(configuration, interf, named, null);
+			bindInstance(configuration, FileConfiguration.class, named, null);
+			bindInstance(configuration, org.apache.commons.configuration.Configuration.class,
+				named, null);
+		} catch (ConfigurationException e) {
+			_logger.log(Level.WARNING, "Configuration " + name + " couldn't be loaded/bound: "
+					+ e.getMessage(), e);
+		}
 	}
-	
-	FileConfiguration configuration;
-	try {
-//	    Class<? extends FileConfiguration> interf = config.to().asSubclass(FileConfiguration.class);
-	    Class<FileConfiguration> interf = (Class<FileConfiguration>)config.to();
-	    configuration = (FileConfiguration) injector.getInstance(interf);
-	    configuration.load(url);
-		
-	    bindInstance(configuration, interf, named, null);
-	    bindInstance(configuration, FileConfiguration.class, named, null);
-	    bindInstance(configuration, org.apache.commons.configuration.Configuration.class, named, null);
-	} catch (ConfigurationException e) {
-	    _logger.log(Level.WARNING, "Configuration "+name+" couldn't be loaded/bound: "+e.getMessage(), e);
-	}
-    }
 }

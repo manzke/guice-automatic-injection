@@ -30,5 +30,5 @@ import java.util.Map;
  * 
  */
 public interface ScannerFeature {
-    void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);
+	void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);
 }

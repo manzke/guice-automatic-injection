@@ -29,10 +29,7 @@ import org.aopalliance.intercept.MethodInterceptor;
  * This is an Annotation, which can be used to create a {@link MethodMatcher},
  * so an {@link MethodInterceptor} knows which Method to monitor.
  * 
-	@Intercept
-	public String sayHello() {
-		return "yeahhh!!!";
-	}
+ * @Intercept public String sayHello() { return "yeahhh!!!"; }
  * 
  * @author Daniel Manzke
  * 

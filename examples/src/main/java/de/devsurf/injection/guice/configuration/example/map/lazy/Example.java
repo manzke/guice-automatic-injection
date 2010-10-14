@@ -22,5 +22,5 @@ package de.devsurf.injection.guice.configuration.example.map.lazy;
  * 
  */
 public interface Example {
-    String sayHello();
+	String sayHello();
 }

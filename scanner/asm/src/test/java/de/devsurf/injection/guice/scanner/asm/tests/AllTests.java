@@ -26,12 +26,8 @@ import de.devsurf.injection.guice.scanner.asm.tests.autobind.names.NamedAutobind
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.only.AutobindOnlyTests;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  AutobindTests.class,
-  InterfaceAutobindTests.class,
-  DuplicateAutobindTests.class,
-  NamedAutobindTests.class,
-  MultibindTests.class,
-  AutobindOnlyTests.class
-})
-public class AllTests {}
+@Suite.SuiteClasses( { AutobindTests.class, InterfaceAutobindTests.class,
+		DuplicateAutobindTests.class, NamedAutobindTests.class, MultibindTests.class,
+		AutobindOnlyTests.class })
+public class AllTests {
+}

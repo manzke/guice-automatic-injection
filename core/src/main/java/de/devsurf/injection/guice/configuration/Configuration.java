@@ -33,68 +33,65 @@ import com.google.inject.name.Named;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Configuration {
-    /**
-     * Name the Configuration should be bound to.
-     * 
-     * @return Name the Configuration should be bound to.
-     */
-    Named name() default @Named("");
-
-    /**
-     * Path/URL where the Configuration could be found.
-     * 
-     * @return Path/URL where the Configuration could be found.
-     */
-    PathConfig location();
-    
-    PathConfig alternative() default @PathConfig(path="");
-
-    /**
-     * Class/Interface where the Configuration should be bound to.
-     * 
-     * @return Class/Interface where the Configuration should be bound to.
-     */
-    Class<? extends Object> to() default Properties.class;
-    
-    /**
-     * This does only make sense if you are using the Provider Interface.
-     * 
-     	public class Service{
-     		@Inject
-     		Provider<Properties> properties;
-     		
-     		public void do(){
-     			Properties properties = properties.get();
-     		}
-     	} 
-     *
-     * @return true if the Configuration should be load lazy
-     */
-    boolean lazy() default false;
-
-    /**
-     * Specify what should be bound for the Configuration
-     * 
-     * Configuration -> Configuration only Values -> Named Bindings for the
-     * Values Both -> Configuration and Named Bindings
-     * 
-     * @return
-     */
-    BindType bindType() default BindType.CONFIGURATION;
-
-    public enum BindType {
 	/**
-	 * Binds only the Configuration itself.
+	 * Name the Configuration should be bound to.
+	 * 
+	 * @return Name the Configuration should be bound to.
 	 */
-	CONFIGURATION,
+	Named value() default @Named("");
+
 	/**
-	 * Named Bindings for the Key/Values (only possible if not lazy)
+	 * Path/URL where the Configuration could be found.
+	 * 
+	 * @return Path/URL where the Configuration could be found.
 	 */
-	VALUES,
+	PathConfig location();
+
+	PathConfig alternative() default @PathConfig("");
+
 	/**
-	 * The Configurationd and Named Bindings will be done. (only possible if
-	 * not lazy)
+	 * Class/Interface where the Configuration should be bound to.
+	 * 
+	 * @return Class/Interface where the Configuration should be bound to.
 	 */
-	BOTH
-    }
+	Class<? extends Object> to() default Properties.class;
+
+	/**
+	 * This does only make sense if you are using the Provider Interface.
+	 * 
+	 * public class Service{
+	 * 
+	 * @Inject Provider<Properties> properties;
+	 * 
+	 *         public void do(){ Properties properties = properties.get(); } }
+	 * 
+	 * @return true if the Configuration should be load lazy
+	 */
+	boolean lazy() default false;
+
+	/**
+	 * Specify what should be bound for the Configuration
+	 * 
+	 * Configuration -> Configuration only Values -> Named Bindings for the
+	 * Values Both -> Configuration and Named Bindings
+	 * 
+	 * @return
+	 */
+	Type type() default Type.CONFIGURATION;
+
+	public enum Type {
+		/**
+		 * Binds only the Configuration itself.
+		 */
+		CONFIGURATION,
+		/**
+		 * Named Bindings for the Key/Values (only possible if not lazy)
+		 */
+		VALUES,
+		/**
+		 * The Configurationd and Named Bindings will be done. (only possible if
+		 * not lazy)
+		 */
+		BOTH
+	}
 }

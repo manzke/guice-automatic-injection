@@ -18,14 +18,13 @@ package de.devsurf.injection.guice.scanner.asm.tests.autobind.only;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import javax.inject.Named;
-
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.scanner.StartupModule;
@@ -33,51 +32,57 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class AutobindOnlyTests {
-    @Test
-    public void createDynamicModule(){
-	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, AutobindOnlyTests.class.getPackage().getName()));
-	assertNotNull(injector);	
-    }
-    
-    @Test
-    public void testWithWrongPackage(){
-	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, "java"));
-	assertNotNull(injector);
-	
-	TestInterfaceImplementation testInstance;
-	try {
-	    testInstance = injector.getInstance(Key.get(TestInterfaceImplementation.class, Names.named("testname")));
-	    fail("The Scanner scanned the wrong package, so no Implementation should be bound to this Interface. Instance null? "+(testInstance == null));
-	} catch (ConfigurationException e) {
-	    //ok
+	@Test
+	public void createDynamicModule() {
+		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
+			AutobindOnlyTests.class.getPackage().getName()));
+		assertNotNull(injector);
 	}
-    }
-    
-    @Test
-    public void createTestInterface(){
-	Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class, AutobindOnlyTests.class.getPackage().getName()));
-	assertNotNull(injector);
-	
-	try {
-	    TestInterfaceImplementation testInstance = injector.getInstance(Key.get(TestInterfaceImplementation.class, Names.named("testname")));
-	    fail("Named Bindings for Implementation only is not supported yet! "+(testInstance != null));
-	} catch (Exception e) {
-	    //ignore
+
+	@Test
+	public void testWithWrongPackage() {
+		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
+			"java"));
+		assertNotNull(injector);
+
+		TestInterfaceImplementation testInstance;
+		try {
+			testInstance = injector.getInstance(Key.get(TestInterfaceImplementation.class, Names
+				.named("testname")));
+			fail("The Scanner scanned the wrong package, so no Implementation should be bound to this Interface. Instance null? "
+					+ (testInstance == null));
+		} catch (ConfigurationException e) {
+			// ok
+		}
 	}
-    }
-        
-    @Bind
-    @Named("testname")
-    public static class TestInterfaceImplementation{
-	public static final String TEST = "test";
-	public static final String EVENT = "event";
-	
-	public String sayHello() {
-	    return TEST;
+
+	@Test
+	public void createTestInterface() {
+		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
+			AutobindOnlyTests.class.getPackage().getName()));
+		assertNotNull(injector);
+
+		try {
+			TestInterfaceImplementation testInstance = injector.getInstance(Key.get(
+				TestInterfaceImplementation.class, Names.named("testname")));
+			fail("Named Bindings for Implementation only is not supported yet! "
+					+ (testInstance != null));
+		} catch (Exception e) {
+			// ignore
+		}
 	}
-	
-	public String fireEvent() {
-	    return EVENT;
+
+	@Bind(@Named("testname"))
+	public static class TestInterfaceImplementation {
+		public static final String TEST = "test";
+		public static final String EVENT = "event";
+
+		public String sayHello() {
+			return TEST;
+		}
+
+		public String fireEvent() {
+			return EVENT;
+		}
 	}
-    }
 }

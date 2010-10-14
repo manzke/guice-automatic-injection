@@ -18,7 +18,7 @@ package de.devsurf.injection.guice.configuration.example.map.general;
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.PathConfig;
 
-@Configuration(location = @PathConfig(path="/configuration.properties"))
+@Configuration(location = @PathConfig(value = "/configuration.properties"))
 public interface ExampleConfiguration {
 
 }

@@ -20,7 +20,7 @@ import com.google.inject.name.Named;
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.PathConfig;
 
-@Configuration(name = @Named("config"), location = @PathConfig(path="/configuration.properties"))
+@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.properties"))
 public interface ExampleConfiguration {
 
 }

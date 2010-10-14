@@ -36,50 +36,50 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class FailureConfigTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    FailureConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			FailureConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-
-    @Test
-    public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    FailureConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
-    }
-
-    @Configuration(name = @Named("config"), location = @PathConfig(path="/configuration.properties"))
-    public interface TestConfiguration {
-    }
-    
-    @Configuration(name = @Named("config2"), location = @PathConfig(path="/configuration2.properties"))
-    public interface Test2Configuration {
-    }
-
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class TestImplementations implements TestInterface {
-	@Inject
-	@Named("config")
-	private Properties config;
-
-	@Override
-	public String sayHello() {
-	    return "sayHello() - " + config.getProperty("message");
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
-    }
+
+	@Test
+	public void createPListConfiguration() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			FailureConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
+	}
+
+	@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.properties"))
+	public interface TestConfiguration {
+	}
+
+	@Configuration(value = @Named("config2"), location = @PathConfig(value = "/configuration2.properties"))
+	public interface Test2Configuration {
+	}
+
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class TestImplementations implements TestInterface {
+		@Inject
+		@Named("config")
+		private Properties config;
+
+		@Override
+		public String sayHello() {
+			return "sayHello() - " + config.getProperty("message");
+		}
+	}
 }

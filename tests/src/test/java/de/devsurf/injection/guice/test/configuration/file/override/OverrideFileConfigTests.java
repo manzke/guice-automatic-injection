@@ -37,46 +37,47 @@ import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class OverrideFileConfigTests {
-    @Test
-    public void createDynamicModule() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    OverrideFileConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
+	@Test
+	public void createDynamicModule() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			OverrideFileConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
 
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-    }
-
-    @Test
-    public void createPListConfiguration() {
-	StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-	    OverrideFileConfigTests.class.getPackage().getName());
-	startup.addFeature(ConfigurationFeature.class);
-
-	Injector injector = Guice.createInjector(startup);
-	assertNotNull(injector);
-
-	TestInterface instance = injector.getInstance(TestInterface.class);
-	Assert.assertTrue(instance.sayHello(), "sayHello() - overriden yeahh!!".equals(instance.sayHello()));
-    }
-
-    @Configuration(name = @Named("override"), location = @PathConfig(path="src/test/resources/configuration.properties", type=PathType.FILE), alternative=@PathConfig(path="src/test/resources/configuration.override.properties" ,type = PathType.FILE))
-    public interface OverrideConfiguration {
-    }
-
-    public static interface TestInterface {
-	String sayHello();
-    }
-
-    @Bind
-    public static class DirectImplementations implements TestInterface {
-	@Inject
-	@Named("override")
-	private Properties config;
-
-	@Override
-	public String sayHello() {
-	    return "sayHello() - " + config.getProperty("message");
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
 	}
-    }
- }
+
+	@Test
+	public void createPListConfiguration() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			OverrideFileConfigTests.class.getPackage().getName());
+		startup.addFeature(ConfigurationFeature.class);
+
+		Injector injector = Guice.createInjector(startup);
+		assertNotNull(injector);
+
+		TestInterface instance = injector.getInstance(TestInterface.class);
+		Assert.assertTrue(instance.sayHello(), "sayHello() - overriden yeahh!!".equals(instance
+			.sayHello()));
+	}
+
+	@Configuration(value = @Named("override"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), alternative = @PathConfig(value = "src/test/resources/configuration.override.properties", type = PathType.FILE))
+	public interface OverrideConfiguration {
+	}
+
+	public static interface TestInterface {
+		String sayHello();
+	}
+
+	@Bind
+	public static class DirectImplementations implements TestInterface {
+		@Inject
+		@Named("override")
+		private Properties config;
+
+		@Override
+		public String sayHello() {
+			return "sayHello() - " + config.getProperty("message");
+		}
+	}
+}

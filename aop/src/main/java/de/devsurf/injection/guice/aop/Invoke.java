@@ -27,10 +27,8 @@ import java.lang.annotation.Target;
  * This Annotation marks a Method, which should be invoked for each Method,
  * which is matching the Criterias of this Interceptor.
  * 
-	@Invoke
-	public Object invoke(MethodInvocation invocation) throws Throwable {
-		return invocation.proceed();
-    	}
+ * @Invoke public Object invoke(MethodInvocation invocation) throws Throwable {
+ *         return invocation.proceed(); }
  * 
  * @author Daniel Manzke
  * 

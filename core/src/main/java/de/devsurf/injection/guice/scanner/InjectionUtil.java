@@ -33,35 +33,35 @@ import de.devsurf.injection.guice.DynamicModule;
  * 
  */
 public class InjectionUtil {
-    private Injector injector;
+	private Injector injector;
 
-    public static InjectionUtil create(Class<? extends ClasspathScanner> scanner, List<Class<? extends ScannerFeature>> features, 
-	    String... packages) {
-	StartupModule startup = StartupModule.create(scanner, packages);
-	Injector startupInjector = Guice.createInjector(startup);
-	if(features != null){
-	    for(Class<? extends ScannerFeature> feature : features){
-		    startup.addFeature(feature);
-		}    
+	public static InjectionUtil create(Class<? extends ClasspathScanner> scanner,
+			List<Class<? extends ScannerFeature>> features, String... packages) {
+		StartupModule startup = StartupModule.create(scanner, packages);
+		Injector startupInjector = Guice.createInjector(startup);
+		if (features != null) {
+			for (Class<? extends ScannerFeature> feature : features) {
+				startup.addFeature(feature);
+			}
+		}
+
+		DynamicModule dynamicModule = startupInjector.getInstance(DynamicModule.class);
+
+		InjectionUtil util = new InjectionUtil();
+		util.injector = Guice.createInjector(dynamicModule);
+
+		return util;
 	}
-	
-	DynamicModule dynamicModule = startupInjector.getInstance(DynamicModule.class);
 
-	InjectionUtil util = new InjectionUtil();
-	util.injector = Guice.createInjector(dynamicModule);
+	public <T> T lookup(Class<T> key) {
+		return injector.getInstance(key);
+	}
 
-	return util;
-    }
+	public <T> T lookup(Class<T> key, String name) {
+		return injector.getInstance(Key.get(key, Names.named(name)));
+	}
 
-    public <T> T lookup(Class<T> key) {
-	return injector.getInstance(key);
-    }
-
-    public <T> T lookup(Class<T> key, String name) {
-	return injector.getInstance(Key.get(key, Names.named(name)));
-    }
-
-    public <T> T lookup(Class<T> key, Class<? extends Annotation> annotation) {
-	return injector.getInstance(Key.get(key, annotation));
-    }
+	public <T> T lookup(Class<T> key, Class<? extends Annotation> annotation) {
+		return injector.getInstance(Key.get(key, annotation));
+	}
 }

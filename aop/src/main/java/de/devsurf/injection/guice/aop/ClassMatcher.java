@@ -32,10 +32,8 @@ import com.google.inject.matcher.Matcher;
  * {@link Matcher}. This Matcher is used by Guice, to decide if a
  * {@link MethodInterceptor} should be invoked for that {@link Class}.
  * 
-	@ClassMatcher
-    	public Matcher<? super Class<?>> getClassMatcher() {
-		return Matchers.any();
-	}
+ * @ClassMatcher public Matcher<? super Class<?>> getClassMatcher() { return
+ *               Matchers.any(); }
  * 
  * @author Daniel Manzke
  * 

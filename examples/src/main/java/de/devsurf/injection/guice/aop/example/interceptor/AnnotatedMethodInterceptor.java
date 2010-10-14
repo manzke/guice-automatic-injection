@@ -31,21 +31,21 @@ import de.devsurf.injection.guice.aop.MethodMatcher;
 @Interceptor
 public class AnnotatedMethodInterceptor {
 
-    @Invoke
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-	System.out.println(AnnotatedMethodInterceptor.class.getSimpleName()
-		+ " - Trying to invoke: " + invocation.getMethod().getName());
-	return invocation.proceed();
-    }
+	@Invoke
+	public Object invoke(MethodInvocation invocation) throws Throwable {
+		System.out.println(AnnotatedMethodInterceptor.class.getSimpleName()
+				+ " - Trying to invoke: " + invocation.getMethod().getName());
+		return invocation.proceed();
+	}
 
-    @ClassMatcher
-    public Matcher<? super Class<?>> getClassMatcher() {
-	return Matchers.any();
-    }
+	@ClassMatcher
+	public Matcher<? super Class<?>> getClassMatcher() {
+		return Matchers.any();
+	}
 
-    @MethodMatcher
-    public Matcher<? super Method> getMethodMatcher() {
-	return Matchers.annotatedWith(Intercept.class);
-    }
+	@MethodMatcher
+	public Matcher<? super Method> getMethodMatcher() {
+		return Matchers.annotatedWith(Intercept.class);
+	}
 
 }

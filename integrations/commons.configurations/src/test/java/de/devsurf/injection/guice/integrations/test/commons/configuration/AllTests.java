@@ -23,9 +23,6 @@ import de.devsurf.injection.guice.integrations.test.commons.configuration.file.F
 import de.devsurf.injection.guice.integrations.test.commons.configuration.url.URLConfigTests;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  ClasspathConfigTests.class,
-  FileConfigTests.class,
-  URLConfigTests.class
-})
-public class AllTests {}
+@Suite.SuiteClasses( { ClasspathConfigTests.class, FileConfigTests.class, URLConfigTests.class })
+public class AllTests {
+}

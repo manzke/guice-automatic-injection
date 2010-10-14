@@ -33,9 +33,9 @@ import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 @Bind
 @Named("Example")
 public class ExampleImpl implements Example {
-    @Override
-    public String sayHello() {
-	return "yeahhh!!!";
+	@Override
+	public String sayHello() {
+		return "yeahhh!!!";
 
-    }
+	}
 }
