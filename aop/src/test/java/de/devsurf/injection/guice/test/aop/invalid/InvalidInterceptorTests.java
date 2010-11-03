@@ -20,6 +20,8 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 
+import javax.interceptor.Interceptor;
+
 import org.aopalliance.intercept.MethodInvocation;
 import org.junit.Test;
 
@@ -28,21 +30,21 @@ import com.google.inject.Injector;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.aop.ClassMatcher;
 import de.devsurf.injection.guice.aop.Intercept;
-import de.devsurf.injection.guice.aop.Interceptor;
 import de.devsurf.injection.guice.aop.Invoke;
 import de.devsurf.injection.guice.aop.MethodMatcher;
-import de.devsurf.injection.guice.aop.Interceptor.InterceptorFeature;
+import de.devsurf.injection.guice.aop.feature.InterceptorFeature;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InvalidInterceptorTests {
 	@Test
 	public void createDynamicModule() {
 		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			InvalidInterceptorTests.class.getPackage().getName());
+			PackageFilter.create(InvalidInterceptorTests.class));
 		startup.addFeature(InterceptorFeature.class);
 
 		Injector injector = Guice.createInjector(startup);
@@ -52,7 +54,7 @@ public class InvalidInterceptorTests {
 	@Test
 	public void createInvalidInterceptor() {
 		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			InvalidInterceptorTests.class.getPackage().getName());
+			PackageFilter.create(InvalidInterceptorTests.class));
 		startup.addFeature(InterceptorFeature.class);
 
 		Injector injector = Guice.createInjector(startup);

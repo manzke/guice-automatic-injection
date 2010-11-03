@@ -19,11 +19,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import de.devsurf.injection.guice.DynamicModule;
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**

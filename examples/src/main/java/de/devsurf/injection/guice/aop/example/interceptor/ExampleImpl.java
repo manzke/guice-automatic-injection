@@ -15,9 +15,9 @@
  */
 package de.devsurf.injection.guice.aop.example.interceptor;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.aop.Intercept;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**

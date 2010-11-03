@@ -36,13 +36,16 @@ import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
-import com.googlecode.rocoto.simpleconfig.SimpleConfigurationModule;
+import com.googlecode.rocoto.configuration.readers.EnvironmentVariablesReader;
+import com.googlecode.rocoto.configuration.readers.SystemPropertiesReader;
 
-import de.devsurf.injection.guice.configuration.rocoto.ConfigurationModule;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-import de.devsurf.injection.guice.scanner.annotations.features.AutoBindingFeature;
-import de.devsurf.injection.guice.scanner.annotations.features.ImplementationBindingFeature;
-import de.devsurf.injection.guice.scanner.annotations.features.MultiBindingFeature;
+import de.devsurf.injection.guice.annotations.GuiceModule.ModuleBindingFeature;
+import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
+import de.devsurf.injection.guice.annotations.features.ImplementationBindingFeature;
+import de.devsurf.injection.guice.annotations.features.MultiBindingFeature;
+import de.devsurf.injection.guice.configuration.ConfigurationModule;
+import de.devsurf.injection.guice.install.InstallationContext;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
 /**
  * The StartupModule is used for creating an initial Injector, which binds and
@@ -54,40 +57,40 @@ import de.devsurf.injection.guice.scanner.annotations.features.MultiBindingFeatu
  * @author Daniel Manzke
  * 
  */
-public abstract class StartupModule extends SimpleConfigurationModule {
+public abstract class StartupModule extends AbstractModule {
 	protected Logger _logger = Logger.getLogger(StartupModule.class.getName());
-	protected String[] _packages;
+	protected PackageFilter[] _packages;
 	protected Class<? extends ClasspathScanner> _scanner;
 	protected List<Class<? extends ScannerFeature>> _features = new ArrayList<Class<? extends ScannerFeature>>();
 	protected boolean bindSystemProperties;
 	protected boolean bindEnvironment;
 
-	public StartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
-		_packages = (packages == null ? new String[0] : packages);
+	public StartupModule(Class<? extends ClasspathScanner> scanner, PackageFilter... filter) {
+		_packages = (filter == null ? new PackageFilter[0] : filter);
 		_scanner = scanner;
 	}
 
 	@Override
 	public void configure() {
-		List<String> packages = new ArrayList<String>();
+		List<PackageFilter> packages = new ArrayList<PackageFilter>();
 		Collections.addAll(packages, _packages);
 		Collections.addAll(packages, bindPackages());
 
-		_packages = packages.toArray(new String[packages.size()]);
+		_packages = packages.toArray(new PackageFilter[packages.size()]);
 		Module scannerModule = new AbstractModule() {
 			@Override
 			protected void configure() {
 				Binder binder = binder();
 				if (_logger.isLoggable(Level.FINE)) {
 					_logger.fine("Binding ClasspathScanner to " + _scanner.getName());
-					for (String p : _packages) {
+					for (PackageFilter p : _packages) {
 						_logger.fine("Using Package " + p + " for scanning.");
 					}
 				}
 
 				binder.bind(InstallationContext.class).asEagerSingleton();
 				binder.bind(ClasspathScanner.class).to(_scanner);
-				binder.bind(TypeLiteral.get(String[].class)).annotatedWith(Names.named("packages"))
+				binder.bind(TypeLiteral.get(PackageFilter[].class)).annotatedWith(Names.named("packages"))
 					.toInstance(_packages);
 				Set<URL> classpath = findClassPaths();
 				binder.bind(TypeLiteral.get(URL[].class)).annotatedWith(Names.named("classpath"))
@@ -97,12 +100,12 @@ public abstract class StartupModule extends SimpleConfigurationModule {
 			}
 		};
 
-		SimpleConfigurationModule configurationModule = new SimpleConfigurationModule();
+		ConfigurationModule configurationModule = new ConfigurationModule();
 		if (bindSystemProperties) {
-			configurationModule.addSystemProperties();
+			configurationModule.addConfigurationReader(new SystemPropertiesReader());
 		}
 		if (bindEnvironment) {
-			configurationModule.addEnvironmentVariables();
+			configurationModule.addConfigurationReader(new EnvironmentVariablesReader());
 		}
 
 		Injector internal = Guice.createInjector(scannerModule, configurationModule);
@@ -111,8 +114,8 @@ public abstract class StartupModule extends SimpleConfigurationModule {
 
 	protected abstract Multibinder<ScannerFeature> bindFeatures(Binder binder);
 
-	protected String[] bindPackages() {
-		return new String[0];
+	protected PackageFilter[] bindPackages() {
+		return new PackageFilter[0];
 	}
 
 	protected Set<URL> findClassPaths() {
@@ -162,14 +165,13 @@ public abstract class StartupModule extends SimpleConfigurationModule {
 	}
 
 	public static StartupModule create(Class<? extends ClasspathScanner> scanner,
-			String... packages) {
-		return new DefaultStartupModule(scanner, packages);
+			PackageFilter... filter) {
+		return new DefaultStartupModule(scanner, filter);
 	}
 
 	public static class DefaultStartupModule extends StartupModule {
-
-		public DefaultStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
-			super(scanner, packages);
+		public DefaultStartupModule(Class<? extends ClasspathScanner> scanner, PackageFilter... filter) {
+			super(scanner, filter);
 		}
 
 		@Override
@@ -179,7 +181,7 @@ public abstract class StartupModule extends SimpleConfigurationModule {
 			listeners.addBinding().to(AutoBindingFeature.class);
 			listeners.addBinding().to(ImplementationBindingFeature.class);
 			listeners.addBinding().to(MultiBindingFeature.class);
-			listeners.addBinding().to(GuiceModule.ModuleListener.class);
+			listeners.addBinding().to(ModuleBindingFeature.class);
 
 			for (Class<? extends ScannerFeature> listener : _features) {
 				listeners.addBinding().to(listener);
@@ -189,9 +191,8 @@ public abstract class StartupModule extends SimpleConfigurationModule {
 		}
 
 		@Override
-		protected String[] bindPackages() {
-			return new String[] { ConfigurationModule.class.getPackage().getName() };
+		protected PackageFilter[] bindPackages() {
+			return new PackageFilter[] { PackageFilter.create(ConfigurationModule.class, false) };
 		}
-
 	}
 }

@@ -20,13 +20,9 @@ package de.devsurf.injection.guice.configuration;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -37,13 +33,13 @@ import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.googlecode.rocoto.simpleconfig.Formatter;
+import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;
+import com.googlecode.rocoto.configuration.resolver.PropertiesResolver;
 
 import de.devsurf.injection.guice.configuration.Configuration.Type;
-import de.devsurf.injection.guice.configuration.rocoto.ConfigurationModule;
-import de.devsurf.injection.guice.configuration.trace.BindingJob;
-import de.devsurf.injection.guice.scanner.BindingScannerFeature;
-import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingJob;
+import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
 
 /**
  * This class will bind a Properties-Instance or -Provider for each Class
@@ -54,7 +50,7 @@ import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
  */
 @Singleton
 public class ConfigurationFeature extends BindingScannerFeature {
-	private Logger _logger = Logger.getLogger(ConfigurationFeature.class.getName());
+	Logger _logger = Logger.getLogger(ConfigurationFeature.class.getName());
 
 	@Inject
 	private ConfigurationModule module;
@@ -104,21 +100,8 @@ public class ConfigurationFeature extends BindingScannerFeature {
 				/* && !(url.toString().startsWith("jar:")) */
 				_logger.log(Level.INFO, "Trying to bind \"" + url.toString()
 						+ "\" to rocoto Module.");
-				if (url.toString().startsWith("file:")) {
-					try {
-						module.addProperties(new File(url.toURI()));
-					} catch (URISyntaxException e) {
-						_logger.log(Level.WARNING, "Configuration for the URL \"" + url.toString()
-								+ "\" couldn't be read.", e);
-					}
-				} else {
-					if (url.toString().endsWith(".xml")) {
-						module.addXMLProperties(url); // TODO Discuss with
-													  // Simone
-					} else {
-						module.addProperties(url);
-					}
-				}
+				module.addConfigurationReader(new PropertiesURLReader(url, url.toString().endsWith(".xml")));
+				//TODO do we need protocol handling? file:/, ...
 				tracer.add(job);
 			}
 		}
@@ -145,8 +128,8 @@ public class ConfigurationFeature extends BindingScannerFeature {
 			if (!config.lazy()) {
 				Properties properties;
 				try {
-					properties = read(url, isXML);
-				} catch (IOException e) {
+					properties = new PropertiesReader(url, isXML).readNative();
+				} catch (Exception e) {
 					_logger.log(Level.WARNING, "Configuration " + name + " in " + url
 							+ ", couldn't be loaded: " + e.getMessage(), e);
 					return;
@@ -164,10 +147,10 @@ public class ConfigurationFeature extends BindingScannerFeature {
 		URL url = null;
 		String path = config.value();
 
-		Formatter formatter = new Formatter(path);
-		if (formatter.containsKeys()) {
-			formatter.setInjector(injector);
-			path = formatter.get();
+		PropertiesResolver resolver = new PropertiesResolver(path);
+		if (resolver.containsKeys()) {
+			injector.injectMembers(resolver);
+			path = resolver.get();
 		}
 
 		switch (config.type()) {
@@ -212,56 +195,5 @@ public class ConfigurationFeature extends BindingScannerFeature {
 		}
 
 		return url;
-	}
-
-	private class PropertiesProvider implements Provider<Properties> {
-		private URL url;
-		private boolean isXML;
-
-		public PropertiesProvider(URL url, boolean isXML) {
-			super();
-			this.url = url;
-			this.isXML = isXML;
-		}
-
-		@Override
-		public Properties get() {
-			try {
-				_logger.info("Doing lazy Loading for Configuration " + url);
-				return read(url, isXML);
-			} catch (IOException e) {
-				_logger.log(Level.WARNING, "Configuration in " + url + " couldn't be read.", e);
-				return new Properties();
-			}
-		}
-	}
-
-	private Properties read(URL url, boolean isXML) throws IOException {
-		URLConnection connection = null;
-		InputStream input = null;
-		try {
-			connection = url.openConnection();
-			connection.setUseCaches(false);
-			input = connection.getInputStream();
-
-			Properties properties = new Properties();
-			if (isXML) {
-				properties.loadFromXML(input);
-			} else {
-				properties.load(input);
-			}
-			return properties;
-		} finally {
-			if (connection != null && (connection instanceof HttpURLConnection)) {
-				((HttpURLConnection) connection).disconnect();
-			}
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					// close quietly
-				}
-			}
-		}
 	}
 }

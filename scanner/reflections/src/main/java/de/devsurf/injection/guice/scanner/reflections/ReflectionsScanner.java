@@ -39,7 +39,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.ScannerFeature;
+import de.devsurf.injection.guice.scanner.PackageFilter;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
 /**
  * {@link ClasspathScanner} Implementation which uses the Reflections-API. This
@@ -50,7 +51,7 @@ import de.devsurf.injection.guice.scanner.ScannerFeature;
  */
 public class ReflectionsScanner implements ClasspathScanner {
 	private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
-	private List<ScannerFeature> _features;
+	private List<ScannerFeature> features;
 	private List<Pattern> packagePatterns;
 
 	@Inject
@@ -58,36 +59,53 @@ public class ReflectionsScanner implements ClasspathScanner {
 	private URL[] classPath;
 
 	@Inject
-	public ReflectionsScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
-		_features = new ArrayList<ScannerFeature>(features);
+	public ReflectionsScanner(Set<ScannerFeature> scannerFeatures, @Named("packages") PackageFilter... filter) {
+		features = new ArrayList<ScannerFeature>(scannerFeatures);
 		this.packagePatterns = new ArrayList<Pattern>();
-		for (String p : packages) {
+		for (PackageFilter p : filter) {
 			includePackage(p);
 		}
 	}
-
+	
 	@Override
-	public void addScannerFeature(ScannerFeature listener) {
-		_features.add(listener);
+	public void destroy() {
+		features.clear();
+		features = null;
+		packagePatterns.clear();
+		packagePatterns = null;
+		classPath = null;
 	}
 
 	@Override
-	public void removeScannerFeature(ScannerFeature listener) {
-		_features.remove(listener);
+	public void addFeature(ScannerFeature listener) {
+		features.add(listener);
 	}
 
 	@Override
-	public List<ScannerFeature> getScannerFeatures() {
-		return new ArrayList<ScannerFeature>(_features);
+	public void removeFeature(ScannerFeature listener) {
+		features.remove(listener);
 	}
 
 	@Override
-	public void excludePackage(String packageName) {
+	public List<ScannerFeature> getFeatures() {
+		return new ArrayList<ScannerFeature>(features);
 	}
 
 	@Override
-	public void includePackage(final String packageName) {
-		String pattern = ".*" + packageName.replace(".", "\\.") + ".*";
+	public void excludePackage(final PackageFilter filter) {
+	}
+	
+	@Override
+	public void includePackage(final PackageFilter filter) {
+		String packageName = filter.getPackage();
+		String pattern = packageName.replace(".", "\\.");
+
+		if (filter.deep()) {
+			pattern = pattern + "\\.((?:\\w|\\.)+([A-Z](?:\\w|\\$)+)\\.class)";
+		} else {
+			pattern = pattern + "\\.([A-Z](?:\\w|\\$)+)\\.class";
+		}
+
 		if (_logger.isLoggable(Level.FINE)) {
 			_logger.fine("Including Package for scanning: " + packageName + " generating Pattern: "
 					+ pattern);
@@ -150,8 +168,8 @@ public class ReflectionsScanner implements ClasspathScanner {
 				}
 			}
 
-			for (ScannerFeature listener : _features) {
-				listener.found(objectClass, map);
+			for (ScannerFeature feature : features) {
+				feature.found(objectClass, map);
 			}
 		}
 	}

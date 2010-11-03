@@ -21,8 +21,8 @@ import javax.annotation.Resource;
 
 import org.guiceyfruit.jsr250.Jsr250Module;
 
-import de.devsurf.injection.guice.scanner.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 
 /**
  * JSR250-Module provided by GuicyFruit, so {@link PostConstruct},

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
@@ -29,22 +28,23 @@ import com.google.inject.Key;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class NamedAutobindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			"java"));
+			PackageFilter.create("java")));
 		assertNotNull(injector);
 
 		TestInterface testInstance;
@@ -61,7 +61,7 @@ public class NamedAutobindTests {
 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 
 		TestInterface testInstance = injector.getInstance(Key.get(TestInterface.class, Names
@@ -75,7 +75,7 @@ public class NamedAutobindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 
 		SecondTestInterface sameInstance = injector.getInstance(Key.get(SecondTestInterface.class,
@@ -89,7 +89,7 @@ public class NamedAutobindTests {
 	@Test
 	public void createAllInterfaces() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 
 		TestInterface testInstance = injector.getInstance(Key.get(TestInterface.class, Names

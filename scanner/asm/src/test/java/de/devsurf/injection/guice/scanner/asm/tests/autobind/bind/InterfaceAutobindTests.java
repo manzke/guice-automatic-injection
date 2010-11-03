@@ -25,24 +25,26 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.To;
+import de.devsurf.injection.guice.annotations.To.Type;
+import de.devsurf.injection.guice.javaee.BeansXMLFeature;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.To;
-import de.devsurf.injection.guice.scanner.annotations.To.Type;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class InterfaceAutobindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			"java"));
+			PackageFilter.create("java", false)));
 		assertNotNull(injector);
 
 		try {
@@ -57,7 +59,7 @@ public class InterfaceAutobindTests {
 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 
 		try {
@@ -72,13 +74,30 @@ public class InterfaceAutobindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 
 		SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
 		assertNotNull(sameInstance);
 		assertTrue(sameInstance.fireEvent().equals(TestInterfaceImplementation.EVENT));
 		assertTrue(sameInstance instanceof TestInterfaceImplementation);
+		assertTrue(sameInstance instanceof TestInterface);
+	}
+	
+	@Test
+	public void cdiTest() {
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
+			PackageFilter.create(InterfaceAutobindTests.class), PackageFilter.create(BeansXMLFeature.class));
+		startup.addFeature(BeansXMLFeature.class);
+		
+		Injector injector = Guice.createInjector(startup);
+		
+		assertNotNull(injector);
+
+		SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
+		assertNotNull(sameInstance);
+		assertTrue(sameInstance.fireEvent().equals(AlternativeImplementation.EVENT));
+		assertTrue(sameInstance instanceof AlternativeImplementation);
 		assertTrue(sameInstance instanceof TestInterface);
 	}
 
@@ -94,6 +113,21 @@ public class InterfaceAutobindTests {
 	public static class TestInterfaceImplementation implements TestInterface, SecondTestInterface {
 		public static final String TEST = "test";
 		public static final String EVENT = "event";
+
+		@Override
+		public String sayHello() {
+			return TEST;
+		}
+
+		@Override
+		public String fireEvent() {
+			return EVENT;
+		}
+	}
+	
+	public static class AlternativeImplementation implements TestInterface, SecondTestInterface {
+		public static final String TEST = "alternative_test";
+		public static final String EVENT = "alternative_event";
 
 		@Override
 		public String sayHello() {

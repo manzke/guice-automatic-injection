@@ -27,27 +27,28 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.multibindings.Multibinder;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.To;
+import de.devsurf.injection.guice.annotations.To.Type;
+import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.ScannerFeature;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.To;
-import de.devsurf.injection.guice.scanner.annotations.To.Type;
-import de.devsurf.injection.guice.scanner.annotations.features.AutoBindingFeature;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 public class InterfaceAutobindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage() {
 		Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class,
-			"java"));
+			PackageFilter.create("java")));
 		assertNotNull(injector);
 
 		try {
@@ -62,7 +63,7 @@ public class InterfaceAutobindTests {
 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 
 		try {
@@ -77,7 +78,7 @@ public class InterfaceAutobindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(new TestStartupModule(SonatypeScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 
 		SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
@@ -112,7 +113,7 @@ public class InterfaceAutobindTests {
 	}
 
 	public static class TestStartupModule extends StartupModule {
-		public TestStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
+		public TestStartupModule(Class<? extends ClasspathScanner> scanner, PackageFilter... packages) {
 			super(scanner, packages);
 		}
 

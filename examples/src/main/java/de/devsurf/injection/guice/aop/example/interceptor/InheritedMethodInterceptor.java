@@ -17,6 +17,8 @@ package de.devsurf.injection.guice.aop.example.interceptor;
 
 import java.lang.reflect.Method;
 
+import javax.interceptor.Interceptor;
+
 import org.aopalliance.intercept.MethodInvocation;
 
 import com.google.inject.matcher.Matcher;
@@ -25,7 +27,6 @@ import com.google.inject.matcher.Matchers;
 import de.devsurf.injection.guice.aop.ClassMatcher;
 import de.devsurf.injection.guice.aop.GuiceMethodInterceptor;
 import de.devsurf.injection.guice.aop.Intercept;
-import de.devsurf.injection.guice.aop.Interceptor;
 import de.devsurf.injection.guice.aop.MethodMatcher;
 
 @Interceptor

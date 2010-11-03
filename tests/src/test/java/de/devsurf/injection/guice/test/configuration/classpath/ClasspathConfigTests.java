@@ -28,18 +28,19 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.ConfigurationFeature;
 import de.devsurf.injection.guice.configuration.PathConfig;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class ClasspathConfigTests {
 	@Test
 	public void createDynamicModule() {
 		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			ClasspathConfigTests.class.getPackage().getName());
+			PackageFilter.create(ClasspathConfigTests.class));
 		startup.addFeature(ConfigurationFeature.class);
 
 		Injector injector = Guice.createInjector(startup);
@@ -49,7 +50,7 @@ public class ClasspathConfigTests {
 	@Test
 	public void createPListConfiguration() {
 		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			ClasspathConfigTests.class.getPackage().getName());
+			PackageFilter.create(ClasspathConfigTests.class));
 		startup.addFeature(ConfigurationFeature.class);
 
 		Injector injector = Guice.createInjector(startup);

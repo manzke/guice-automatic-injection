@@ -206,11 +206,9 @@ After that you can create a new InitialContext and with some Magic everything ca
 	- in Java Application
 	- in Web Application
 - Automatic Binding of Configuration
-	- missing: check if configuration already bound
-	- missing: bind configurations w/o named to the configuration class, so not only values can be injected
 	- add reloading feature
 - Stabilize APIs and Code Quality (v0.8/0.9)
 - Add parallel binding for Sonatype and pure Implementation (release 1.x)
-- Add a Clojure Classpath Scanner
-- Implement Spring-Annotation Binder (automatic Binding of Beans to Guice annotated with Spring-Annotations)
-- use Java EE 6 Annotations for Automatic Binding (Interceptor, AroundInvoke, ...)
+- Add a Clojure Classpath Scanner (release 1.x)
+- Implement Spring-Annotation Binder (automatic Binding of Beans to Guice annotated with Spring-Annotations) (release 1.x)
+- use Java EE 6 Annotations for Automatic Binding (Interceptor, AroundInvoke, ...) (release 1.x)

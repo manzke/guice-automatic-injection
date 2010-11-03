@@ -28,22 +28,23 @@ import com.google.inject.Key;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 public class NamedAutobindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			"java.util.concurrent"));
+			PackageFilter.create("java.util.concurrent")));
 		assertNotNull(injector);
 
 		TestInterface testInstance;
@@ -60,7 +61,7 @@ public class NamedAutobindTests {
 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 
 		TestInterface testInstance = injector.getInstance(Key.get(TestInterface.class, Names
@@ -74,7 +75,7 @@ public class NamedAutobindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 
 		SecondTestInterface sameInstance = injector.getInstance(Key.get(SecondTestInterface.class,
@@ -88,7 +89,7 @@ public class NamedAutobindTests {
 	@Test
 	public void createAllInterfaces() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			NamedAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(NamedAutobindTests.class)));
 		assertNotNull(injector);
 
 		TestInterface testInstance = injector.getInstance(Key.get(TestInterface.class, Names

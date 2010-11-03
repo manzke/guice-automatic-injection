@@ -15,8 +15,8 @@
  */
 package de.devsurf.injection.guice.scanner.reflections.example.autobind.multiple;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 /**

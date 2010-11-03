@@ -26,7 +26,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import de.devsurf.injection.guice.scanner.annotations.Bind;
+import de.devsurf.injection.guice.annotations.Bind;
 
 public class JNDIConstructionTests {
 	private static ThreadLocal<Boolean> called = new ThreadLocal<Boolean>();

@@ -21,12 +21,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.aop.Interceptor.InterceptorFeature;
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.aop.feature.InterceptorFeature;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
@@ -47,8 +48,7 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 public class ExampleApp implements ExampleApplication {
 	@Override
 	public void run() {
-		StartupModule startup = StartupModule.create(ASMClasspathScanner.class, ExampleApp.class
-			.getPackage().getName(), "de.devsurf.injection.guice.aop");
+		StartupModule startup = StartupModule.create(ASMClasspathScanner.class, PackageFilter.create(ExampleApp.class), PackageFilter.create("de.devsurf.injection.guice.aop"));
 		startup.addFeature(InterceptorFeature.class);
 		Injector injector = Guice.createInjector(startup);
 

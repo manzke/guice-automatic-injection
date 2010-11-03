@@ -19,13 +19,14 @@ import com.google.inject.Binder;
 import com.google.inject.CreationException;
 import com.google.inject.multibindings.Multibinder;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
+import de.devsurf.injection.guice.annotations.features.MultiBindingFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.ScannerFeature;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
-import de.devsurf.injection.guice.scanner.annotations.features.AutoBindingFeature;
-import de.devsurf.injection.guice.scanner.annotations.features.MultiBindingFeature;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
 /**
  * The {@link ExampleStartupModule} overwrites the
@@ -40,7 +41,7 @@ import de.devsurf.injection.guice.scanner.annotations.features.MultiBindingFeatu
  */
 public class ExampleStartupModule extends StartupModule {
 
-	public ExampleStartupModule(Class<? extends ClasspathScanner> scanner, String... packages) {
+	public ExampleStartupModule(Class<? extends ClasspathScanner> scanner, PackageFilter... packages) {
 		super(scanner, packages);
 	}
 

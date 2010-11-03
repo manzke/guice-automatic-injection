@@ -24,8 +24,11 @@ import com.google.inject.Binder;
 import com.google.inject.Inject;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.install.InstallationContext;
+import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
 /**
  * The ScannerModule will be injected with a ClasspathScanner and the needed
@@ -37,6 +40,7 @@ import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
  * 
  */
 public class ScannerModule implements DynamicModule {
+	public static String LINE_SEPARATOR = System.getProperty("line.separator");
 	private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
 	@Inject
 	private ClasspathScanner _scanner;
@@ -47,18 +51,21 @@ public class ScannerModule implements DynamicModule {
 
 	@Override
 	public void configure(Binder binder) {
+		if (_logger.isLoggable(Level.INFO)) {
+			StringBuilder builder = new StringBuilder();
+			builder.append(_scanner.getClass().getName()+" is using following Scanner Features: ").append(LINE_SEPARATOR);
+			for (ScannerFeature listener : _listeners) {
+				builder.append(listener.getClass().getName()).append(LINE_SEPARATOR);
+			}
+			_logger.log(Level.INFO, builder.toString());
+		}
 		for (ScannerFeature listener : _listeners) {
-			_logger.log(Level.INFO, "Binding Feature \"" + listener.getClass().getName()
-					+ "\" to ScannerModule.");
 			if (listener instanceof BindingScannerFeature) {
 				((BindingScannerFeature) listener).setBinder(binder);
 				if (_logger.isLoggable(Level.FINE)) {
 					_logger.fine("Binding AnnotationListeners " + listener.getClass().getName());
 				}
 			}
-		}
-		if (_logger.isLoggable(Level.FINE)) {
-			_logger.fine("Binding ClasspathScanner to " + _scanner.getClass().getName());
 		}
 		try {
 			_scanner.scan();

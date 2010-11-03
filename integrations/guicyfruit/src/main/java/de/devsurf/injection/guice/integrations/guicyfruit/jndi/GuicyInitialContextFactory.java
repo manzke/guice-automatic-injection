@@ -40,6 +40,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
 
 /**
@@ -68,15 +69,15 @@ public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
 			if (classpathPackages == null || classpathPackages.length() == 0) {
 				classpathPackages = "com;de;org;net";
 			}
-			List<String> packages = new ArrayList<String>();
+			List<PackageFilter> packages = new ArrayList<PackageFilter>();
 
 			StringTokenizer tok = new StringTokenizer(classpathPackages.trim(), ";");
 			while (tok.hasMoreElements()) {
-				packages.add(tok.nextToken().trim());
+				packages.add(PackageFilter.create(tok.nextToken().trim()));
 			}
 
 			StartupModule startupModule = StartupModule.create(scannerClass, packages
-				.toArray(new String[packages.size()]));
+				.toArray(new PackageFilter[packages.size()]));
 
 			Injector injector = Injectors.createInjector(environment, startupModule,
 				new AbstractModule() {

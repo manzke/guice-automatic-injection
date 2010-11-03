@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: de.devsurf.injection.guice.scanner.asm.tests.AllTests
+-------------------------------------------------------------------------------
+Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.429 sec

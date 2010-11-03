@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="10.208" errors="0" skipped="0" tests="25" name="de.devsurf.injection.guice.scanner.sonatype.tests.AllTests">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.6.0_18\jre\bin"/>
+    <property name="java.vm.version" value="16.0-b13"/>
+    <property name="java.vm.vendor" value="Sun Microsystems Inc."/>
+    <property name="java.vendor.url" value="http://java.sun.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) Client VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="DE"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="F:\git\de.devsurf.injection.guice\scanner\sonatype"/>
+    <property name="java.runtime.version" value="1.6.0_18-b07"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="basedir" value="F:\git\de.devsurf.injection.guice\scanner\sonatype"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.6.0_18\jre\lib\endorsed"/>
+    <property name="os.arch" value="x86"/>
+    <property name="surefire.real.class.path" value="C:\Users\dam\AppData\Local\Temp\surefirebooter8358011776142709661.jar"/>
+    <property name="java.io.tmpdir" value="C:\Users\dam\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 7"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.6.0_18\jre\bin;.;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;c:\Users\dam\bin;.;D:\Tools\Git\local\bin;D:\Tools\Git\mingw\bin;D:\Tools\Git\bin;c:\Windows\system32;c:\Windows;c:\Windows\System32\Wbem;c:\Windows\System32\WindowsPowerShell\v1.0\;c:\Windows\SUA\common\;c:\Windows\SUA\usr\lib\;c:\Program Files\TortoiseSVN\bin;c:\Program Files\GNU\GnuPG\pub;c:\Program Files\QuickTime\QTSystem\;D:\Tools\Git\cmd;c:\Windows\system32;c:\Windows;c:\Windows\System32\Wbem;c:\Windows\System32\WindowsPowerShell\v1.0\;c:\Windows\SUA\common\;c:\Windows\SUA\usr\lib\;c:\Program Files\TortoiseSVN\bin;c:\Program Files\GNU\GnuPG\pub;c:\Program Files\QuickTime\QTSystem\;D:\Tools\Git\cmd;d:\Tools\Apache\Maven\3\bin;d:\Tools\Apache\Ant\bin;d:\Tools\Curl;D:\Tools\Git;D:\Tools\Git\bin;d:\Tools\Apache\svn\bin"/>
+    <property name="surefire.test.class.path" value="F:\git\de.devsurf.injection.guice\scanner\sonatype\target\test-classes;F:\git\de.devsurf.injection.guice\scanner\sonatype\target\classes;F:\git\de.devsurf.injection.guice\scanner\asm\target\de.devsurf.injection.guice.scanner.asm-0.8.1-SNAPSHOT.jar;C:\Users\dam\.m2\repository\asm\asm\3.3\asm-3.3.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-inject\1.3.2\guice-bean-inject-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-patches\2.1.5\guice-patches-2.1.5.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-reflect\1.3.2\guice-bean-reflect-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-containers\1.3.2\guice-bean-containers-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-locators\1.3.2\guice-bean-locators-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-binders\1.3.2\guice-bean-binders-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-scanners\1.3.2\guice-bean-scanners-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-converters\1.3.2\guice-bean-converters-1.3.2.jar;F:\git\de.devsurf.injection.guice\core\target\de.devsurf.injection.guice.core-0.8.1-SNAPSHOT.jar;C:\Users\dam\.m2\repository\com\googlecode\rocoto\rocoto\4.0\rocoto-4.0.jar;C:\Users\dam\.m2\repository\com\google\collections\google-collections\1.0\google-collections-1.0.jar;C:\Users\dam\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\dam\.m2\repository\com\google\inject\guice\2.0\guice-2.0.jar;C:\Users\dam\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\dam\.m2\repository\com\google\inject\extensions\guice-multibindings\2.0\guice-multibindings-2.0.jar;C:\Users\dam\.m2\repository\junit\junit\4.8.1\junit-4.8.1.jar;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="50.0"/>
+    <property name="sun.management.compiler" value="HotSpot Client Compiler"/>
+    <property name="os.version" value="6.1"/>
+    <property name="user.home" value="C:\Users\dam"/>
+    <property name="user.timezone" value="Europe/Berlin"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.6"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="user.name" value="dam"/>
+    <property name="java.class.path" value="F:\git\de.devsurf.injection.guice\scanner\sonatype\target\test-classes;F:\git\de.devsurf.injection.guice\scanner\sonatype\target\classes;F:\git\de.devsurf.injection.guice\scanner\asm\target\de.devsurf.injection.guice.scanner.asm-0.8.1-SNAPSHOT.jar;C:\Users\dam\.m2\repository\asm\asm\3.3\asm-3.3.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-inject\1.3.2\guice-bean-inject-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-patches\2.1.5\guice-patches-2.1.5.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-reflect\1.3.2\guice-bean-reflect-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-containers\1.3.2\guice-bean-containers-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-locators\1.3.2\guice-bean-locators-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-binders\1.3.2\guice-bean-binders-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-scanners\1.3.2\guice-bean-scanners-1.3.2.jar;C:\Users\dam\.m2\repository\org\sonatype\spice\inject\guice-bean-converters\1.3.2\guice-bean-converters-1.3.2.jar;F:\git\de.devsurf.injection.guice\core\target\de.devsurf.injection.guice.core-0.8.1-SNAPSHOT.jar;C:\Users\dam\.m2\repository\com\googlecode\rocoto\rocoto\4.0\rocoto-4.0.jar;C:\Users\dam\.m2\repository\com\google\collections\google-collections\1.0\google-collections-1.0.jar;C:\Users\dam\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\dam\.m2\repository\com\google\inject\guice\2.0\guice-2.0.jar;C:\Users\dam\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\dam\.m2\repository\com\google\inject\extensions\guice-multibindings\2.0\guice-multibindings-2.0.jar;C:\Users\dam\.m2\repository\junit\junit\4.8.1\junit-4.8.1.jar;"/>
+    <property name="java.vm.specification.version" value="1.0"/>
+    <property name="sun.arch.data.model" value="32"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.6.0_18\jre"/>
+    <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="user.language" value="de"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="1.6.0_18"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.6.0_18\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.6.0_18\jre\lib\resources.jar;C:\Program Files\Java\jdk1.6.0_18\jre\lib\rt.jar;C:\Program Files\Java\jdk1.6.0_18\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.6.0_18\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.6.0_18\jre\lib\jce.jar;C:\Program Files\Java\jdk1.6.0_18\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.6.0_18\jre\classes"/>
+    <property name="java.vendor" value="Sun Microsystems Inc."/>
+    <property name="localRepository" value="C:\Users\dam\.m2\repository"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86"/>
+  </properties>
+  <testcase time="1.087" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.AutobindTests" name="createDynamicModule"/>
+  <testcase time="0.408" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.AutobindTests" name="testWithWrongPackage"/>
+  <testcase time="0.408" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.AutobindTests" name="createTestInterface"/>
+  <testcase time="0.396" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.AutobindTests" name="createSecondTestInterface"/>
+  <testcase time="0.399" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.AutobindTests" name="createAllInterfaces"/>
+  <testcase time="0.404" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.bind.InterfaceAutobindTests" name="createDynamicModule"/>
+  <testcase time="0.397" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.bind.InterfaceAutobindTests" name="testWithWrongPackage"/>
+  <testcase time="0.388" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.bind.InterfaceAutobindTests" name="createTestInterface"/>
+  <testcase time="0.361" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.bind.InterfaceAutobindTests" name="createSecondTestInterface"/>
+  <testcase time="0.361" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.names.NamedAutobindTests" name="createDynamicModule"/>
+  <testcase time="0.357" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.names.NamedAutobindTests" name="testWithWrongPackage"/>
+  <testcase time="0.356" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.names.NamedAutobindTests" name="createTestInterface"/>
+  <testcase time="0.356" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.names.NamedAutobindTests" name="createSecondTestInterface"/>
+  <testcase time="0.358" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.names.NamedAutobindTests" name="createAllInterfaces"/>
+  <testcase time="0.391" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.multiple.MultibindTests" name="createDynamicModule"/>
+  <testcase time="0.375" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.multiple.MultibindTests" name="createSecondTestInterface"/>
+  <testcase time="0.371" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.multiple.MultibindTests" name="createAllInterfaces"/>
+  <testcase time="0.365" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.multiple.MultibindTests" name="testWithWrongPackage1"/>
+  <testcase time="0.393" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.multiple.MultibindTests" name="testWithWrongPackage2"/>
+  <testcase time="0.367" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.multiple.MultibindTests" name="createFirstContainer"/>
+  <testcase time="0.362" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.filter.PackageFilterTests" name="createDynamicModule"/>
+  <testcase time="0.359" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.filter.PackageFilterTests" name="testWithWrongPackage"/>
+  <testcase time="0.355" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.filter.PackageFilterTests" name="createTestInterface"/>
+  <testcase time="0.355" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.filter.PackageFilterTests" name="createSecondTestInterface"/>
+  <testcase time="0.354" classname="de.devsurf.injection.guice.scanner.sonatype.tests.autobind.filter.PackageFilterTests" name="createAllInterfaces"/>
+</testsuite>

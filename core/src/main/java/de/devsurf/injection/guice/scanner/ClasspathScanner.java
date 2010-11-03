@@ -18,6 +18,8 @@ package de.devsurf.injection.guice.scanner;
 import java.io.IOException;
 import java.util.List;
 
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+
 /**
  * Interface which is used to create ClasspathScanner implementations. Our
  * StartupModule will bind your chosen Implementation to this interface. You
@@ -28,15 +30,33 @@ import java.util.List;
  * 
  */
 public interface ClasspathScanner {
+	/**
+	 * Starts the Classpath Scanning and the Registration of Requests for Bindings. Called through the StartupModule.
+	 * 
+	 * @throws IOException
+	 */
 	void scan() throws IOException;
 
-	void addScannerFeature(ScannerFeature feature);
+	/**
+	 * Adds a ScannerFeature to the Scanner like Automatic Binding of Classes or Guice Modules, Interceptors, ... or your own one.
+	 * @param feature
+	 */
+	void addFeature(ScannerFeature feature);
 
-	void removeScannerFeature(ScannerFeature feature);
+	void removeFeature(ScannerFeature feature);
 
-	List<ScannerFeature> getScannerFeatures();
+	List<ScannerFeature> getFeatures();
 
-	void includePackage(String packageName);
+	/**
+	 * Adds a Package which should be included to scan. Only Classes found in the included Packages will be read and passed to the ScannerFeatures.
+	 * @param filter
+	 */
+	void includePackage(PackageFilter filter);
 
-	void excludePackage(String packageName);
+	void excludePackage(PackageFilter filter);
+	
+	/**
+	 * Destroys a ClasspathScanner so it can do some kind of Cleanup.
+	 */
+	void destroy();
 }

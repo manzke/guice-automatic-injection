@@ -26,11 +26,12 @@ import java.util.logging.Logger;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-import de.devsurf.injection.guice.scanner.ScannerFeature;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
 /**
  * Visitor implementation to collect field annotation information from class.
@@ -38,6 +39,8 @@ import de.devsurf.injection.guice.scanner.ScannerFeature;
  * @author Daniel Manzke
  */
 public class AnnotationCollector implements ClassVisitor {
+	public static final int ASM_FLAGS = ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG
+	| ClassReader.SKIP_FRAMES;
 	protected Logger _logger = Logger.getLogger(AnnotationCollector.class.getName());
 	protected String _name;
 	protected Class<?> _class;
@@ -85,6 +88,14 @@ public class AnnotationCollector implements ClassVisitor {
 
 	public List<ScannerFeature> getScannerFeatures() {
 		return new ArrayList<ScannerFeature>(_features);
+	}
+	
+	public void destroy(){
+		_annotations.clear();
+		_annotations = null;
+		_class = null;
+		_features.clear();
+		_features = null;
 	}
 
 	@Override

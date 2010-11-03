@@ -30,22 +30,23 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 public class MultibindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(SonatypeScanner.class,
-			MultibindTests.class.getPackage().getName()));
+			PackageFilter.create(MultibindTests.class)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage1() {
 		Injector injector = Guice.createInjector(StartupModule
-			.create(SonatypeScanner.class, "java"));
+			.create(SonatypeScanner.class, PackageFilter.create("java")));
 		assertNotNull(injector);
 
 		try {
@@ -60,7 +61,7 @@ public class MultibindTests {
 	@Test
 	public void testWithWrongPackage2() {
 		Injector injector = Guice.createInjector(StartupModule
-			.create(SonatypeScanner.class, "java"));
+			.create(SonatypeScanner.class, PackageFilter.create("java")));
 		assertNotNull(injector);
 
 		try {
@@ -75,7 +76,7 @@ public class MultibindTests {
 	@Test
 	public void createFirstContainer() {
 		Injector injector = Guice.createInjector(StartupModule.create(SonatypeScanner.class,
-			MultibindTests.class.getPackage().getName()));
+			PackageFilter.create(MultibindTests.class)));
 		assertNotNull(injector);
 
 		FirstContainer container = injector.getInstance(FirstContainer.class);
@@ -91,7 +92,7 @@ public class MultibindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(SonatypeScanner.class,
-			MultibindTests.class.getPackage().getName()));
+			PackageFilter.create(MultibindTests.class)));
 		assertNotNull(injector);
 
 		SecondContainer container = injector.getInstance(SecondContainer.class);
@@ -107,7 +108,7 @@ public class MultibindTests {
 	@Test
 	public void createAllInterfaces() {
 		Injector injector = Guice.createInjector(StartupModule.create(SonatypeScanner.class,
-			MultibindTests.class.getPackage().getName()));
+			PackageFilter.create(MultibindTests.class)));
 		assertNotNull(injector);
 
 		FirstContainer firstContainer = injector.getInstance(FirstContainer.class);

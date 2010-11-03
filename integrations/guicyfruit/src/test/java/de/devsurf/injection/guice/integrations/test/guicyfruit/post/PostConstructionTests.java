@@ -27,9 +27,10 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.integrations.guicyfruit.JSR250Module;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 public class PostConstructionTests {
@@ -38,8 +39,7 @@ public class PostConstructionTests {
 	@Test
 	public void createDynamicModule() {
 		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage()
-				.getName());
+			PackageFilter.create(PostConstructionTests.class), PackageFilter.create(JSR250Module.class));
 
 		Injector injector = Guice.createInjector(startup);
 		assertNotNull(injector);
@@ -50,8 +50,7 @@ public class PostConstructionTests {
 		called.set(false);
 
 		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			PostConstructionTests.class.getPackage().getName(), JSR250Module.class.getPackage()
-				.getName());
+			PackageFilter.create(PostConstructionTests.class), PackageFilter.create(JSR250Module.class));
 
 		Injector injector = Guice.createInjector(startup);
 		assertNotNull(injector);

@@ -19,6 +19,8 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.interceptor.Interceptor;
+
 import org.aopalliance.intercept.MethodInvocation;
 
 import com.google.inject.matcher.Matcher;

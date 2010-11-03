@@ -32,7 +32,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.ScannerFeature;
+import de.devsurf.injection.guice.scanner.PackageFilter;
+import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
 /**
  * {@link ClasspathScanner} Implementation which uses the Google Guice-Extension
@@ -50,9 +51,9 @@ public class SonatypeScanner implements ClasspathScanner {
 	@Inject
 	@Named("classpath")
 	private URL[] classPath;
-
+	
 	@Inject
-	public SonatypeScanner(Set<ScannerFeature> features, @Named("packages") String... packages) {
+	public SonatypeScanner(Set<ScannerFeature> features, @Named("packages") PackageFilter... filter) {
 		_packagePatterns = new ArrayList<Pattern>();
 		_collector = new FilterAnnotationCollector() {
 			@Override
@@ -66,37 +67,53 @@ public class SonatypeScanner implements ClasspathScanner {
 			}
 		};
 
-		for (String p : packages) {
+		for (PackageFilter p : filter) {
 			includePackage(p);
 		}
 
 		for (ScannerFeature feature : features) {
-			addScannerFeature(feature);
+			addFeature(feature);
 		}
+	}
+	
+	@Override
+	public void destroy() {
+		_packagePatterns.clear();
+		_packagePatterns = null;
+		_collector.destroy();
+		_collector = null;
 	}
 
 	@Override
-	public void addScannerFeature(ScannerFeature listener) {
+	public void addFeature(ScannerFeature listener) {
 		_collector.addScannerFeature(listener);
 	}
 
 	@Override
-	public void removeScannerFeature(ScannerFeature listener) {
+	public void removeFeature(ScannerFeature listener) {
 		_collector.removerScannerFeature(listener);
 	}
 
 	@Override
-	public List<ScannerFeature> getScannerFeatures() {
+	public List<ScannerFeature> getFeatures() {
 		return _collector.getScannerFeatures();
 	}
 
 	@Override
-	public void excludePackage(String packageName) {
+	public void excludePackage(PackageFilter filter) {
 	}
-
+	
 	@Override
-	public void includePackage(String packageName) {
-		String pattern = ".*" + packageName + ".*";
+	public void includePackage(final PackageFilter filter) {
+		String packageName = filter.getPackage();
+		String pattern = ".*" + packageName.replace(".", "\\.");
+
+		if (filter.deep()) {
+			pattern = pattern + "\\.((?:\\w|\\.)+([A-Z](?:\\w|\\$)+))";
+		} else {
+			pattern = pattern + "\\.([A-Z](?:\\w|\\$)+)";
+		}
+
 		if (_logger.isLoggable(Level.FINE)) {
 			_logger.fine("Including Package for scanning: " + packageName + " generating Pattern: "
 					+ pattern);

@@ -17,7 +17,7 @@ package de.devsurf.injection.guice.scanner.reflections.example.automodule;
 
 import com.google.inject.AbstractModule;
 
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
+import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 /**

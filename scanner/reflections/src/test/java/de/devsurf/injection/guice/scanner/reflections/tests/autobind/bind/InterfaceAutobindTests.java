@@ -25,24 +25,25 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.To;
+import de.devsurf.injection.guice.annotations.To.Type;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.To;
-import de.devsurf.injection.guice.scanner.annotations.To.Type;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 public class InterfaceAutobindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			"java.util.concurrent"));
+			PackageFilter.create("java.util.concurrent")));
 		assertNotNull(injector);
 
 		try {
@@ -57,7 +58,7 @@ public class InterfaceAutobindTests {
 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 
 		try {
@@ -72,7 +73,7 @@ public class InterfaceAutobindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			InterfaceAutobindTests.class.getPackage().getName()));
+			PackageFilter.create(InterfaceAutobindTests.class)));
 		assertNotNull(injector);
 
 		SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);

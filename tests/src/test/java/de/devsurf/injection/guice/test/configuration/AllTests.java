@@ -19,18 +19,24 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import de.devsurf.injection.guice.test.configuration.classpath.ClasspathConfigTests;
+import de.devsurf.injection.guice.test.configuration.classpath.both.BothClasspathConfigTests;
+import de.devsurf.injection.guice.test.configuration.classpath.values.ValuesClasspathConfigTests;
 import de.devsurf.injection.guice.test.configuration.duplicate.DuplicateClasspathConfigTests;
 import de.devsurf.injection.guice.test.configuration.failure.FailureConfigTests;
 import de.devsurf.injection.guice.test.configuration.file.FileConfigTests;
+import de.devsurf.injection.guice.test.configuration.file.both.BothFileConfigTests;
 import de.devsurf.injection.guice.test.configuration.file.override.DirectFileConfigTests;
 import de.devsurf.injection.guice.test.configuration.file.override.OverrideFileConfigTests;
+import de.devsurf.injection.guice.test.configuration.file.values.ValueFileConfigTests;
 import de.devsurf.injection.guice.test.configuration.url.URLConfigTests;
+import de.devsurf.injection.guice.test.configuration.url.both.BothURLConfigTests;
 import de.devsurf.injection.guice.test.configuration.url.override.DirectOverrideConfigTests;
 import de.devsurf.injection.guice.test.configuration.url.override.OverrideConfigTests;
+import de.devsurf.injection.guice.test.configuration.url.values.ValuesURLConfigTests;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { ClasspathConfigTests.class, DuplicateClasspathConfigTests.class,
-		FailureConfigTests.class, FileConfigTests.class, URLConfigTests.class,
+@Suite.SuiteClasses( { ClasspathConfigTests.class, ValuesClasspathConfigTests.class, BothClasspathConfigTests.class, DuplicateClasspathConfigTests.class,
+		FailureConfigTests.class, FileConfigTests.class, ValueFileConfigTests.class, BothFileConfigTests.class, URLConfigTests.class, ValuesURLConfigTests.class, BothURLConfigTests.class,
 		DirectOverrideConfigTests.class, OverrideConfigTests.class, DirectFileConfigTests.class,
 		OverrideFileConfigTests.class })
 public class AllTests {

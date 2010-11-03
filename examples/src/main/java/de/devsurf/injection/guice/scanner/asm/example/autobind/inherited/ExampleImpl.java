@@ -15,8 +15,8 @@
  */
 package de.devsurf.injection.guice.scanner.asm.example.autobind.inherited;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**

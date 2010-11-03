@@ -25,22 +25,23 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
 import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 public class AutobindTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			AutobindTests.class.getPackage().getName()));
+			PackageFilter.create(AutobindTests.class, false)));
 		assertNotNull(injector);
 	}
 
 	@Test
 	public void testWithWrongPackage() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			"java.util.concurrent"));
+			PackageFilter.create("java.util.concurrent", false)));
 		assertNotNull(injector);
 
 		TestInterface testInstance;
@@ -56,7 +57,7 @@ public class AutobindTests {
 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			AutobindTests.class.getPackage().getName()));
+			PackageFilter.create(AutobindTests.class, false)));
 		assertNotNull(injector);
 
 		TestInterface testInstance = injector.getInstance(TestInterface.class);
@@ -69,7 +70,7 @@ public class AutobindTests {
 	@Test
 	public void createSecondTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			AutobindTests.class.getPackage().getName()));
+			PackageFilter.create(AutobindTests.class, false)));
 		assertNotNull(injector);
 
 		SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
@@ -82,7 +83,7 @@ public class AutobindTests {
 	@Test
 	public void createAllInterfaces() {
 		Injector injector = Guice.createInjector(StartupModule.create(ReflectionsScanner.class,
-			AutobindTests.class.getPackage().getName()));
+			PackageFilter.create(AutobindTests.class, false)));
 		assertNotNull(injector);
 
 		TestInterface testInstance = injector.getInstance(TestInterface.class);

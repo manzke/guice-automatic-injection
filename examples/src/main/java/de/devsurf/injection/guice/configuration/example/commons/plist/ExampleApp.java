@@ -19,12 +19,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.devsurf.injection.guice.DynamicModule;
+import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.integrations.commons.configuration.CommonsConfigurationFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.annotations.Bind;
-import de.devsurf.injection.guice.scanner.annotations.GuiceModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
 /**
@@ -46,7 +47,7 @@ public class ExampleApp implements ExampleApplication {
 	@Override
 	public void run() {
 		StartupModule startupModule = StartupModule.create(ASMClasspathScanner.class,
-			ExampleApp.class.getPackage().getName());
+			PackageFilter.create(ExampleApp.class));
 		startupModule.addFeature(CommonsConfigurationFeature.class);
 		Injector injector = Guice.createInjector(startupModule);
 
