@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>extensions</artifactId>
-		<version>0.8.1</version>
+		<version>0.8.2-SNAPSHOT</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice</groupId>
 	<artifactId>de.devsurf.injection.guice.examples</artifactId>
-	<version>0.8.1</version>
+	<version>0.8.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
 		<main.basedir>${project.parent.basedir}</main.basedir>
@@ -16,42 +16,42 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.core</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.sonatype</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.reflections</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice.integrations</groupId>
 			<artifactId>de.devsurf.injection.guice.integrations.guicyfruit</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.aop</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
 			<groupId>de.devsurf.injection.guice.integrations</groupId>
 			<artifactId>de.devsurf.injection.guice.integrations.commons.configurations</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
 			<groupId>de.devsurf.injection.guice.aop</groupId>
 			<artifactId>de.devsurf.injection.guice.aop.methodlogger</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-configuration</groupId>

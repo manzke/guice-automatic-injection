@@ -6,7 +6,7 @@
 	<packaging>pom</packaging>
 	<name>Guice Extensions</name>
 
-	<version>0.8.1</version>
+	<version>0.8.2-SNAPSHOT</version>
 	<description>Goolge Guice-Extension which add the support for Classpath Scanner and auto registration for Guice-Modules and Beans. ASM, Reflections/Javassit or a Sonatype-Guice-Extension can be used as Classpath Scanner.</description>
 	<url>http://github.com/manzke/guice-automatic-injection</url>
 	<inceptionYear>2010</inceptionYear>
