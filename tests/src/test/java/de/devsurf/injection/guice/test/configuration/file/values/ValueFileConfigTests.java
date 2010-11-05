@@ -59,7 +59,7 @@ public class ValueFileConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), type=Type.VALUES)
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), type=Type.VALUES)
 	public interface TestConfiguration {
 	}
 

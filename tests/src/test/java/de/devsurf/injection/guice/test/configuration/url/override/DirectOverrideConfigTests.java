@@ -61,7 +61,7 @@ public class DirectOverrideConfigTests {
 		Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("direct"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), alternative = @PathConfig(value = "http://devsurf.de/guice/nonexisting.properties", type = PathType.URL))
+	@Configuration(name = @Named("direct"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), alternative = @PathConfig(value = "http://devsurf.de/guice/nonexisting.properties", type = PathType.URL))
 	public interface DirectConfiguration {
 	}
 

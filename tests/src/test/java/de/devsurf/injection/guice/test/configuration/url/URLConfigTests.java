@@ -61,7 +61,7 @@ public class URLConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL))
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL))
 	public interface TestConfiguration {
 	}
 

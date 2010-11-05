@@ -61,7 +61,7 @@ public class FolderConfigTests {
 				.equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "/conf/", type = PathType.CLASSPATH), type = Type.VALUES)
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "/conf/", type = PathType.CLASSPATH), type = Type.VALUES)
 	public interface TestConfiguration {
 	}
 

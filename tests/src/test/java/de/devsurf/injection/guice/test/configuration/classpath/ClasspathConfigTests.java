@@ -60,7 +60,7 @@ public class ClasspathConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.properties"))
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "/configuration.properties"))
 	public interface TestConfiguration {
 	}
 

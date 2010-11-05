@@ -62,7 +62,7 @@ public class OverrideFileConfigTests {
 			.sayHello()));
 	}
 
-	@Configuration(value = @Named("override"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), alternative = @PathConfig(value = "src/test/resources/configuration.override.properties", type = PathType.FILE))
+	@Configuration(name = @Named("override"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), alternative = @PathConfig(value = "src/test/resources/configuration.override.properties", type = PathType.FILE))
 	public interface OverrideConfiguration {
 	}
 

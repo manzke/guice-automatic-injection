@@ -22,7 +22,7 @@ import com.google.inject.name.Named;
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.PathConfig;
 
-@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.plist"), to = PropertyListConfiguration.class)
+@Configuration(name = @Named("config"), location = @PathConfig(value = "/configuration.plist"), to = PropertyListConfiguration.class)
 public interface ExampleConfiguration {
 
 }

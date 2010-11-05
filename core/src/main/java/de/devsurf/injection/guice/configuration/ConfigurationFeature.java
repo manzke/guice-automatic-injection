@@ -69,7 +69,7 @@ public class ConfigurationFeature extends BindingScannerFeature {
 	@Override
 	public void process(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
 		Configuration config = (Configuration) annotations.get(Configuration.class.getName());
-		Named name = config.value();
+		Named name = config.name();
 
 		URL url = null;
 		if (config.alternative().value().length() > 0) {

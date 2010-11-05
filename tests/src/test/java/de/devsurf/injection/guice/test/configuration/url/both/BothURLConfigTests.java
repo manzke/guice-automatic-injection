@@ -62,7 +62,7 @@ public class BothURLConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), type=Type.BOTH)
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), type=Type.BOTH)
 	public interface TestConfiguration {
 	}
 

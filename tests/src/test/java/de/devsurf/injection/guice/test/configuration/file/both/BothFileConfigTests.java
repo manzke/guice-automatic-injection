@@ -62,7 +62,7 @@ public class BothFileConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), type=Type.BOTH)
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), type=Type.BOTH)
 	public interface TestConfiguration {
 	}
 

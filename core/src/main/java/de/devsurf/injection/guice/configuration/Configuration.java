@@ -38,7 +38,7 @@ public @interface Configuration {
 	 * 
 	 * @return Name the Configuration should be bound to.
 	 */
-	Named value() default @Named("");
+	Named name() default @Named("");
 
 	/**
 	 * Path/URL where the Configuration could be found.

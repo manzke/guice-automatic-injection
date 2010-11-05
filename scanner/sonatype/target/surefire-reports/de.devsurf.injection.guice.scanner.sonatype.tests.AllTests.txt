@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: de.devsurf.injection.guice.scanner.sonatype.tests.AllTests
--------------------------------------------------------------------------------
-Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.253 sec

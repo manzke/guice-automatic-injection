@@ -61,7 +61,7 @@ public class BothClasspathConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.properties"), type=Type.BOTH)
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "/configuration.properties"), type=Type.BOTH)
 	public interface TestConfiguration {
 	}
 

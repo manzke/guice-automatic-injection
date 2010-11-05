@@ -60,15 +60,15 @@ public class DuplicateClasspathConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("ok"), location = @PathConfig(value = "/configuration.properties"))
+	@Configuration(name = @Named("ok"), location = @PathConfig(value = "/configuration.properties"))
 	public interface ValidConfiguration {
 	}
 
-	@Configuration(value = @Named("one"), location = @PathConfig(value = "/configuration.override.properties"))
+	@Configuration(name = @Named("one"), location = @PathConfig(value = "/configuration.override.properties"))
 	public interface FirstConfiguration {
 	}
 
-	@Configuration(value = @Named("one"), location = @PathConfig(value = "/configuration.override.properties"))
+	@Configuration(name = @Named("one"), location = @PathConfig(value = "/configuration.override.properties"))
 	public interface SecondConfiguration {
 	}
 

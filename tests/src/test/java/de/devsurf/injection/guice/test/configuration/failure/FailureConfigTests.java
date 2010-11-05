@@ -60,11 +60,11 @@ public class FailureConfigTests {
 		Assert.assertTrue("sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.properties"))
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "/configuration.properties"))
 	public interface TestConfiguration {
 	}
 
-	@Configuration(value = @Named("config2"), location = @PathConfig(value = "/configuration2.properties"))
+	@Configuration(name = @Named("config2"), location = @PathConfig(value = "/configuration2.properties"))
 	public interface Test2Configuration {
 	}
 

@@ -62,7 +62,7 @@ public class OverrideConfigTests {
 			.sayHello()));
 	}
 
-	@Configuration(value = @Named("override"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), alternative = @PathConfig(value = "http://devsurf.de/guice/configuration.override.properties", type = PathType.URL))
+	@Configuration(name = @Named("override"), location = @PathConfig(value = "http://devsurf.de/guice/configuration.properties", type = PathType.URL), alternative = @PathConfig(value = "http://devsurf.de/guice/configuration.override.properties", type = PathType.URL))
 	public interface OverrideConfiguration {
 	}
 

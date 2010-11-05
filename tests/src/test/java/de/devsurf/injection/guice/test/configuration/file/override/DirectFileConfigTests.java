@@ -61,7 +61,7 @@ public class DirectFileConfigTests {
 		Assert.assertTrue(instance.sayHello(), "sayHello() - yeahh!!".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("direct"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), alternative = @PathConfig(value = "src/test/resources/configuration.nonexisting.properties", type = PathType.FILE))
+	@Configuration(name = @Named("direct"), location = @PathConfig(value = "src/test/resources/configuration.properties", type = PathType.FILE), alternative = @PathConfig(value = "src/test/resources/configuration.nonexisting.properties", type = PathType.FILE))
 	public interface DirectConfiguration {
 	}
 

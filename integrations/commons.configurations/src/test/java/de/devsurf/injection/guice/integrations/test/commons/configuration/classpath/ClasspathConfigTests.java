@@ -59,7 +59,7 @@ public class ClasspathConfigTests {
 		Assert.assertTrue("sayHello() - yeahhh out of the package :)".equals(instance.sayHello()));
 	}
 
-	@Configuration(value = @Named("config"), location = @PathConfig(value = "/configuration.plist", type = PathType.CLASSPATH), to = PropertyListConfiguration.class)
+	@Configuration(name = @Named("config"), location = @PathConfig(value = "/configuration.plist", type = PathType.CLASSPATH), to = PropertyListConfiguration.class)
 	public interface TestConfiguration {
 	}
 

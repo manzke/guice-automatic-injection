@@ -41,10 +41,7 @@ Base for our Examples is the Example interface...
 
 	public class ExampleApp {
 		public static void main( String[] args ) throws IOException {
-			Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, "de.devsurf"));
-			DynamicModule dynamicModule = injector.getInstance(DynamicModule.class);
-			injector = injector.createChildInjector(dynamicModule);
-
+			Injector injector = Guice.createInjector(StartupModule.create(VirtualClasspathReader.class, PackageFilter.create("de.devsurf")));
 			System.out.println(injector.getInstance(Example.class).sayHello());
 		}
 	}
@@ -55,10 +52,10 @@ First of all you have to create a StartupModule and pass the Class of the Classp
 a second Parameter you can specify which Packages should be scanned. Not all Scanner will support this feature,
 so it can be, that the Packages get ignored. 
 
-####AutoBind-Example
+####Automatic Binding-Example
 To use our AutoBind-Annotation you just have to annotate our Implementation...
 
-	@AutoBind
+	@Bind
 	public class ExampleImpl implements Example {
 		@Override
 		public String sayHello() {
@@ -69,11 +66,11 @@ To use our AutoBind-Annotation you just have to annotate our Implementation...
 ...so this Class will be registered by our Startup/Scanner-Module and will be bound to all inherited interfaces. If you want that your Class should also be named, 
 you have to set the name-Attribute...
 
-	@Named("Example")
+	@Named("Example") or @Bind(name=@Named("Example"))
 
 ...this will create a Key for the Binding. You can also overwrite the interfaces it should be bound to...
 
-	@AutoBind(bind={Example.class})
+	@Bind(to=@To(customs={Example.class}, value=CUSTOM)
 
 ...by passing the Interfaces to the bind()-Attribute.  
 
@@ -101,8 +98,10 @@ If you want to overwrite, which Features should be activated or if you want to a
 		@Override
 		protected void bindAnnotationListeners() {
 			Multibinder<AnnotationListener> listeners = Multibinder.newSetBinder(binder(), AnnotationListener.class);
-			listeners.addBinding().to(AutoBind.AutoBindListener.class); //Automatic Beans Binding
-			listeners.addBinding().to(GuiceModule.GuiceModuleListener.class); //Automatic Module Installation
+			listeners.addBinding().to(AutoBindingFeature.class); //Automatic Beans Binding
+			listeners.addBinding().to(ImplementationBindingFeature.class); //Implementation only Binding
+			listeners.addBinding().to(MultiBindingFeature.class); //Multiple Binding
+			listeners.addBinding().to(ModuleBindingFeature.class); //Automatic Module Installation
 		}
 	}  
 
@@ -110,8 +109,7 @@ If you want to overwrite, which Features should be activated or if you want to a
 ####Use Multibinding-Example
 If you want to use Multibind, just annotate your class with @AutoBind and @MultipleBinding.
 
-	@AutoBind
-	@MultiBinding
+	@Bind(multiple=true)
 	public class ExampleOneImpl implements Example {  
 		@Override
 		public String sayHello() {
@@ -168,21 +166,13 @@ The ExampleModule will be automatically be bound, by our ClasspathScanner.
 	
 	public class ExampleApplication{
 		public static void main(String[] args) throws IOException {
-			StartupModule startupModule = StartupModule.create(VirtualClasspathReader.class, ExampleApp.class.getPackage().getName(), JSR250Module.class.getPackage().getName());
+			StartupModule startupModule = StartupModule.create(VirtualClasspathReader.class, PackageFilter.create(ExampleApp.class), PackageFilter.create(JSR250Module.class));
 			Injector injector = Guice.createInjector(startupModule);  
-
-			Module m = Modules.combine(startupModule, injector.getInstance(DynamicModule.class));
-			injector = Guice.createInjector(m); 
-
 			System.out.println(injector.getInstance(Example.class).sayHello());
 		}
 	}
 
 And last but not least, our ExampleApplication which creates a new StartupModule, which will bind our ClasspathScanner and the Packages to the Injector. With the help of this Injector we create a new DynamicModule, which is bound to ScannerModule.
-
-#####Attention: At the Moment there is something I don’t understand. When I use my original Injector to create a ChildInjector, all Interface-to-Class-Bindings work like a charm. But I install a Module, which will bind a TypeListener or something else, they are not recognized.
-I’m not sure if this is a Bug or a wanted behavior. So we are only able to use GuicyFruit, if we create a new Injector with the Help of the DynamicModule.
-
 
 ####Guicefy JNDI with GuicyFruit
 For using JNDI+Guice you have to create a "jndi.properties" and put it in your Classpath. Specify which ContextFactory and ClasspathScanner should be used and where they should scan for Modules and Implementations, which should be installed/bound.
