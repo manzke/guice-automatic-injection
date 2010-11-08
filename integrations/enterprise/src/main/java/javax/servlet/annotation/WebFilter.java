@@ -41,7 +41,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import javax.servlet.DispatcherType;
 
 /**
  * Annotation used to declare a servlet filter.
@@ -58,64 +57,10 @@ import javax.servlet.DispatcherType;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface WebFilter {
-
-    /**
-     * The description of the filter
-     */
-    String description() default "";
-    
-    /**
-     * The display name of the filter
-     */
-    String displayName() default "";
-    
-    /**
-     * The init parameters of the filter
-     */
-    WebInitParam[] initParams() default {};
-    
-    /**
-     * The name of the filter
-     */
-    String filterName() default "";
-    
-    /**
-     * The small-icon of the filter
-     */
-    String smallIcon() default "";
-
-    /**
-     * The large-icon of the filter
-     */
-    String largeIcon() default "";
-
-    /**
-     * The names of the servlets to which the filter applies.
-     */
-    String[] servletNames() default {};
-    
+    /* Modified the Properties of the Annotation, to reduce the Dependencies! */
     /**
      * The URL patterns to which the filter applies
      */
     String[] value() default {};
-
-    /**
-     * The URL patterns to which the filter applies
-     */
-    String[] urlPatterns() default {};
-
-    /**
-     * The dispatcher types to which the filter applies
-     */
-    DispatcherType[] dispatcherTypes() default {DispatcherType.REQUEST};
-    
-    /**
-     * Declares whether the filter supports asynchronous operation mode.
-     *
-     * @see javax.servlet.ServletRequest#startAsync
-     * @see javax.servlet.ServletRequest#startAsync(ServletRequest,
-     * ServletResponse)
-     */
-    boolean asyncSupported() default false;
 
 }
