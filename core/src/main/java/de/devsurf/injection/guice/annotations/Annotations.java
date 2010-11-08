@@ -17,23 +17,12 @@ package de.devsurf.injection.guice.annotations;
 
 import java.lang.annotation.Annotation;
 
-import javax.interceptor.Interceptor;
-
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.annotations.To.Type;
 
 public class Annotations {
-	public static Interceptor createInterceptor(){
-		return new Interceptor() {
-			@Override
-			public Class<? extends Annotation> annotationType() {
-				return Interceptor.class;
-			}
-		};
-	}
-	
 	public static Bind createBind(final Type type){
 		return new Bind() {
 			@Override

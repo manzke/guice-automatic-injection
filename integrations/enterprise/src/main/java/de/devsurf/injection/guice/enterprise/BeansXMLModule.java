@@ -32,7 +32,6 @@ import com.google.inject.Binder;
 import com.google.inject.Inject;
 
 import de.devsurf.injection.guice.DynamicModule;
-import de.devsurf.injection.guice.annotations.Annotations;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.enterprise.model.Alternatives;
 import de.devsurf.injection.guice.enterprise.model.Beans;
