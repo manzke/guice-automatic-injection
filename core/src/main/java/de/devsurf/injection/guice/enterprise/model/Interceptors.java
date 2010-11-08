@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.javaee.model;
+package de.devsurf.injection.guice.enterprise.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +23,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Decorators {
+public class Interceptors {
     @XmlElement(name = "class", namespace = "http://java.sun.com/xml/ns/javaee")
     protected List<String> classes;
 
     public List<String> getClasses() {
         if (classes == null) {
-            classes = new ArrayList<String>();
+        	classes = new ArrayList<String>();
         }
         return this.classes;
     }
+
 }

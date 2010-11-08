@@ -27,10 +27,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -67,13 +70,22 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	private URL[] classPath;
 	private List<Pattern> patterns = new ArrayList<Pattern>();
 	private int count;
-	private AnnotationCollector collector;
 	private Set<String> visited;
-
+	private BlockingQueue<AnnotationCollector> collectors;
+	
 	@Inject
 	public ASMClasspathScanner(Set<ScannerFeature> listeners,
 			@Named("packages") PackageFilter... filter) {
-		this.collector = new AnnotationCollector();
+		int cores = Runtime.getRuntime().availableProcessors();
+		this.collectors = new ArrayBlockingQueue<AnnotationCollector>(cores);
+
+		for(int i=0;i<cores;i++){
+			try {
+				collectors.put(new AnnotationCollector());
+			} catch (InterruptedException e) {
+				// ignore
+			}
+		}
 		for (PackageFilter p : filter) {
 			includePackage(p);
 		}
@@ -85,18 +97,31 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	}
 
 	@Override
-	public void addFeature(ScannerFeature listener) {
-		collector.addScannerFeature(listener);
+	public void addFeature(ScannerFeature feature) {
+		for(AnnotationCollector collector : collectors){
+			collector.addScannerFeature(feature);
+		}
 	}
 
 	@Override
-	public void removeFeature(ScannerFeature listener) {
-		collector.removerScannerFeature(listener);
+	public void removeFeature(ScannerFeature feature) {
+		for(AnnotationCollector collector : collectors){
+			collector.addScannerFeature(feature);
+		}
 	}
 
 	@Override
 	public List<ScannerFeature> getFeatures() {
-		return collector.getScannerFeatures();
+		List<ScannerFeature> features;
+		try {
+			AnnotationCollector collector = collectors.take();
+			features = collector.getScannerFeatures();
+			collectors.put(collector);
+		} catch (InterruptedException e) {
+			// ignore
+			features = Collections.emptyList();
+		}
+		return features;
 	}
 
 	@Override
@@ -123,7 +148,7 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	}
 
 	public void scan() throws IOException {
-		ExecutorService pool = Executors.newFixedThreadPool(1); //Runtime.getRuntime().availableProcessors()
+		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());//Executors.newFixedThreadPool(1);
 		if (_logger.isLoggable(Level.INFO)) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("Using Root-Path for Classpath scanning:").append(LINE_SEPARATOR);
@@ -198,8 +223,8 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	
 	public void destroy(){
 		classPath = null;
-		collector.destroy();
-		collector = null;
+		collectors.clear();
+		collectors = null;
 		patterns.clear();
 		patterns = null;
 		visited.clear();
@@ -262,7 +287,13 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	private void visitClass(InputStream in) throws IOException {
 		count++;
 		ClassReader reader = new ClassReader(new BufferedInputStream(in));
-		reader.accept(collector, AnnotationCollector.ASM_FLAGS);
+		try {
+			AnnotationCollector collector = collectors.take();
+			reader.accept(collector, AnnotationCollector.ASM_FLAGS);
+			collectors.put(collector);
+		} catch (InterruptedException e) {
+			// ignore
+		}
 	}
 
 	private boolean matches(String name) {

@@ -34,7 +34,7 @@ public class Annotations {
 		};
 	}
 	
-	public static Bind createBind(){
+	public static Bind createBind(final Type type){
 		return new Bind() {
 			@Override
 			public Class<? extends Annotation> annotationType() {
@@ -48,7 +48,7 @@ public class Annotations {
 			
 			@Override
 			public To to() {
-				return createTo(Type.INTERFACES);
+				return createTo(type);
 			}
 			
 			@Override

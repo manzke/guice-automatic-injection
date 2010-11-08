@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.javaee;
+package de.devsurf.injection.guice.enterprise;
 
 import java.lang.annotation.Annotation;
 import java.net.URL;
@@ -33,13 +33,12 @@ import com.google.inject.Inject;
 
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.annotations.Annotations;
-import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
+import de.devsurf.injection.guice.enterprise.model.Alternatives;
+import de.devsurf.injection.guice.enterprise.model.Beans;
+import de.devsurf.injection.guice.enterprise.model.Decorators;
+import de.devsurf.injection.guice.enterprise.model.Interceptors;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.javaee.model.Alternatives;
-import de.devsurf.injection.guice.javaee.model.Beans;
-import de.devsurf.injection.guice.javaee.model.Decorators;
-import de.devsurf.injection.guice.javaee.model.Interceptors;
 import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
 
@@ -64,7 +63,7 @@ public class BeansXMLModule implements DynamicModule {
 	@Override
 	public void configure(Binder binder) {		
 		if(enabled){
-			URL beansURL = getClass().getResource("/META-INF/beans.xml");
+			URL beansURL = getClass().getResource("/beans.xml");
 			if(beansURL != null){
 				Beans beans;
 				try {
@@ -83,9 +82,8 @@ public class BeansXMLModule implements DynamicModule {
 						Annotation[] annotations = clazz.getAnnotations();
 						Map<String, Annotation> map = new HashMap<String, Annotation>();
 						for(Annotation annotation : annotations){
-							map.put(annotation.getClass().getName(), annotation);
+							map.put(annotation.annotationType().getName(), annotation);
 						}
-						map.put(Bind.class.getName(), Annotations.createBind());
 						
 						scan(clazz, map);
 					} catch (Exception e) {
@@ -102,7 +100,7 @@ public class BeansXMLModule implements DynamicModule {
 						Annotation[] annotations = clazz.getAnnotations();
 						Map<String, Annotation> map = new HashMap<String, Annotation>();
 						for(Annotation annotation : annotations){
-							map.put(annotation.getClass().getName(), annotation);
+							map.put(annotation.annotationType().getName(), annotation);
 						}
 						map.put(Interceptor.class.getName(), Annotations.createInterceptor());
 						

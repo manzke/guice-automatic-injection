@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
-package de.devsurf.injection.guice.javaee;
+package de.devsurf.injection.guice.enterprise.model;
 
-import java.lang.annotation.Annotation;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.google.inject.Singleton;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
 
-@Singleton
-public class BeansXMLFeature extends BindingScannerFeature {
-	@Override
-	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-		return BindingStage.IGNORE;
-	}
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Alternatives {
+    @XmlElement(name = "class", namespace = "http://java.sun.com/xml/ns/javaee")
+    protected List<String> classes;
 
-	@Override
-	public void process(final Class<Object> annotatedClass,
-			final Map<String, Annotation> annotations) {
-	}
+    public List<String> getClasses() {
+        if (classes == null) {
+        	classes = new ArrayList<String>();
+        }
+        return this.classes;
+    }
 }

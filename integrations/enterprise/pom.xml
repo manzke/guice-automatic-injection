@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.devsurf.injection.guice</groupId>
+		<artifactId>integrations</artifactId>
+		<version>0.8.2-SNAPSHOT</version>
+	</parent>
+	<groupId>de.devsurf.injection.guice.integrations</groupId>
+	<artifactId>de.devsurf.injection.guice.integrations.enterprise</artifactId>
+	<version>0.8.2-SNAPSHOT</version>
+	<properties>
+		<main.basedir>${project.parent.parent.basedir}</main.basedir>
+	</properties>	
+	<dependencies>
+		<dependency>
+			<groupId>de.devsurf.injection.guice.scanner</groupId>
+			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
+			<version>0.8.2-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>2.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

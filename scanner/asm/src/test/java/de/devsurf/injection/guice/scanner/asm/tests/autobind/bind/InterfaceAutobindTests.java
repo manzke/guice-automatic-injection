@@ -19,6 +19,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.enterprise.inject.Alternative;
+
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
@@ -28,7 +30,7 @@ import com.google.inject.Injector;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.To;
 import de.devsurf.injection.guice.annotations.To.Type;
-import de.devsurf.injection.guice.javaee.BeansXMLFeature;
+import de.devsurf.injection.guice.enterprise.BeansXMLFeature;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
@@ -125,6 +127,8 @@ public class InterfaceAutobindTests {
 		}
 	}
 	
+	@Alternative
+	@Bind(to = @To(value=Type.CUSTOM, customs={SecondTestInterface.class}))
 	public static class AlternativeImplementation implements TestInterface, SecondTestInterface {
 		public static final String TEST = "alternative_test";
 		public static final String EVENT = "alternative_event";

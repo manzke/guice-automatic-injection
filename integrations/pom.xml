@@ -14,8 +14,9 @@
 	</properties>
 	<modules>
 		<module>guicyfruit</module>
-		<module>MethodCallingInterceptor</module>
 		<module>commons.configurations</module>
+		<module>enterprise</module>
+		<module>metro</module>
 	</modules>
 	<dependencies>
 		<dependency>

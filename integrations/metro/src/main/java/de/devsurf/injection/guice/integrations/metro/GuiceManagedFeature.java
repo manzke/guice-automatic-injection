@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.javaee.model;
+package de.devsurf.injection.guice.integrations.metro;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.ws.WebServiceFeature;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import com.sun.xml.ws.api.FeatureConstructor;
 
+/**
+ * @author Daniel Manzke
+ */
+public class GuiceManagedFeature extends WebServiceFeature {
+	public static final String ID = "automatic.managed.feature";
 
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Alternatives {
-    @XmlElement(name = "class", namespace = "http://java.sun.com/xml/ns/javaee")
-    protected List<String> classes;
+	@FeatureConstructor
+	public GuiceManagedFeature() {
+		this.enabled = true;
+	}
 
-    public List<String> getClasses() {
-        if (classes == null) {
-        	classes = new ArrayList<String>();
-        }
-        return this.classes;
-    }
+	public String getID() {
+		return ID;
+	}
 }

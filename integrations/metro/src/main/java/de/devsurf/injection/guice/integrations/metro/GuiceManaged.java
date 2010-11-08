@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.javaee.model;
+package de.devsurf.injection.guice.integrations.metro;
 
-import java.util.ArrayList;
-import java.util.List;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
+import javax.xml.ws.spi.WebServiceFeatureAnnotation;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Interceptors {
-    @XmlElement(name = "class", namespace = "http://java.sun.com/xml/ns/javaee")
-    protected List<String> classes;
+import com.sun.xml.ws.api.server.InstanceResolverAnnotation;
 
-    public List<String> getClasses() {
-        if (classes == null) {
-        	classes = new ArrayList<String>();
-        }
-        return this.classes;
-    }
-
+@Retention(RUNTIME)
+@Target(TYPE)
+@Documented
+@WebServiceFeatureAnnotation(id = GuiceManagedFeature.ID, bean = GuiceManagedFeature.class)
+@InstanceResolverAnnotation(AutomaticGuiceManager.class)
+public @interface GuiceManaged {
 }
