@@ -167,6 +167,10 @@ public class ReflectionsScanner implements ClasspathScanner {
 					continue;
 				}
 			}
+			
+			if(map.containsKey("javax.enterprise.inject.Alternative")){
+				return;
+			}
 
 			for (ScannerFeature feature : features) {
 				feature.found(objectClass, map);

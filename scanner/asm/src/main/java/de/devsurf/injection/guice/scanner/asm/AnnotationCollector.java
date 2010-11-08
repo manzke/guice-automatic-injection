@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.enterprise.inject.Alternative;
-
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
@@ -144,7 +142,7 @@ public class AnnotationCollector implements ClassVisitor {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void visitEnd() {
-		if (!_ignore && _annotations.size() > 0 && !_annotations.containsKey(Alternative.class.getName())) {
+		if (!_ignore && _annotations.size() > 0 && !_annotations.containsKey("javax.enterprise.inject.Alternative")) {
 			for (ScannerFeature listener : _features) {
 				listener.found((Class<Object>) _class, _annotations);
 			}

@@ -53,6 +53,12 @@
 			<artifactId>commons-configuration</artifactId>
 			<version>1.6</version>
 		</dependency>
+		<dependency>
+			<groupId>de.devsurf.injection.guice.integrations</groupId>
+			<artifactId>de.devsurf.injection.guice.integrations.enterprise</artifactId>
+			<version>0.8.3-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -19,8 +19,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import javax.enterprise.inject.Alternative;
-
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
@@ -30,7 +28,6 @@ import com.google.inject.Injector;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.To;
 import de.devsurf.injection.guice.annotations.To.Type;
-import de.devsurf.injection.guice.enterprise.BeansXMLFeature;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
@@ -85,23 +82,6 @@ public class InterfaceAutobindTests {
 		assertTrue(sameInstance instanceof TestInterfaceImplementation);
 		assertTrue(sameInstance instanceof TestInterface);
 	}
-	
-	@Test
-	public void cdiTest() {
-		StartupModule startup = StartupModule.create(ASMClasspathScanner.class,
-			PackageFilter.create(InterfaceAutobindTests.class), PackageFilter.create(BeansXMLFeature.class));
-		startup.addFeature(BeansXMLFeature.class);
-		
-		Injector injector = Guice.createInjector(startup);
-		
-		assertNotNull(injector);
-
-		SecondTestInterface sameInstance = injector.getInstance(SecondTestInterface.class);
-		assertNotNull(sameInstance);
-		assertTrue(sameInstance.fireEvent().equals(AlternativeImplementation.EVENT));
-		assertTrue(sameInstance instanceof AlternativeImplementation);
-		assertTrue(sameInstance instanceof TestInterface);
-	}
 
 	public static interface TestInterface {
 		String sayHello();
@@ -115,23 +95,6 @@ public class InterfaceAutobindTests {
 	public static class TestInterfaceImplementation implements TestInterface, SecondTestInterface {
 		public static final String TEST = "test";
 		public static final String EVENT = "event";
-
-		@Override
-		public String sayHello() {
-			return TEST;
-		}
-
-		@Override
-		public String fireEvent() {
-			return EVENT;
-		}
-	}
-	
-	@Alternative
-	@Bind(to = @To(value=Type.CUSTOM, customs={SecondTestInterface.class}))
-	public static class AlternativeImplementation implements TestInterface, SecondTestInterface {
-		public static final String TEST = "alternative_test";
-		public static final String EVENT = "alternative_event";
 
 		@Override
 		public String sayHello() {

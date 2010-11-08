@@ -27,11 +27,17 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
 			<type>jar</type>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.devsurf.injection.guice</groupId>
+			<artifactId>de.devsurf.injection.guice.aop</artifactId>
+			<version>0.8.3-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
