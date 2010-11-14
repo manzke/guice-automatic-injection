@@ -37,6 +37,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 import com.googlecode.rocoto.configuration.readers.EnvironmentVariablesReader;
+import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;
 import com.googlecode.rocoto.configuration.readers.SystemPropertiesReader;
 
 import de.devsurf.injection.guice.annotations.GuiceModule.ModuleBindingFeature;
@@ -75,7 +76,18 @@ public abstract class StartupModule extends AbstractModule {
 		List<PackageFilter> packages = new ArrayList<PackageFilter>();
 		Collections.addAll(packages, _packages);
 		Collections.addAll(packages, bindPackages());
-
+		
+		try {
+			URL startup = getClass().getResource("/conf/startup.xml");
+			if(startup != null){
+				ConfigurationModule config = new ConfigurationModule();
+				config.addConfigurationReader(new PropertiesURLReader(new File(startup.toURI()), true));
+				binder().install(config);
+			}
+		} catch (Exception e) {
+			_logger.log(Level.INFO, "Startup Config couldn't be found in Classpath.", e);
+		}
+		
 		_packages = packages.toArray(new PackageFilter[packages.size()]);
 		Module scannerModule = new AbstractModule() {
 			@Override

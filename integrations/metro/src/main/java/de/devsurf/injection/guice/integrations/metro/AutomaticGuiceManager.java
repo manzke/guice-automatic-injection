@@ -15,7 +15,12 @@
  */
 package de.devsurf.injection.guice.integrations.metro;
 
+import javax.xml.ws.WebServiceContext;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.sun.istack.NotNull;
 import com.sun.xml.ws.api.message.Packet;
 import com.sun.xml.ws.api.server.ResourceInjector;
@@ -23,7 +28,8 @@ import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.api.server.WSWebServiceContext;
 import com.sun.xml.ws.server.AbstractMultiInstanceResolver;
 
-public abstract class AutomaticGuiceManager<T> extends AbstractMultiInstanceResolver<T> {
+public class AutomaticGuiceManager<T> extends AbstractMultiInstanceResolver<T> {
+	private static Module startup;
 	protected static Injector injector;
 	protected ResourceInjector resourceInjector;
 	protected WSWebServiceContext webServiceContext;
@@ -45,10 +51,17 @@ public abstract class AutomaticGuiceManager<T> extends AbstractMultiInstanceReso
 	public synchronized void start(WSWebServiceContext wsc, WSEndpoint endpoint) {
 		resourceInjector = getResourceInjector(endpoint);
 		webServiceContext = wsc;
-		if (injector == null) {
-			injector = getInjector();
+		if(injector == null){
+			injector = Guice.createInjector(startup, new AbstractModule() {
+				@Override
+				protected void configure() {
+					bind(WebServiceContext.class).toInstance(webServiceContext);
+				}
+			});
 		}
 	}
 	
-	protected abstract Injector getInjector();
+	public static void inject(Module startup){
+		AutomaticGuiceManager.startup = startup;
+	}
 }
