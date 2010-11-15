@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>integrations</artifactId>
-		<version>0.8.4</version>
+		<version>0.8.5-SNAPSHOT</version>
 	</parent>
 	<groupId>de.devsurf.injection.guice.integrations</groupId>
 	<artifactId>de.devsurf.injection.guice.integrations.enterprise</artifactId>
-	<version>0.8.4</version>
+	<version>0.8.5-SNAPSHOT</version>
 	<properties>
 		<main.basedir>${project.parent.parent.basedir}</main.basedir>
 	</properties>	
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
-			<version>0.8.4</version>
+			<version>0.8.5-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>		
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice</groupId>
 			<artifactId>de.devsurf.injection.guice.aop</artifactId>
-			<version>0.8.4</version>
+			<version>0.8.5-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

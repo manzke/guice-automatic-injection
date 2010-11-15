@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>scanner</artifactId>
-		<version>0.8.4</version>
+		<version>0.8.5-SNAPSHOT</version>
 	</parent>	
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>de.devsurf.injection.guice.scanner.reflections</artifactId>
