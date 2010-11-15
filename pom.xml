@@ -35,6 +35,15 @@
 		<connection>scm:git:git@github.com:manzke/guice-automatic-injection.git</connection>
 		<developerConnection>scm:git:git@github.com:manzke/guice-automatic-injection.git</developerConnection>
 	</scm>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
