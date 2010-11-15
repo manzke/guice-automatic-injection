@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.devsurf.injection.guice</groupId>
 		<artifactId>scanner</artifactId>
-		<version>0.8.4-SNAPSHOT</version>
+		<version>0.8.4</version>
 	</parent>	
 	<groupId>de.devsurf.injection.guice.scanner</groupId>
 	<artifactId>de.devsurf.injection.guice.scanner.sonatype</artifactId>
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>de.devsurf.injection.guice.scanner</groupId>
 			<artifactId>de.devsurf.injection.guice.scanner.asm</artifactId>
-			<version>0.8.4-SNAPSHOT</version>
+			<version>0.8.4</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.sonatype.spice.inject</groupId>
