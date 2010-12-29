@@ -52,7 +52,7 @@ import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
  * This Implementation only uses the ASM-API to read all recognized classes. It

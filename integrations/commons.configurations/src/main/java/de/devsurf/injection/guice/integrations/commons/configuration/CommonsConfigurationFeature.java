@@ -34,7 +34,7 @@ import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 /**
  * This Class will be called for each Class, which is annotated with

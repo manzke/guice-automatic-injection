@@ -33,7 +33,7 @@ import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
  * {@link ClasspathScanner} Implementation which uses the Google Guice-Extension

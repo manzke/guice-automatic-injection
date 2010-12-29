@@ -31,7 +31,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
  * Visitor implementation to collect field annotation information from class.

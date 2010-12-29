@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.scanner.feature;
+package de.devsurf.injection.guice.scanner.features;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -32,6 +32,7 @@ import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.binder.ScopedBindingBuilder;
 
+import de.devsurf.injection.guice.configuration.VariableResolver;
 import de.devsurf.injection.guice.install.BindingTracer;
 import de.devsurf.injection.guice.install.BindingJob;
 import de.devsurf.injection.guice.install.InstallationContext;
@@ -60,6 +61,9 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 
 	@Inject
 	protected BindingTracer tracer;
+	
+	@Inject
+	protected VariableResolver resolver;
 
 	protected InstallationContext context;
 

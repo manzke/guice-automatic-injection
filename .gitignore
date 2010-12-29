@@ -45,4 +45,5 @@ target/*
 **/bin/*
 *.classpath
 *.mymetadata
-#*.project
+*.project
+**/*.project

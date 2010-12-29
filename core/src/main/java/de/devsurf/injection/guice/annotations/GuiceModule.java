@@ -30,7 +30,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 /**
  * Annotate a Module with the GuiceModule-Annotation and it will be installed

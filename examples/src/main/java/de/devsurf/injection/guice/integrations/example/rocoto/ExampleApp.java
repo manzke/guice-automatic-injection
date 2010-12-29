@@ -21,7 +21,7 @@ import com.google.inject.Injector;
 import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
-import de.devsurf.injection.guice.configuration.ConfigurationFeature;
+import de.devsurf.injection.guice.configuration.features.ConfigurationFeature;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;

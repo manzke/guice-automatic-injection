@@ -41,7 +41,7 @@ import de.devsurf.injection.guice.aop.GuiceMethodInterceptor;
 import de.devsurf.injection.guice.aop.Invoke;
 import de.devsurf.injection.guice.aop.MethodMatcher;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton
 public class InterceptorFeature extends BindingScannerFeature {

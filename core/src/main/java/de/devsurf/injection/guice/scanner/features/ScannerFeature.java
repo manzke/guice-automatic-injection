@@ -13,28 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
-package de.devsurf.injection.guice.enterprise;
+package de.devsurf.injection.guice.scanner.features;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import com.google.inject.Singleton;
-
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
-
-@Singleton
-public class BeansXMLFeature extends BindingScannerFeature {
-	@Override
-	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-		return BindingStage.IGNORE;
-	}
-
-	@Override
-	public void process(final Class<Object> annotatedClass,
-			final Map<String, Annotation> annotations) {
-	}
+/**
+ * This Interface is used, if you want get informed, for Classes with
+ * Annotations. This is used for creating Classes for the automatic Module
+ * installation or the automatic Bean binding.
+ * 
+ * You will get the Class for the annotated one and a Proxy of the attached
+ * Annotations.
+ * 
+ * @author Daniel Manzke
+ * 
+ */
+public interface ScannerFeature {
+	void found(Class<Object> annotatedClass, Map<String, Annotation> annotations);
 }

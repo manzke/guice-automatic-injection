@@ -27,8 +27,8 @@ import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.install.InstallationContext;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
  * The ScannerModule will be injected with a ClasspathScanner and the needed

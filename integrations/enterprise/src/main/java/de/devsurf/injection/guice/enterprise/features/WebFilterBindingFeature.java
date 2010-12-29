@@ -24,10 +24,9 @@ import javax.servlet.annotation.WebFilter;
 
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-import com.googlecode.rocoto.configuration.resolver.PropertiesResolver;
 
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton
 public class WebFilterBindingFeature extends BindingScannerFeature {
@@ -50,19 +49,15 @@ public class WebFilterBindingFeature extends BindingScannerFeature {
 		final String value;
 		final String[] values;
 		if(patterns.length > 0){
-			final PropertiesResolver resolver = new PropertiesResolver(patterns[0]);
-			resolver.setInjector(injector);
-			value = resolver.get();
+			value = resolver.resolve(patterns[0]);
 			if(patterns.length > 1){
 				values = new String[patterns.length-1];
 				
 				for(int i=1;i<patterns.length;i++){
-					final PropertiesResolver patternResolver = new PropertiesResolver(patterns[i]);
-					patternResolver.setInjector(injector);
-					values[i-1] = patternResolver.get();
+					values[i-1] = resolver.resolve(patterns[i]);
 				}				
 			}else{
-				values = null;
+				values = new String[0];
 			}
 		}else{
 			// failure

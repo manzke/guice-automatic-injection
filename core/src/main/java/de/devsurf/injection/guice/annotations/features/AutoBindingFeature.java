@@ -41,11 +41,11 @@ import com.google.inject.name.Names;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceAnnotation;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton
 public class AutoBindingFeature extends BindingScannerFeature {
-	private Logger _logger = Logger.getLogger(AutoBindingFeature.class.getName());
+	protected Logger _logger = Logger.getLogger(AutoBindingFeature.class.getName());
 
 	@Override
 	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
@@ -70,9 +70,9 @@ public class AutoBindingFeature extends BindingScannerFeature {
 
 		if (filtered.containsKey(Named.class.getName())) {
 			Named named = (Named) filtered.remove(Named.class.getName());
-			filtered.put(com.google.inject.name.Named.class.getName(), Names.named(named.value()));
+			filtered.put(com.google.inject.name.Named.class.getName(), Names.named(resolver.resolve(named.value())));
 		}else if(annotation.value().value().length() > 0){
-			filtered.put(com.google.inject.name.Named.class.getName(), Names.named(annotation.value().value()));
+			filtered.put(com.google.inject.name.Named.class.getName(), Names.named(resolver.resolve(annotation.value().value())));
 		}
 
 		Class<Object>[] interfaces;
@@ -84,7 +84,7 @@ public class AutoBindingFeature extends BindingScannerFeature {
 		case SUPER:
 			Class<? super Object> superclass = annotatedClass.getSuperclass();
 			if (Object.class.equals(superclass)) {
-				interfaces = new Class[0];
+				interfaces = new Class[] { annotatedClass };
 			} else {
 				interfaces = new Class[] { superclass };
 			}
@@ -101,11 +101,12 @@ public class AutoBindingFeature extends BindingScannerFeature {
 					parent = parent.getSuperclass();
 				}
 				interfaces = interfaceCollection.toArray(new Class[interfaceCollection.size()]);
+				if(interfaces.length == 0){
+					interfaces = new Class[] { annotatedClass };
+				}
 			}
 		}
 
-		// TODO Should we add the Binding to the Super-Classes? Or only if
-		// there are no Interfaces?
 		for (Class<Object> interf : interfaces) {
 			if (_logger.isLoggable(Level.FINE)) {
 				_logger.fine(String.format("Binding Class %s to Interface %s. Singleton? %s ",

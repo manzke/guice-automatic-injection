@@ -35,7 +35,7 @@ import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 import de.devsurf.injection.guice.scanner.sonatype.SonatypeScanner;
 
 public class NamedAutobindTests {

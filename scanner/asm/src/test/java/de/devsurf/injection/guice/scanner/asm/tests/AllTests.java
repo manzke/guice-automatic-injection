@@ -24,11 +24,11 @@ import de.devsurf.injection.guice.scanner.asm.tests.autobind.duplicate.Duplicate
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.filter.PackageFilterTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.multiple.MultibindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.names.NamedAutobindTests;
-import de.devsurf.injection.guice.scanner.asm.tests.autobind.only.AutobindOnlyTests;
+import de.devsurf.injection.guice.scanner.asm.tests.autobind.only.ImplementationOnlyTests;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses( { AutobindTests.class, InterfaceAutobindTests.class,
 		DuplicateAutobindTests.class, NamedAutobindTests.class, MultibindTests.class,
-		AutobindOnlyTests.class, PackageFilterTests.class })
+		ImplementationOnlyTests.class, PackageFilterTests.class })
 public class AllTests {
 }

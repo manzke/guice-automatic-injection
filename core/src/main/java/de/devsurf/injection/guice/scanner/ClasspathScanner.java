@@ -18,7 +18,7 @@ package de.devsurf.injection.guice.scanner;
 import java.io.IOException;
 import java.util.List;
 
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
  * Interface which is used to create ClasspathScanner implementations. Our

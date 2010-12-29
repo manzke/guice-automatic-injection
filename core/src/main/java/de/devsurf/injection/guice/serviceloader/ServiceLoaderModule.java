@@ -13,28 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
-package de.devsurf.injection.guice.enterprise;
+package de.devsurf.injection.guice.serviceloader;
 
-import java.lang.annotation.Annotation;
-import java.util.Map;
+import java.util.Set;
 
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Module;
 
+import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
-@Singleton
-public class BeansXMLFeature extends BindingScannerFeature {
-	@Override
-	public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-		return BindingStage.IGNORE;
+@GuiceModule(stage=BindingStage.INTERNAL)
+public class ServiceLoaderModule extends ModuleLoader<Module> {
+	private boolean enabled;
+
+	public ServiceLoaderModule(Class<Module> type) {
+		super(type);
 	}
-
+	
+	@Inject
+	public void init(Set<ScannerFeature> features){
+		for(ScannerFeature feature : features){
+			if(feature instanceof ServiceLoaderFeature){
+				enabled = true;
+			}
+		}
+	}
+	
 	@Override
-	public void process(final Class<Object> annotatedClass,
-			final Map<String, Annotation> annotations) {
+	protected void configure() {
+		if(enabled){
+			super.configure();
+		}
 	}
 }

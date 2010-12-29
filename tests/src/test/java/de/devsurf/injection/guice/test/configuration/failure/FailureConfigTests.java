@@ -30,8 +30,8 @@ import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.ConfigurationFeature;
 import de.devsurf.injection.guice.configuration.PathConfig;
+import de.devsurf.injection.guice.configuration.features.ConfigurationFeature;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;

@@ -16,10 +16,9 @@
 /**
  * 
  */
-package de.devsurf.injection.guice.configuration;
+package de.devsurf.injection.guice.configuration.features;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,12 +33,16 @@ import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;
-import com.googlecode.rocoto.configuration.resolver.PropertiesResolver;
 
+import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.ConfigurationModule;
+import de.devsurf.injection.guice.configuration.PathConfig;
+import de.devsurf.injection.guice.configuration.PropertiesProvider;
+import de.devsurf.injection.guice.configuration.PropertiesReader;
 import de.devsurf.injection.guice.configuration.Configuration.Type;
 import de.devsurf.injection.guice.install.BindingJob;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 /**
  * This class will bind a Properties-Instance or -Provider for each Class
@@ -76,8 +79,21 @@ public class ConfigurationFeature extends BindingScannerFeature {
 			url = findURL(name, config.alternative());
 			if (url != null) {
 				try {
-					url.openConnection().getInputStream();
-				} catch (IOException e) {
+					//TODO Use an Executor to test, if the Stream can be opened?
+					//FIXME What happens if Error Page is returned?
+					/*
+					final URL alternativeURL = url;
+					Future<URL> submit = Executors.newSingleThreadExecutor().submit(new Callable<URL>() {
+						@Override
+						public URL call() throws Exception {
+							alternativeURL.openConnection().getInputStream();
+							return alternativeURL;
+						}
+					});
+					submit.get(5, TimeUnit.SECONDS);
+					*/
+					url.openStream();
+				} catch (Exception e) {
 					url = null;
 				}
 			}
@@ -145,13 +161,7 @@ public class ConfigurationFeature extends BindingScannerFeature {
 
 	private URL findURL(Named name, PathConfig config) {
 		URL url = null;
-		String path = config.value();
-
-		PropertiesResolver resolver = new PropertiesResolver(path);
-		if (resolver.containsKeys()) {
-			injector.injectMembers(resolver);
-			path = resolver.get();
-		}
+		String path = resolver.resolve(config.value());
 
 		switch (config.type()) {
 		case FILE:

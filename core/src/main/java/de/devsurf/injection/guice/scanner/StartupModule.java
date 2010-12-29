@@ -17,6 +17,7 @@ package de.devsurf.injection.guice.scanner;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -46,7 +47,7 @@ import de.devsurf.injection.guice.annotations.features.ImplementationBindingFeat
 import de.devsurf.injection.guice.annotations.features.MultiBindingFeature;
 import de.devsurf.injection.guice.configuration.ConfigurationModule;
 import de.devsurf.injection.guice.install.InstallationContext;
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
  * The StartupModule is used for creating an initial Injector, which binds and
@@ -76,17 +77,6 @@ public abstract class StartupModule extends AbstractModule {
 		List<PackageFilter> packages = new ArrayList<PackageFilter>();
 		Collections.addAll(packages, _packages);
 		Collections.addAll(packages, bindPackages());
-		
-		try {
-			URL startup = getClass().getResource("/conf/startup.xml");
-			if(startup != null){
-				ConfigurationModule config = new ConfigurationModule();
-				config.addConfigurationReader(new PropertiesURLReader(new File(startup.toURI()), true));
-				binder().install(config);
-			}
-		} catch (Exception e) {
-			_logger.log(Level.INFO, "Startup Config couldn't be found in Classpath.", e);
-		}
 		
 		_packages = packages.toArray(new PackageFilter[packages.size()]);
 		Module scannerModule = new AbstractModule() {
@@ -119,7 +109,15 @@ public abstract class StartupModule extends AbstractModule {
 		if (bindEnvironment) {
 			configurationModule.addConfigurationReader(new EnvironmentVariablesReader());
 		}
-
+		URL startup = getClass().getResource("/conf/startup.xml");
+		if(startup != null){
+			try {
+				configurationModule.addConfigurationReader(new PropertiesURLReader(new File(startup.toURI()), true));
+			} catch (URISyntaxException e) {
+				_logger.log(Level.INFO, "Startup Config couldn't be found in Classpath.", e);
+			}	
+		}
+		
 		Injector internal = Guice.createInjector(scannerModule, configurationModule);
 		binder().install(internal.getInstance(ScannerModule.class));
 	}
@@ -143,22 +141,26 @@ public abstract class StartupModule extends AbstractModule {
 		}
 
 		String classpath = System.getProperty("java.class.path");
-		try {
-			classpath = classpath + File.pathSeparator
-					+ new File(StartupModule.class.getResource("/").toURI()).getAbsolutePath();
-		} catch (URISyntaxException e) {
-			// ignore
-		}
-
-		for (String path : classpath.split(File.pathSeparator)) {
-			File file = new File(path);
+		if(classpath != null && classpath.length() > 0){
 			try {
-				if (file.exists()) {
-					urlSet.add(file.toURI().toURL());
+				URL resource = StartupModule.class.getResource("/");
+				if(resource != null){
+					classpath = classpath + File.pathSeparator + new File(resource.toURI()).getAbsolutePath();	
 				}
-			} catch (MalformedURLException e) {
-				_logger.log(Level.INFO, "Found invalid URL in Classpath: " + path, e);
+			} catch (URISyntaxException e) {
+				// ignore
 			}
+
+			for (String path : classpath.split(File.pathSeparator)) {
+				File file = new File(path);
+				try {
+					if (file.exists()) {
+						urlSet.add(file.toURI().toURL());
+					}
+				} catch (MalformedURLException e) {
+					_logger.log(Level.INFO, "Found invalid URL in Classpath: " + path, e);
+				}
+			}			
 		}
 
 		return urlSet;

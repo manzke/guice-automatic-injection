@@ -22,6 +22,7 @@ import static de.devsurf.injection.guice.annotations.To.Type.IMPLEMENTATION;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
+import java.util.logging.Level;
 
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -47,7 +48,10 @@ public class ImplementationBindingFeature extends AutoBindingFeature {
 			final Map<String, Annotation> annotations) {
 		final boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 			.getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
-
+		if (_logger.isLoggable(Level.FINE)) {
+			_logger.fine(String.format("Binding Class %s. Singleton? %s ",
+				annotatedClass, asSingleton));
+		}
 		bind(annotatedClass, null, (asSingleton ? Scopes.SINGLETON : null));
 	}
 }

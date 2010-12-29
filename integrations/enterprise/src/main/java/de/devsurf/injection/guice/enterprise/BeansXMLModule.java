@@ -38,8 +38,8 @@ import de.devsurf.injection.guice.enterprise.model.Beans;
 import de.devsurf.injection.guice.enterprise.model.Decorators;
 import de.devsurf.injection.guice.enterprise.model.Interceptors;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.feature.BindingScannerFeature;
-import de.devsurf.injection.guice.scanner.feature.ScannerFeature;
+import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
+import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 @GuiceModule(stage=BindingStage.INTERNAL)
 public class BeansXMLModule implements DynamicModule {
@@ -62,7 +62,9 @@ public class BeansXMLModule implements DynamicModule {
 	@Override
 	public void configure(Binder binder) {		
 		if(enabled){
-			URL beansURL = getClass().getResource("/beans.xml");
+			//FIXME
+			URL beansURL = getClass().getResource("/META-INF/beans.xml");
+//			URL beansURL = getClass().getResource("/beans.xml");
 			if(beansURL != null){
 				Beans beans;
 				try {
@@ -109,7 +111,9 @@ public class BeansXMLModule implements DynamicModule {
 						continue;
 					}
 				}
-			}			
+			}else{
+				_logger.log(Level.INFO, "Beans.xml Feature was bound, but not found in Classpath.");
+			}
 		}
 	}
 

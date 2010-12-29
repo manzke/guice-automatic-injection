@@ -28,15 +28,17 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.annotations.To;
+import de.devsurf.injection.guice.annotations.To.Type;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
-public class AutobindOnlyTests {
+public class ImplementationOnlyTests {
 	@Test
 	public void createDynamicModule() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			PackageFilter.create(AutobindOnlyTests.class)));
+			PackageFilter.create(ImplementationOnlyTests.class)));
 		assertNotNull(injector);
 	}
 
@@ -56,11 +58,11 @@ public class AutobindOnlyTests {
 			// ok
 		}
 	}
-
-	@Test
+	
+ 	@Test
 	public void createTestInterface() {
 		Injector injector = Guice.createInjector(StartupModule.create(ASMClasspathScanner.class,
-			PackageFilter.create(AutobindOnlyTests.class)));
+			PackageFilter.create(ImplementationOnlyTests.class)));
 		assertNotNull(injector);
 
 		try {
@@ -73,7 +75,7 @@ public class AutobindOnlyTests {
 		}
 	}
 
-	@Bind(@Named("testname"))
+	@Bind(value=@Named("testname"), to=@To(value=Type.IMPLEMENTATION))
 	public static class TestInterfaceImplementation {
 		public static final String TEST = "test";
 		public static final String EVENT = "event";

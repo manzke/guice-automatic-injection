@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import com.google.inject.Provider;
 
 
-class PropertiesProvider implements Provider<Properties> {
+public class PropertiesProvider implements Provider<Properties> {
 	Logger _logger = Logger.getLogger(PropertiesProvider.class.getName());
 	
 	private URL url;
