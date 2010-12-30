@@ -179,7 +179,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 
 	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
 			Annotation annotation, Scope scope) {
-		BindingJob job = new BindingJob(scope, null, annotation, implementationClass.getName(),
+		BindingJob job = new BindingJob(scope, null, annotation, /*implementationClass.getName()*/null,
 			interf.getName());
 
 		if (!tracer.contains(job)) {

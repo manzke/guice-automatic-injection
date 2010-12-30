@@ -20,6 +20,7 @@ package de.devsurf.injection.guice.annotations.features;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
+import java.util.logging.Level;
 
 import com.google.inject.Scope;
 import com.google.inject.Singleton;
@@ -27,6 +28,7 @@ import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
 import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.install.BindingJob;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 
 @Singleton
@@ -41,22 +43,37 @@ public class MultiBindingFeature extends AutoBindingFeature {
 		}
 		return BindingStage.IGNORE;
 	}
-
+	
 	@Override
 	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
 			Annotation annotation, Scope scope) {
-		Multibinder<T> builder;
-		synchronized (_binder) {
-			if (annotation != null) {
-				builder = Multibinder.newSetBinder(_binder, interf, annotation);
-			} else {
-				builder = Multibinder.newSetBinder(_binder, interf);
-			}
+		BindingJob job = new BindingJob(scope, null, annotation, implementationClass.getName(),
+			interf.getName());
+		
+		if (!tracer.contains(job)) {
+			Multibinder<T> builder;
+			synchronized (_binder) {
+				if (annotation != null) {
+					builder = Multibinder.newSetBinder(_binder, interf, annotation);
+				} else {
+					builder = Multibinder.newSetBinder(_binder, interf);
+				}
 
-			ScopedBindingBuilder scopedBindingBuilder = builder.addBinding().to(
-				implementationClass);
-			if (scope != null) {
-				scopedBindingBuilder.in(scope);
+				ScopedBindingBuilder scopedBindingBuilder = builder.addBinding().to(
+					implementationClass);
+				if (scope != null) {
+					scopedBindingBuilder.in(scope);
+				}
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.FINE)) {
+				_logger.log(Level.FINE, "Ignoring Multi-BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception("Ignoring Multi-BindingJob \"" + job.toString()
+							+ "\", because it was already bound."));
+			} else if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring Multi-BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
 			}
 		}
 	}

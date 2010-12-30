@@ -42,9 +42,9 @@ public class BindingJob {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((annotated == null) ? 0 : annotated.hashCode());
-		if (interfaceName == null) {
+//		if (interfaceName == null) {
 			result = prime * result + ((className == null) ? 0 : className.hashCode());
-		}
+//		}
 		result = prime * result + ((interfaceName == null) ? 0 : interfaceName.hashCode());
 		result = prime * result + ((provided == null) ? 0 : provided.hashCode());
 		result = prime * result + ((scoped == null) ? 0 : scoped.hashCode());
