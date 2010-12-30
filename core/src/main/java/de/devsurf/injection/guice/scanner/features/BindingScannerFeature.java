@@ -34,10 +34,15 @@ import com.google.inject.binder.ScopedBindingBuilder;
 
 import de.devsurf.injection.guice.configuration.VariableResolver;
 import de.devsurf.injection.guice.install.BindingTracer;
-import de.devsurf.injection.guice.install.BindingJob;
 import de.devsurf.injection.guice.install.InstallationContext;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.install.InstallationContext.StageableRequest;
+import de.devsurf.injection.guice.install.bindjob.BindingJob;
+import de.devsurf.injection.guice.install.bindjob.ConstantBindingJob;
+import de.devsurf.injection.guice.install.bindjob.ImplementationBindingJob;
+import de.devsurf.injection.guice.install.bindjob.InstanceBindingJob;
+import de.devsurf.injection.guice.install.bindjob.InterfaceBindingJob;
+import de.devsurf.injection.guice.install.bindjob.ProviderBindingJob;
 import de.devsurf.injection.guice.scanner.ScannerModule;
 
 /**
@@ -106,7 +111,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 
 	protected <T, V extends T> void bindProvider(Provider<V> provider, Class<T> interf,
 			Annotation annotation, Scope scope) {
-		BindingJob job = new BindingJob(scope, provider, annotation, null, interf.getName());
+		BindingJob job = new ProviderBindingJob(scope, provider, annotation, interf.getName());
 		if (!tracer.contains(job)) {
 			LinkedBindingBuilder<T> builder;
 			synchronized (_binder) {
@@ -133,8 +138,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 
 	protected <T, V extends T> void bindInstance(V implementation, Class<T> interf,
 			Annotation annotation, Scope scope) {
-		BindingJob job = new BindingJob(scope, null, annotation, implementation.getClass()
-			.getName(), interf.getName());
+		BindingJob job = new InstanceBindingJob(scope, annotation, implementation.getClass().getName(), interf.getName());
 
 		if (!tracer.contains(job)) {
 			LinkedBindingBuilder<T> builder;
@@ -158,8 +162,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 	}
 
 	protected void bindConstant(String value, Annotation annotation) {
-		BindingJob job = new BindingJob(null, null, annotation, value.getClass().getName(),
-			"constant");
+		BindingJob job = new ConstantBindingJob(annotation, value.getClass().getName());
 		if (!tracer.contains(job)) {
 			synchronized (_binder) {
 				_binder.bindConstant().annotatedWith(annotation).to(value);
@@ -174,13 +177,11 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 						+ "\", because it was already bound.");
 			}
 		}
-
 	}
 
 	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
 			Annotation annotation, Scope scope) {
-		BindingJob job = new BindingJob(scope, null, annotation, /*implementationClass.getName()*/null,
-			interf.getName());
+		BindingJob job = new InterfaceBindingJob(scope, annotation, implementationClass.getName(),interf.getName());
 
 		if (!tracer.contains(job)) {
 			LinkedBindingBuilder<T> builder;
@@ -208,8 +209,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 	}
 
 	protected <T> void bind(Class<T> implementationClass, Annotation annotation, Scope scope) {
-		BindingJob job = new BindingJob(scope, null, annotation, implementationClass.getName(),
-			null);
+		BindingJob job = new ImplementationBindingJob(scope, annotation, implementationClass.getName());
 
 		if (!tracer.contains(job)) {
 			LinkedBindingBuilder<T> builder;

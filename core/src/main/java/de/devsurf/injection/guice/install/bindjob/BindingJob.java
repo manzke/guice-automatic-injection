@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.install;
+package de.devsurf.injection.guice.install.bindjob;
 
 import java.lang.annotation.Annotation;
 
@@ -29,7 +29,6 @@ public class BindingJob {
 
 	public BindingJob(Scope scoped, Provider<?> provided, Annotation annotated, String className,
 			String interfaceName) {
-		super();
 		this.scoped = scoped;
 		this.provided = provided;
 		this.annotated = annotated;
@@ -42,9 +41,7 @@ public class BindingJob {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((annotated == null) ? 0 : annotated.hashCode());
-//		if (interfaceName == null) {
-			result = prime * result + ((className == null) ? 0 : className.hashCode());
-//		}
+		result = prime * result + ((className == null) ? 0 : className.hashCode());
 		result = prime * result + ((interfaceName == null) ? 0 : interfaceName.hashCode());
 		result = prime * result + ((provided == null) ? 0 : provided.hashCode());
 		result = prime * result + ((scoped == null) ? 0 : scoped.hashCode());

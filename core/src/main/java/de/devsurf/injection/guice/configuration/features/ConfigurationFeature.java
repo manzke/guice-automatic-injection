@@ -40,8 +40,9 @@ import de.devsurf.injection.guice.configuration.PathConfig;
 import de.devsurf.injection.guice.configuration.PropertiesProvider;
 import de.devsurf.injection.guice.configuration.PropertiesReader;
 import de.devsurf.injection.guice.configuration.Configuration.Type;
-import de.devsurf.injection.guice.install.BindingJob;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.bindjob.BindingJob;
+import de.devsurf.injection.guice.install.bindjob.ConfigurationBindingJob;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 /**
@@ -111,7 +112,7 @@ public class ConfigurationFeature extends BindingScannerFeature {
 		}
 
 		if (config.type() == Type.VALUES || config.type() == Type.BOTH) {
-			BindingJob job = new BindingJob(null, null, null, url.toString(), null);
+			BindingJob job = new ConfigurationBindingJob(config.name(), url.toString());
 			if (!tracer.contains(job)) {
 				/* && !(url.toString().startsWith("jar:")) */
 				_logger.log(Level.INFO, "Trying to bind \"" + url.toString()

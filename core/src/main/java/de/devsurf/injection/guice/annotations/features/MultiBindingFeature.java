@@ -28,8 +28,9 @@ import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
 import de.devsurf.injection.guice.annotations.Bind;
-import de.devsurf.injection.guice.install.BindingJob;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.bindjob.BindingJob;
+import de.devsurf.injection.guice.install.bindjob.MultiBindingJob;
 
 @Singleton
 public class MultiBindingFeature extends AutoBindingFeature {
@@ -47,7 +48,7 @@ public class MultiBindingFeature extends AutoBindingFeature {
 	@Override
 	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
 			Annotation annotation, Scope scope) {
-		BindingJob job = new BindingJob(scope, null, annotation, implementationClass.getName(),
+		BindingJob job = new MultiBindingJob(scope, annotation, implementationClass.getName(),
 			interf.getName());
 		
 		if (!tracer.contains(job)) {

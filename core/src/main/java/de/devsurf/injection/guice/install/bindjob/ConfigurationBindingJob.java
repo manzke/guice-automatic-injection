@@ -13,29 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.devsurf.injection.guice.install;
+package de.devsurf.injection.guice.install.bindjob;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.lang.annotation.Annotation;
 
-import com.google.inject.Singleton;
 
-import de.devsurf.injection.guice.install.bindjob.BindingJob;
-
-@Singleton
-public class BindingTracer implements Iterable<BindingJob>{
-	private Set<BindingJob> jobs = new HashSet<BindingJob>();
-
-	public synchronized boolean add(BindingJob e) {
-		return jobs.add(e);
+public class ConfigurationBindingJob extends BindingJob{
+	
+	public ConfigurationBindingJob(Annotation annotated, String location) {
+		super(null, null, annotated, location, null);
 	}
 
-	public synchronized boolean contains(Object o) {
-		return jobs.contains(o);
-	}
-
-	public Iterator<BindingJob> iterator() {
-		return jobs.iterator();
+	@Override
+	public String toString() {
+		return "ConfigurationBinding [annotated=" + annotated + ", location=" + className
+		+ "]";
 	}
 }

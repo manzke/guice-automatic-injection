@@ -45,7 +45,9 @@ import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
 import de.devsurf.injection.guice.annotations.features.ImplementationBindingFeature;
 import de.devsurf.injection.guice.annotations.features.MultiBindingFeature;
 import de.devsurf.injection.guice.configuration.ConfigurationModule;
+import de.devsurf.injection.guice.install.BindingTracer;
 import de.devsurf.injection.guice.install.InstallationContext;
+import de.devsurf.injection.guice.install.bindjob.BindingJob;
 import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**
@@ -65,6 +67,7 @@ public abstract class StartupModule extends AbstractModule {
 	protected List<Class<? extends ScannerFeature>> _features = new ArrayList<Class<? extends ScannerFeature>>();
 	protected boolean bindSystemProperties;
 	protected boolean bindEnvironment;
+	protected boolean verbose = (System.getProperty("gab.verbose") != null ? true :false);
 
 	public StartupModule(Class<? extends ClasspathScanner> scanner, PackageFilter... filter) {
 		_packages = (filter == null ? new PackageFilter[0] : filter);
@@ -119,6 +122,17 @@ public abstract class StartupModule extends AbstractModule {
 		
 		Injector internal = Guice.createInjector(scannerModule, configurationModule);
 		binder().install(internal.getInstance(ScannerModule.class));
+		
+		if(verbose){
+			BindingTracer tracer = internal.getInstance(BindingTracer.class);
+			
+			StringBuilder builder = new StringBuilder();
+			builder.append("Following Binding were processed.\n");
+			for(BindingJob job : tracer){
+				builder.append(job.toString()).append("\n");
+			}			
+			_logger.info(builder.toString());
+		}
 	}
 
 	protected abstract Multibinder<ScannerFeature> bindFeatures(Binder binder);
@@ -175,6 +189,10 @@ public abstract class StartupModule extends AbstractModule {
 
 	public void bindEnvironment() {
 		bindEnvironment = true;
+	}
+	
+	public void verbose(){
+		verbose = true;
 	}
 
 	public static StartupModule create(Class<? extends ClasspathScanner> scanner,
