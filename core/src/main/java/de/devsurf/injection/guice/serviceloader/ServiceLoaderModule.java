@@ -24,7 +24,7 @@ import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
-@GuiceModule(stage=BindingStage.INTERNAL)
+//@GuiceModule(stage=BindingStage.INTERNAL)
 public class ServiceLoaderModule extends ModuleLoader<Module> {
 	private boolean enabled;
 

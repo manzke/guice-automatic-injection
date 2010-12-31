@@ -130,9 +130,9 @@ public class ASMClasspathScanner implements ClasspathScanner {
 		String pattern = ".*" + packageName.replace(".", "/");
 
 		if (filter.deep()) {
-			pattern = pattern + "/((?:\\w|/)+([A-Z](?:\\w|\\$)+)\\.class)";
+			pattern = pattern + "/(?:\\w|/)*([A-Z](?:\\w|\\$)+)\\.class$";
 		} else {
-			pattern = pattern + "/([A-Z](?:\\w|\\$)+)\\.class";
+			pattern = pattern + "/([A-Z](?:\\w|\\$)+)\\.class$";
 		}
 
 		if (_logger.isLoggable(Level.FINE)) {
@@ -325,5 +325,16 @@ public class ASMClasspathScanner implements ClasspathScanner {
 				System.err.println("Input does not match pattern.");
 			}
 		}
+		
+		String file = "F:\\git\\twiddns\\target\\classes\\de\\devsurf\\twiddns\\test\\Publisher.class".replace("\\", "/");
+		String packageName = "de.devsurf.twiddns";						
+		String patternStr = ".*" + packageName.replace(".", "/");
+
+		patternStr = patternStr + "/(?:\\w|/)*([A-Z](?:\\w|\\$)+)\\.class$";
+		pattern = Pattern.compile(patternStr);
+		
+		Matcher matcher = pattern.matcher(file);
+		System.out.println(matcher.matches());
+		System.out.println(":D");
 	}
 }
