@@ -148,7 +148,7 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	}
 
 	public void scan() throws IOException {
-		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());//Executors.newFixedThreadPool(1);
+		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		if (_logger.isLoggable(Level.INFO)) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("Using Root-Path for Classpath scanning:").append(LINE_SEPARATOR);
@@ -182,6 +182,11 @@ public class ASMClasspathScanner implements ClasspathScanner {
 							_logger.log(Level.WARNING, "Using invalid URL for Classpath Scanning: "
 									+ url, e);
 							return;
+						} catch (Throwable e) {
+							// ignore
+							_logger.log(Level.SEVERE, "Using invalid URL for Classpath Scanning: "
+									+ url, e);
+							return;
 						}
 
 						if (entry.isDirectory()) {
@@ -203,7 +208,10 @@ public class ASMClasspathScanner implements ClasspathScanner {
 					} catch (IOException e) {
 						_logger.log(Level.FINE, "Skipping Entry " + url
 							+ ", because it couldn't be scanned.",e);
-					}
+					} catch (Throwable e) {
+						_logger.log(Level.WARNING, "Skipping Entry " + url
+							+ ", because it couldn't be scanned.",e);
+					} 
 				}
 			});
 			futures.add(task);
@@ -214,7 +222,7 @@ public class ASMClasspathScanner implements ClasspathScanner {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (ExecutionException e) {
-                throw new RuntimeException(e);
+                _logger.log(Level.SEVERE, e.getMessage(), e);
             }
         }
         pool.shutdown();
