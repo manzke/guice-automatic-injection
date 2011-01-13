@@ -22,6 +22,7 @@ import com.google.inject.multibindings.Multibinder;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
+import de.devsurf.injection.guice.annotations.features.ModuleBindingFeature;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
@@ -48,7 +49,7 @@ public class ExampleStartupModule extends StartupModule {
 	protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {
 		Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder,
 			ScannerFeature.class);
-		listeners.addBinding().to(GuiceModule.ModuleBindingFeature.class);
+		listeners.addBinding().to(ModuleBindingFeature.class);
 		return listeners;
 	}
 

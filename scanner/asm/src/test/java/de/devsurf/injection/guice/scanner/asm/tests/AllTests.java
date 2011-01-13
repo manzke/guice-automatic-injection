@@ -25,10 +25,12 @@ import de.devsurf.injection.guice.scanner.asm.tests.autobind.filter.PackageFilte
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.multiple.MultibindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.names.NamedAutobindTests;
 import de.devsurf.injection.guice.scanner.asm.tests.autobind.only.ImplementationOnlyTests;
+import de.devsurf.injection.guice.scanner.asm.tests.autobind.provider.ProviderTest;
+import de.devsurf.injection.guice.scanner.asm.tests.autobind.startconfig.StartConfigProviderTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses( { AutobindTests.class, InterfaceAutobindTests.class,
 		DuplicateAutobindTests.class, NamedAutobindTests.class, MultibindTests.class,
-		ImplementationOnlyTests.class, PackageFilterTests.class })
+		ImplementationOnlyTests.class, PackageFilterTests.class, StartConfigProviderTest.class, ProviderTest.class })
 public class AllTests {
 }

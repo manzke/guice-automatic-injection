@@ -15,22 +15,15 @@
  */
 package de.devsurf.injection.guice.annotations;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.inject.Qualifier;
 
-import com.google.inject.Module;
-import com.google.inject.Singleton;
 
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
-import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 /**
  * Annotate a Module with the GuiceModule-Annotation and it will be installed
@@ -45,28 +38,4 @@ import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 @Target( { ElementType.TYPE })
 public @interface GuiceModule {
 	BindingStage stage() default BindingStage.BUILD;
-
-	@Singleton
-	public class ModuleBindingFeature extends BindingScannerFeature {
-		private Logger _logger = Logger.getLogger(ModuleBindingFeature.class.getName());
-
-		@Override
-		public BindingStage accept(Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-			if (annotations.containsKey(GuiceModule.class.getName())) {
-				GuiceModule module = (GuiceModule) annotations.get(GuiceModule.class.getName());
-				return module.stage();
-			}
-			return BindingStage.IGNORE;
-		}
-
-		@Override
-		public void process(final Class<Object> annotatedClass, Map<String, Annotation> annotations) {
-			if (_logger.isLoggable(Level.INFO)) {
-				_logger.info("Installing Module: " + annotatedClass.getName());
-			}
-			synchronized (_binder) {
-				_binder.install((Module) injector.getInstance(annotatedClass));
-			}
-		}
-	}
 }

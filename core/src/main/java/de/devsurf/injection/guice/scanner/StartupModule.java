@@ -17,6 +17,7 @@ package de.devsurf.injection.guice.scanner;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -40,9 +41,9 @@ import com.googlecode.rocoto.configuration.readers.EnvironmentVariablesReader;
 import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;
 import com.googlecode.rocoto.configuration.readers.SystemPropertiesReader;
 
-import de.devsurf.injection.guice.annotations.GuiceModule.ModuleBindingFeature;
 import de.devsurf.injection.guice.annotations.features.AutoBindingFeature;
 import de.devsurf.injection.guice.annotations.features.ImplementationBindingFeature;
+import de.devsurf.injection.guice.annotations.features.ModuleBindingFeature;
 import de.devsurf.injection.guice.annotations.features.MultiBindingFeature;
 import de.devsurf.injection.guice.configuration.ConfigurationModule;
 import de.devsurf.injection.guice.install.BindingTracer;
@@ -67,6 +68,7 @@ public abstract class StartupModule extends AbstractModule {
 	protected List<Class<? extends ScannerFeature>> _features = new ArrayList<Class<? extends ScannerFeature>>();
 	protected boolean bindSystemProperties;
 	protected boolean bindEnvironment;
+	protected boolean bindStartupConfiguration = true;
 	protected boolean verbose = (System.getProperty("gab.verbose") != null ? true :false);
 
 	public StartupModule(Class<? extends ClasspathScanner> scanner, PackageFilter... filter) {
@@ -111,17 +113,25 @@ public abstract class StartupModule extends AbstractModule {
 		if (bindEnvironment) {
 			configurationModule.addConfigurationReader(new EnvironmentVariablesReader());
 		}
-		URL startup = getClass().getResource("/conf/startup.xml");
-		if(startup != null){
-			try {
-				configurationModule.addConfigurationReader(new PropertiesURLReader(new File(startup.toURI()), true));
-			} catch (URISyntaxException e) {
-				_logger.log(Level.INFO, "Startup Config couldn't be found in Classpath.", e);
-			}	
+		
+		if(bindStartupConfiguration){
+			URL startup = getClass().getResource("/conf/startup.xml");
+			if(startup != null){
+				try {
+					URI startupURI = startup.toURI();
+					_logger.log(Level.INFO, "Startup Config is used from Path: "+startupURI);
+					configurationModule.addConfigurationReader(new PropertiesURLReader(new File(startupURI), true));
+				} catch (URISyntaxException e) {
+					_logger.log(Level.INFO, "Startup Config couldn't be found in Classpath.", e);
+				}	
+			}else{
+				_logger.log(Level.INFO, "Startup Config couldn't be found, so it is not used.");
+			}			
 		}
 		
 		Injector internal = Guice.createInjector(scannerModule, configurationModule);
 		binder().install(internal.getInstance(ScannerModule.class));
+		binder().install(configurationModule);
 		
 		if(verbose){
 			BindingTracer tracer = internal.getInstance(BindingTracer.class);
@@ -179,16 +189,24 @@ public abstract class StartupModule extends AbstractModule {
 		return urlSet;
 	}
 
-	public void addFeature(Class<? extends ScannerFeature> listener) {
+	public StartupModule addFeature(Class<? extends ScannerFeature> listener) {
 		_features.add(listener);
+		return this;
 	}
 
-	public void bindSystemProperties() {
+	public StartupModule bindSystemProperties() {
 		bindSystemProperties = true;
+		return this;
+	}
+	
+	public StartupModule disableStartupConfiguration() {
+		bindStartupConfiguration = false;
+		return this;
 	}
 
-	public void bindEnvironment() {
+	public StartupModule bindEnvironment() {
 		bindEnvironment = true;
+		return this;
 	}
 	
 	public void verbose(){
