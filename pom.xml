@@ -19,6 +19,7 @@
 	
 	<properties>
 		<main.basedir>${project.basedir}</main.basedir>
+		<enforcer.skip>true</enforcer.skip>
 	</properties>
 
 	<modules>

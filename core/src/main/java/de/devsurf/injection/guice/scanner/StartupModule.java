@@ -167,11 +167,25 @@ public abstract class StartupModule extends AbstractModule {
 		if(classpath != null && classpath.length() > 0){
 			try {
 				URL resource = StartupModule.class.getResource("/");
+				
+				if ( resource == null ){
+					String className = StartupModule.class.getName().replace('.', '/') + ".class";
+					resource = StartupModule.class.getResource( className );
+					
+					if ( resource != null ){
+						String url = resource.toExternalForm();
+						url = url.substring( 0, url.length() - className.length() );
+						resource = new URL( url );
+					}
+				}
+				
 				if(resource != null){
 					classpath = classpath + File.pathSeparator + new File(resource.toURI()).getAbsolutePath();	
 				}
 			} catch (URISyntaxException e) {
-				// ignore
+				//FIXME ignore for now
+			} catch (MalformedURLException e) {
+				//FIXME ignore for now
 			}
 
 			for (String path : classpath.split(File.pathSeparator)) {
