@@ -33,6 +33,8 @@ import javassist.bytecode.annotation.Annotation;
 import org.reflections.Reflections;
 import org.reflections.scanners.AbstractScanner;
 import org.reflections.util.ConfigurationBuilder;
+import org.reflections.vfs.Vfs;
+import org.reflections.vfs.Vfs.File;
 
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
@@ -121,6 +123,10 @@ public class ReflectionsScanner implements ClasspathScanner {
 			builder.append("Using Root-Path for Classpath scanning:").append(LINE_SEPARATOR);
 			for (URL url : classPath) {
 				builder.append(url.toString()).append(LINE_SEPARATOR);
+				Iterable<File> files = Vfs.fromURL(url).getFiles();
+				for(File file : files){
+					builder.append("File: "+file.getFullPath()).append(LINE_SEPARATOR);
+				}
 			}
 			_logger.log(Level.INFO, builder.toString());
 		}
@@ -130,7 +136,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 				public boolean apply(String input) {
 					return matches(input);
 				}
-			}).setUrls(classPath));//.useParallelExecutor());
+			}).setUrls(classPath).useParallelExecutor());
 	}
 
 	private boolean matches(String name) {
