@@ -34,6 +34,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.AbstractScanner;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.vfs.Vfs;
+import org.reflections.vfs.Vfs.Dir;
 import org.reflections.vfs.Vfs.File;
 
 import com.google.common.base.Predicate;
@@ -123,7 +124,8 @@ public class ReflectionsScanner implements ClasspathScanner {
 			builder.append("Using Root-Path for Classpath scanning:").append(LINE_SEPARATOR);
 			for (URL url : classPath) {
 				builder.append(url.toString()).append(LINE_SEPARATOR);
-				Iterable<File> files = Vfs.fromURL(url).getFiles();
+				Dir dir = Vfs.fromURL(url);
+				Iterable<File> files = dir.getFiles();
 				for(File file : files){
 					builder.append("File: "+file.getFullPath()).append(LINE_SEPARATOR);
 				}
