@@ -125,6 +125,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 	}
 
 	private boolean matches(String name) {
+		_logger.warning("scan: "+name);
 		for (Pattern pattern : packagePatterns) {
 			if (pattern.matcher(name).matches()) {
 				return true;

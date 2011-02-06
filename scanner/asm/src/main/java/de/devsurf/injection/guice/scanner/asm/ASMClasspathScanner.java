@@ -305,6 +305,7 @@ public class ASMClasspathScanner implements ClasspathScanner {
 	}
 
 	private boolean matches(String name) {
+		_logger.warning("scan: "+name);
 		for (Pattern pattern : patterns) {
 			if (pattern.matcher(name).matches()) {
 				return true;
