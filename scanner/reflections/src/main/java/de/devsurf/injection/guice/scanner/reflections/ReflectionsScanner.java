@@ -128,12 +128,9 @@ public class ReflectionsScanner implements ClasspathScanner {
 			.filterInputsBy(new Predicate<String>() {
 				@Override
 				public boolean apply(String input) {
-					if(input.endsWith(".class")){
-						_logger.warning("matches: "+input);
-					}
 					return matches(input);
 				}
-			}).setUrls(classPath).useParallelExecutor());
+			}).setUrls(classPath));//.useParallelExecutor());
 	}
 
 	private boolean matches(String name) {
