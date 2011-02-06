@@ -136,6 +136,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 	private boolean matches(String name) {
 		for (Pattern pattern : packagePatterns) {
 			if (pattern.matcher(name).matches()) {
+				_logger.warning("matches: "+name);
 				return true;
 			}
 		}
@@ -147,6 +148,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 		@Override
 		public void scan(final Object cls) {
 			ClassFile classFile = (ClassFile) cls;
+			_logger.warning("class: "+classFile.getName());
 			AnnotationsAttribute annotationsAttribute = (AnnotationsAttribute) classFile
 				.getAttribute(AnnotationsAttribute.visibleTag);
 			if (annotationsAttribute == null) {
