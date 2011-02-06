@@ -101,9 +101,9 @@ public class ReflectionsScanner implements ClasspathScanner {
 		String pattern = packageName.replace(".", "\\.");
 
 		if (filter.deep()) {
-			pattern = pattern + "\\.((?:\\w|\\.)+([A-Z](?:\\w|\\$)+)\\.class)";
+			pattern = pattern + "\\.(?:\\w|\\.)*([A-Z](?:\\w|\\$)+)\\.class$";
 		} else {
-			pattern = pattern + "\\.([A-Z](?:\\w|\\$)+)\\.class";
+			pattern = pattern + "\\.([A-Z](?:\\w|\\$)+)\\.class$";
 		}
 
 		if (_logger.isLoggable(Level.FINE)) {
