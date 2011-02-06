@@ -50,6 +50,7 @@ import de.devsurf.injection.guice.scanner.features.ScannerFeature;
  * 
  */
 public class ReflectionsScanner implements ClasspathScanner {
+	public static String LINE_SEPARATOR = System.getProperty("line.separator");
 	private Logger _logger = Logger.getLogger(ReflectionsScanner.class.getName());
 	private List<ScannerFeature> features;
 	private List<Pattern> packagePatterns;
@@ -115,6 +116,14 @@ public class ReflectionsScanner implements ClasspathScanner {
 
 	@Override
 	public void scan() throws IOException {
+		if (_logger.isLoggable(Level.INFO)) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("Using Root-Path for Classpath scanning:").append(LINE_SEPARATOR);
+			for (URL url : classPath) {
+				builder.append(url.toString()).append(LINE_SEPARATOR);
+			}
+			_logger.log(Level.INFO, builder.toString());
+		}
 		new Reflections(new ConfigurationBuilder().setScanners(new AnnotationScanner())
 			.filterInputsBy(new Predicate<String>() {
 				@Override
@@ -125,7 +134,6 @@ public class ReflectionsScanner implements ClasspathScanner {
 	}
 
 	private boolean matches(String name) {
-		_logger.warning("scan: "+name);
 		for (Pattern pattern : packagePatterns) {
 			if (pattern.matcher(name).matches()) {
 				return true;
