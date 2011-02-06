@@ -109,7 +109,7 @@ public class SonatypeScanner implements ClasspathScanner {
 		String pattern = ".*" + packageName.replace(".", "\\.");
 
 		if (filter.deep()) {
-			pattern = pattern + "\\.((?:\\w|\\.)+([A-Z](?:\\w|\\$)+))";
+			pattern = pattern + "\\.((?:\\w|\\.)*([A-Z](?:\\w|\\$)+))";
 		} else {
 			pattern = pattern + "\\.([A-Z](?:\\w|\\$)+)";
 		}
