@@ -30,8 +30,8 @@ import javax.xml.bind.JAXBException;
 
 import com.google.inject.Binder;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.enterprise.model.Alternatives;
 import de.devsurf.injection.guice.enterprise.model.Beans;
@@ -42,7 +42,7 @@ import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 @GuiceModule(stage=BindingStage.INTERNAL)
-public class BeansXMLModule implements DynamicModule {
+public class BeansXMLModule implements Module {
 	private Logger _logger = Logger.getLogger(BeansXMLModule.class.getName());
 
 	private boolean enabled;

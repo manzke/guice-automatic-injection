@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 
 import com.google.inject.Binder;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.install.InstallationContext;
@@ -39,7 +39,7 @@ import de.devsurf.injection.guice.scanner.features.ScannerFeature;
  * @author Daniel Manzke
  * 
  */
-public class ScannerModule implements DynamicModule {
+public class ScannerModule implements Module {
 	public static String LINE_SEPARATOR = System.getProperty("line.separator");
 	private Logger _logger = Logger.getLogger(ScannerModule.class.getName());
 	@Inject

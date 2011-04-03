@@ -124,11 +124,6 @@ public class ReflectionsScanner implements ClasspathScanner {
 			builder.append("Using Root-Path for Classpath scanning:").append(LINE_SEPARATOR);
 			for (URL url : classPath) {
 				builder.append(url.toString()).append(LINE_SEPARATOR);
-				Dir dir = Vfs.fromURL(url);
-				Iterable<File> files = dir.getFiles();
-				for(File file : files){
-					builder.append("File: "+file.getFullPath()).append(LINE_SEPARATOR);
-				}
 			}
 			_logger.log(Level.INFO, builder.toString());
 		}

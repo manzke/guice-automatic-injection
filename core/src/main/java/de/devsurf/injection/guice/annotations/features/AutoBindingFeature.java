@@ -103,6 +103,7 @@ public class AutoBindingFeature extends BindingScannerFeature {
 				interfaces = interfaceCollection.toArray(new Class[interfaceCollection.size()]);
 				if(interfaces.length == 0){
 					interfaces = new Class[] { annotatedClass };
+					//FIXME Guice doesn't allow a binding to itself
 				}
 			}
 		}

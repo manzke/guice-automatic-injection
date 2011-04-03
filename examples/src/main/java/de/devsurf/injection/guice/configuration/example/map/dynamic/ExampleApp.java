@@ -18,13 +18,13 @@ package de.devsurf.injection.guice.configuration.example.map.dynamic;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.devsurf.injection.guice.DynamicModule;
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.configuration.features.ConfigurationFeature;
 import de.devsurf.injection.guice.example.starter.ExampleApplication;
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;
+import de.devsurf.injection.guice.scanner.ScannerModule;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 
@@ -33,7 +33,7 @@ import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
  * provided {@link StartupModule}. It passes the {@link ASMClasspathScanner}
  * class for the {@link ClasspathScanner} and the packages (de.devsurf) which
  * should be scanned. The {@link StartupModule} binds these parameter, so we are
- * able to create and inject our {@link DynamicModule}. This Module uses the
+ * able to create and inject our {@link ScannerModule}. This Module uses the
  * {@link ClasspathScanner} to explore the Classpath and scans for Annotations.
  * 
  * All recognized Classes annotated with {@link GuiceModule} are installed in
