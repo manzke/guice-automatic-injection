@@ -17,10 +17,10 @@ package de.devsurf.injection.guice.annotations;
 
 import java.lang.annotation.Annotation;
 
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
+import javax.inject.Named;
 
 import de.devsurf.injection.guice.annotations.To.Type;
+import de.devsurf.injection.guice.jsr330.Names;
 
 public class Annotations {
 	public static Bind createBind(final Type type){

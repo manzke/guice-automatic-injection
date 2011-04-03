@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
+
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 public final class MultiServiceLoaderProvider<T> implements Provider<T[]> {
@@ -13,7 +15,7 @@ public final class MultiServiceLoaderProvider<T> implements Provider<T[]> {
 	private final Class<T> type;
 
 	@Inject
-	com.google.inject.Injector injector;
+	Injector injector;
 
 	public MultiServiceLoaderProvider(Class<T> type) {
 		this.type = type;

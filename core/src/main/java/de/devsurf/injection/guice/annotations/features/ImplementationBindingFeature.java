@@ -24,8 +24,7 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.google.inject.Scopes;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
@@ -52,6 +51,6 @@ public class ImplementationBindingFeature extends AutoBindingFeature {
 			_logger.fine(String.format("Binding Class %s. Singleton? %s ",
 				annotatedClass, asSingleton));
 		}
-		bind(annotatedClass, null, (asSingleton ? Scopes.SINGLETON : null));
+		bind(annotatedClass, null, (asSingleton ? Singleton.class : null));
 	}
 }

@@ -21,7 +21,7 @@ package de.devsurf.injection.guice.serviceloader;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;

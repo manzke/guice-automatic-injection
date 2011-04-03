@@ -17,17 +17,17 @@ package de.devsurf.injection.guice.install.bindjob;
 
 import java.lang.annotation.Annotation;
 
-import com.google.inject.Provider;
-import com.google.inject.Scope;
+import javax.inject.Provider;
 
+@SuppressWarnings("rawtypes")
 public class BindingJob {
-	public final Scope scoped;
-	public final Provider<?> provided;
+	public final Class<? extends Annotation> scoped;
+	public final Class<? extends Provider> provided;
 	public final Annotation annotated;
 	public final String className;
 	public final String interfaceName;
 
-	public BindingJob(Scope scoped, Provider<?> provided, Annotation annotated, String className,
+	public BindingJob(Class<? extends Annotation> scoped, Class<? extends Provider> provided, Annotation annotated, String className,
 			String interfaceName) {
 		this.scoped = scoped;
 		this.provided = provided;

@@ -15,7 +15,7 @@
  */
 package de.devsurf.injection.guice.configuration.example.map.named;
 
-import com.google.inject.name.Named;
+import javax.inject.Named;
 
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.PathConfig;

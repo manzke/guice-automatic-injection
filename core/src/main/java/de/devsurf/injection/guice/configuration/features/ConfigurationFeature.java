@@ -27,19 +27,19 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Scopes;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
+import javax.inject.Singleton;
+
 import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;
 
 import de.devsurf.injection.guice.configuration.Configuration;
+import de.devsurf.injection.guice.configuration.Configuration.Type;
 import de.devsurf.injection.guice.configuration.ConfigurationModule;
 import de.devsurf.injection.guice.configuration.PathConfig;
 import de.devsurf.injection.guice.configuration.PropertiesProvider;
 import de.devsurf.injection.guice.configuration.PropertiesReader;
-import de.devsurf.injection.guice.configuration.Configuration.Type;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
 import de.devsurf.injection.guice.install.bindjob.ConfigurationBindingJob;
@@ -155,7 +155,7 @@ public class ConfigurationFeature extends BindingScannerFeature {
 				bindInstance(properties, Properties.class, named, null);
 			} else {
 				Provider<Properties> provider = new PropertiesProvider(url, isXML);
-				bindProvider(provider, Properties.class, named, Scopes.SINGLETON);
+				bindProvider(provider, Properties.class, named, Singleton.class);
 			}
 		}
 	}

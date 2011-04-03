@@ -45,10 +45,10 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.ClassReader;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import org.objectweb.asm.ClassReader;
 
 import de.devsurf.injection.guice.scanner.ClasspathScanner;
 import de.devsurf.injection.guice.scanner.PackageFilter;

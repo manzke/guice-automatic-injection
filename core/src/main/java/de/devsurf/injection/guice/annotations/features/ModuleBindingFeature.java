@@ -8,8 +8,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Singleton;
+
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 
 import de.devsurf.injection.guice.annotations.GuiceModule;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;

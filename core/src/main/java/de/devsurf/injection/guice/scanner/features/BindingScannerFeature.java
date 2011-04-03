@@ -23,14 +23,15 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import com.google.inject.Binder;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.Scope;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.binder.ScopedBindingBuilder;
+import com.google.inject.util.Providers;
 
 import de.devsurf.injection.guice.configuration.VariableResolver;
 import de.devsurf.injection.guice.install.BindingTracer;
@@ -109,8 +110,35 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 
 	public abstract void process(Class<Object> annotatedClass, Map<String, Annotation> annotations);
 
-	protected <T, V extends T> void bindProvider(Provider<V> provider, Class<T> interf,
-			Annotation annotation, Scope scope) {
+	protected <T, V extends T> void bindProvider(final Provider<V> provider, Class<T> interf,
+			Annotation annotation, Class<? extends Annotation> scope) {
+		BindingJob job = new ProviderBindingJob(scope, provider.getClass(), annotation, interf.getName());
+		if (!tracer.contains(job)) {
+			LinkedBindingBuilder<T> builder;
+			synchronized (_binder) {
+				builder = _binder.bind(interf);
+				if (annotation != null) {
+					builder = ((AnnotatedBindingBuilder<T>) builder).annotatedWith(annotation);
+				}
+				ScopedBindingBuilder scopedBuilder = builder.toProvider(Providers.guicify(provider));
+				if (scope != null) {
+					scopedBuilder.in(scope);
+				}
+			}
+			tracer.add(job);
+		} else {
+			if (_logger.isLoggable(Level.INFO)) {
+				_logger.log(Level.INFO, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.", new Exception());
+			} else if (_logger.isLoggable(Level.WARNING)) {
+				_logger.log(Level.WARNING, "Ignoring BindingJob \"" + job.toString()
+						+ "\", because it was already bound.");
+			}
+		}
+	}
+	
+	protected <T, V extends T> void bindProvider(final Class<? extends Provider<V>> provider, Class<T> interf,
+			Annotation annotation, Class<? extends Annotation> scope) {
 		BindingJob job = new ProviderBindingJob(scope, provider, annotation, interf.getName());
 		if (!tracer.contains(job)) {
 			LinkedBindingBuilder<T> builder;
@@ -137,7 +165,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 	}
 
 	protected <T, V extends T> void bindInstance(V implementation, Class<T> interf,
-			Annotation annotation, Scope scope) {
+			Annotation annotation, Class<? extends Annotation> scope) {
 		BindingJob job = new InstanceBindingJob(scope, annotation, implementation.getClass().getName(), interf.getName());
 
 		if (!tracer.contains(job)) {
@@ -180,7 +208,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 	}
 
 	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
-			Annotation annotation, Scope scope) {
+			Annotation annotation, Class<? extends Annotation> scope) {
 		BindingJob job = new InterfaceBindingJob(scope, annotation, implementationClass.getName(),interf.getName());
 
 		if (!tracer.contains(job)) {
@@ -208,7 +236,7 @@ public abstract class BindingScannerFeature implements ScannerFeature {
 		}
 	}
 
-	protected <T> void bind(Class<T> implementationClass, Annotation annotation, Scope scope) {
+	protected <T> void bind(Class<T> implementationClass, Annotation annotation, Class<? extends Annotation> scope) {
 		BindingJob job = new ImplementationBindingJob(scope, annotation, implementationClass.getName());
 
 		if (!tracer.contains(job)) {

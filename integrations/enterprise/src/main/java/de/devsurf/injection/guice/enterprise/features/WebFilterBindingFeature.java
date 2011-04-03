@@ -19,10 +19,10 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.inject.Singleton;
 import javax.servlet.Filter;
 import javax.servlet.annotation.WebFilter;
 
-import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;

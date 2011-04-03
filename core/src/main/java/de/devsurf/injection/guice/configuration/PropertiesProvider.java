@@ -23,8 +23,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.inject.Provider;
-
+import javax.inject.Provider;
 
 public class PropertiesProvider implements Provider<Properties> {
 	Logger _logger = Logger.getLogger(PropertiesProvider.class.getName());

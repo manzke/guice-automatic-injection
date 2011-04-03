@@ -36,7 +36,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Names;
 import com.googlecode.rocoto.configuration.readers.EnvironmentVariablesReader;
 import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;
 import com.googlecode.rocoto.configuration.readers.SystemPropertiesReader;
@@ -49,6 +48,7 @@ import de.devsurf.injection.guice.configuration.ConfigurationModule;
 import de.devsurf.injection.guice.install.BindingTracer;
 import de.devsurf.injection.guice.install.InstallationContext;
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
+import de.devsurf.injection.guice.jsr330.Names;
 import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 /**

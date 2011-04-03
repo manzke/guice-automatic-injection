@@ -16,15 +16,17 @@
 package de.devsurf.injection.guice.integrations.test.commons.configuration.url;
 
 import static org.junit.Assert.assertNotNull;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import junit.framework.Assert;
 
 import org.apache.commons.configuration.plist.PropertyListConfiguration;
 import org.junit.Test;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.configuration.Configuration;

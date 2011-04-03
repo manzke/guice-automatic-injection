@@ -3,7 +3,8 @@ package de.devsurf.injection.guice.serviceloader;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
+
 import com.google.inject.Provider;
 
 public final class SingleServiceLoaderProvider<T> implements Provider<T> {

@@ -21,7 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Properties;
 
-import com.google.inject.name.Named;
+import javax.inject.Named;
 
 /**
  * Use this Annotation to express your need, that a Configuration should be

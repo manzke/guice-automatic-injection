@@ -26,11 +26,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
-
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;

@@ -15,7 +15,7 @@
  */
 package de.devsurf.injection.guice.configuration;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.devsurf.injection.guice.annotations.GuiceModule;
 

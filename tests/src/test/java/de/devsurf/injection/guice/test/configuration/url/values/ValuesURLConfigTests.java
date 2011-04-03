@@ -16,19 +16,21 @@
 package de.devsurf.injection.guice.test.configuration.url.values;
 
 import static org.junit.Assert.assertNotNull;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.name.Named;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.configuration.PathConfig;
 import de.devsurf.injection.guice.configuration.Configuration.Type;
+import de.devsurf.injection.guice.configuration.PathConfig;
 import de.devsurf.injection.guice.configuration.PathConfig.PathType;
 import de.devsurf.injection.guice.configuration.features.ConfigurationFeature;
 import de.devsurf.injection.guice.scanner.PackageFilter;

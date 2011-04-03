@@ -17,8 +17,8 @@ package de.devsurf.injection.guice.configuration;
 
 import java.net.URL;
 import java.util.Iterator;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import com.googlecode.rocoto.configuration.ConfigurationReader;
 import com.googlecode.rocoto.configuration.readers.PropertiesURLReader;

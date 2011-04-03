@@ -46,12 +46,12 @@
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>2.0</version>
+			<version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-multibindings</artifactId>
-			<version>2.0</version>
+			<version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -70,6 +70,9 @@
 					<includes>
 						<include>**/AllTests.java</include>
 					</includes>
+					<excludes>
+						<exclude>**/guicyfruit/AllTests.java</exclude>
+					</excludes>
 					<forkMode>once</forkMode>
 				</configuration>
 			</plugin>		

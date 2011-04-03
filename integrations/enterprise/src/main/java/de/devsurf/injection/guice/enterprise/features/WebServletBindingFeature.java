@@ -19,10 +19,10 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.inject.Singleton;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.rocoto.configuration.resolver.PropertiesResolver;
 

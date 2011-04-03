@@ -18,7 +18,7 @@ package de.devsurf.injection.guice.configuration.example.map.named;
 import java.util.Properties;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Named;
 
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;
 

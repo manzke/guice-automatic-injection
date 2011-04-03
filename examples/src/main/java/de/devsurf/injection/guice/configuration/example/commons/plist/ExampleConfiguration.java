@@ -17,7 +17,7 @@ package de.devsurf.injection.guice.configuration.example.commons.plist;
 
 import org.apache.commons.configuration.plist.PropertyListConfiguration;
 
-import com.google.inject.name.Named;
+import javax.inject.Named;
 
 import de.devsurf.injection.guice.configuration.Configuration;
 import de.devsurf.injection.guice.configuration.PathConfig;

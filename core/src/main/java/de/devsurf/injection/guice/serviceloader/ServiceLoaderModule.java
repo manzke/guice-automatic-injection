@@ -17,11 +17,10 @@ package de.devsurf.injection.guice.serviceloader;
 
 import java.util.Set;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
+
 import com.google.inject.Module;
 
-import de.devsurf.injection.guice.annotations.GuiceModule;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 
 //@GuiceModule(stage=BindingStage.INTERNAL)

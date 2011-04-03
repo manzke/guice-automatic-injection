@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.Map.Entry;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -54,7 +54,7 @@ public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
 		super();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Context getInitialContext(final Hashtable environment) throws NamingException {
 		try {
@@ -109,7 +109,7 @@ public class GuicyInitialContextFactory extends GuiceInitialContextFactory {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Properties createJndiNamesProperties(Hashtable environment) {
 		Set<Map.Entry> set = environment.entrySet();
 		Properties answer = new Properties();

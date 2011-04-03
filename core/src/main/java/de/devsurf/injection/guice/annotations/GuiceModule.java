@@ -22,7 +22,6 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
-
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 
 /**

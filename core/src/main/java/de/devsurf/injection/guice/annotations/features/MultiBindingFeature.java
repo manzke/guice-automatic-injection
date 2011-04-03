@@ -22,8 +22,8 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.google.inject.Scope;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
+
 import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
@@ -47,7 +47,7 @@ public class MultiBindingFeature extends AutoBindingFeature {
 	
 	@Override
 	protected <T, V extends T> void bind(Class<V> implementationClass, Class<T> interf,
-			Annotation annotation, Scope scope) {
+			Annotation annotation, Class<? extends Annotation> scope) {
 		BindingJob job = new MultiBindingJob(scope, annotation, implementationClass.getName(),
 			interf.getName());
 		

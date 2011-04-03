@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
 

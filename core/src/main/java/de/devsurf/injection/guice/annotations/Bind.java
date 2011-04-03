@@ -20,10 +20,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.inject.Named;
 import javax.inject.Qualifier;
-
-import com.google.inject.name.Named;
-
 
 
 /**

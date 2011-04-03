@@ -32,15 +32,14 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 import javax.inject.Qualifier;
+import javax.inject.Singleton;
 
 import com.google.inject.BindingAnnotation;
-import com.google.inject.Scopes;
-import com.google.inject.Singleton;
-import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceAnnotation;
 import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.jsr330.Names;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton
@@ -68,11 +67,8 @@ public class AutoBindingFeature extends BindingScannerFeature {
 		final boolean asSingleton = (annotations.containsKey(com.google.inject.Singleton.class
 			.getName()) || annotations.containsKey(javax.inject.Singleton.class.getName()));
 
-		if (filtered.containsKey(Named.class.getName())) {
-			Named named = (Named) filtered.remove(Named.class.getName());
-			filtered.put(com.google.inject.name.Named.class.getName(), Names.named(resolver.resolve(named.value())));
-		}else if(annotation.value().value().length() > 0){
-			filtered.put(com.google.inject.name.Named.class.getName(), Names.named(resolver.resolve(annotation.value().value())));
+		if(annotation.value().value().length() > 0){
+			filtered.put(Named.class.getName(), Names.named(resolver.resolve(annotation.value().value())));
 		}
 
 		Class<Object>[] interfaces;
@@ -116,10 +112,10 @@ public class AutoBindingFeature extends BindingScannerFeature {
 
 			if (filtered.size() > 0) {
 				for (Annotation anno : filtered.values()) {
-					bind(annotatedClass, interf, anno, (asSingleton ? Scopes.SINGLETON : null));
+					bind(annotatedClass, interf, anno, (asSingleton ? Singleton.class : null));
 				}
 			} else {
-				bind(annotatedClass, interf, null, (asSingleton ? Scopes.SINGLETON : null));
+				bind(annotatedClass, interf, null, (asSingleton ? Singleton.class : null));
 			}
 		}
 	}

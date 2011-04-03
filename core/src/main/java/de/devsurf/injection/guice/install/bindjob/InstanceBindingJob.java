@@ -17,12 +17,10 @@ package de.devsurf.injection.guice.install.bindjob;
 
 import java.lang.annotation.Annotation;
 
-import com.google.inject.Scope;
-
 
 public class InstanceBindingJob extends BindingJob{
 
-	public InstanceBindingJob(Scope scoped, Annotation annotated,
+	public InstanceBindingJob(Class<? extends Annotation> scoped, Annotation annotated,
 			String className, String interfaceName) {
 		super(scoped, null, annotated, className, interfaceName);
 	}

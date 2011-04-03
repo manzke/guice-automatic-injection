@@ -46,7 +46,7 @@ public class AutomaticGuiceManager<T> extends AbstractMultiInstanceResolver<T> {
 		return instance;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public synchronized void start(WSWebServiceContext wsc, WSEndpoint endpoint) {
 		resourceInjector = getResourceInjector(endpoint);

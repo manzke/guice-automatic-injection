@@ -1,7 +1,7 @@
 package de.devsurf.injection.guice.scanner.asm.tests.autobind.startconfig;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class Container {
 	@Inject @Named("mode")

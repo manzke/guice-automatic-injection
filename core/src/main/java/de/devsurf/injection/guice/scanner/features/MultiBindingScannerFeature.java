@@ -17,7 +17,6 @@ package de.devsurf.injection.guice.scanner.features;
 
 import java.lang.annotation.Annotation;
 
-import com.google.inject.Scope;
 import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
@@ -33,7 +32,7 @@ import de.devsurf.injection.guice.scanner.ScannerModule;
  */
 public abstract class MultiBindingScannerFeature extends BindingScannerFeature {
 	protected <T, V extends T> void bindInstance(V impl, Class<T> interf, Annotation annotation,
-			Scope scope) {
+			Class<? extends Annotation> scope) {
 		Multibinder<T> builder;
 		synchronized (_binder) {
 			if (annotation != null) {
@@ -55,7 +54,7 @@ public abstract class MultiBindingScannerFeature extends BindingScannerFeature {
 	}
 
 	protected <T, V extends T> void bind(Class<V> impl, Class<T> interf, Annotation annotation,
-			Scope scope) {
+			Class<? extends Annotation> scope) {
 		Multibinder<T> builder;
 		synchronized (_binder) {
 			if (annotation != null) {

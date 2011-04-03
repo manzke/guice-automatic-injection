@@ -19,16 +19,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.inject.Named;
+
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
 
 import de.devsurf.injection.guice.annotations.Bind;
+import de.devsurf.injection.guice.jsr330.Names;
 import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.devsurf.injection.guice.scanner.StartupModule;
 import de.devsurf.injection.guice.scanner.asm.ASMClasspathScanner;

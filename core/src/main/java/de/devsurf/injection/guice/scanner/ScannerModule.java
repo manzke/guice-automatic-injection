@@ -20,8 +20,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+
 import com.google.inject.Binder;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 
 import de.devsurf.injection.guice.annotations.Bind;

@@ -25,8 +25,6 @@ import java.lang.annotation.Target;
 
 import org.aopalliance.intercept.MethodInterceptor;
 
-import com.google.inject.matcher.Matcher;
-
 /**
  * This Annotation marks a Method, which returns an Object of Type
  * {@link Matcher}. This Matcher is used by Guice, to decide if a
