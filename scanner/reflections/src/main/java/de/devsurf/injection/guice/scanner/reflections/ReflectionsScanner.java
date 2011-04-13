@@ -135,12 +135,17 @@ public class ReflectionsScanner implements ClasspathScanner {
 	}
 
 	private boolean matches(String name) {
-		for (Pattern pattern : packagePatterns) {
-			if (pattern.matcher(name).matches()) {
-				return true;
+		boolean returned = false;
+		try{
+			for (Pattern pattern : packagePatterns) {
+				if (pattern.matcher(name).matches()) {
+					return (returned = true);
+				}
 			}
+			return returned;	
+		}finally{
+			_logger.log(Level.INFO, "ReflectionsScanner.matches(..) - \""+name+"\" -> "+returned);
 		}
-		return false;
 	}
 
 	private class AnnotationScanner extends AbstractScanner {
