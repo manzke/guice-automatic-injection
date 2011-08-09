@@ -93,7 +93,7 @@ public class ASMClasspathScanner implements ClasspathScanner {
 		for (ScannerFeature listener : listeners) {
 			addFeature(listener);
 		}
-		visited = new HashSet<String>();
+		visited = Collections.synchronizedSet(new HashSet<String>());
 	}
 
 	@Override
@@ -303,14 +303,21 @@ public class ASMClasspathScanner implements ClasspathScanner {
 			// ignore
 		}
 	}
-
+	
 	private boolean matches(String name) {
-		for (Pattern pattern : patterns) {
-			if (pattern.matcher(name).matches()) {
-				return true;
+		boolean returned = false;
+		try{
+			for (Pattern pattern : patterns) {
+				if (pattern.matcher(name).matches()) {
+					return (returned = true);
+				}
+			}
+			return returned;	
+		}finally{
+			if(_logger.isLoggable(Level.FINE)){
+				_logger.log(Level.FINE, ASMClasspathScanner.class.getSimpleName()+".matches(..) - \""+name+"\" -> "+returned);	
 			}
 		}
-		return false;
 	}
 
 	public static void main(String[] args) {
