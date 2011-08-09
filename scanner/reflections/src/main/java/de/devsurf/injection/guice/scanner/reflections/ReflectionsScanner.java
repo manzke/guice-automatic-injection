@@ -144,7 +144,9 @@ public class ReflectionsScanner implements ClasspathScanner {
 			}
 			return returned;	
 		}finally{
-			_logger.log(Level.INFO, "ReflectionsScanner.matches(..) - \""+name+"\" -> "+returned);
+			if(_logger.isLoggable(Level.FINE)){
+				_logger.log(Level.FINE, ReflectionsScanner.class.getSimpleName()+".matches(..) - \""+name+"\" -> "+returned);	
+			}
 		}
 	}
 
