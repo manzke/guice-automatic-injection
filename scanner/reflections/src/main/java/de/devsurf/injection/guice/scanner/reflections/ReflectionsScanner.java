@@ -163,7 +163,7 @@ public class ReflectionsScanner implements ClasspathScanner {
 
 			Class<Object> objectClass;
 			try {
-				objectClass = (Class<Object>) Class.forName(classFile.getName());
+				objectClass = (Class<Object>) Class.forName(classFile.getName(), true, Thread.currentThread().getContextClassLoader());
 			} catch (ClassNotFoundException e) {
 				ReflectionsScanner.this._logger.log(Level.WARNING,
 					"Failure while trying to load the Class \"" + classFile.getName()
