@@ -49,3 +49,6 @@ target/**
 *.mymetadata
 *.project
 **/*.project
+.idea/
+*.iml
+target/
