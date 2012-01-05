@@ -118,7 +118,7 @@ public class AnnotationCollector implements ClassVisitor {
 		String annotationClassStr = sig.replace('/', '.').substring(1, sig.length() - 1);
 		if (_class == null) {
 			try {
-				_class = getClass().getClassLoader().loadClass(_name);
+				_class = Thread.currentThread().getContextClassLoader().loadClass(_name);
 			} catch (ClassNotFoundException e) {
 				_logger.log(Level.WARNING,
 					"Failure while visitAnnotation. Class could not be loaded.", e);
