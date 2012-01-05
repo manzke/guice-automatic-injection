@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServlet;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.rocoto.configuration.resolver.PropertiesResolver;
 
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton

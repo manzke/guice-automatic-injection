@@ -19,10 +19,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
+import de.devsurf.injection.guice.install.BindingStage;
 import org.guiceyfruit.jsr250.Jsr250Module;
 
 import de.devsurf.injection.guice.annotations.GuiceModule;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 
 /**
  * JSR250-Module provided by GuicyFruit, so {@link PostConstruct},

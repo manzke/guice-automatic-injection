@@ -28,7 +28,7 @@ import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
 import de.devsurf.injection.guice.annotations.Bind;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
 import de.devsurf.injection.guice.install.bindjob.MultiBindingJob;
 

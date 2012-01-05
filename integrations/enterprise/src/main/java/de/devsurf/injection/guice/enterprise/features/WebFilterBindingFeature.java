@@ -25,7 +25,7 @@ import javax.servlet.annotation.WebFilter;
 
 import com.google.inject.servlet.ServletModule;
 
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton

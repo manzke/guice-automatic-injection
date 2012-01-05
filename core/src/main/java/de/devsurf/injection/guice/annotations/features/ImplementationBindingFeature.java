@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import javax.inject.Singleton;
 
 import de.devsurf.injection.guice.annotations.Bind;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 
 @Singleton
 public class ImplementationBindingFeature extends AutoBindingFeature {

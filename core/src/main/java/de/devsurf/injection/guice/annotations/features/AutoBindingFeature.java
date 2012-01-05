@@ -38,7 +38,7 @@ import com.google.inject.BindingAnnotation;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.devsurf.injection.guice.annotations.GuiceAnnotation;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.jsr330.Names;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 

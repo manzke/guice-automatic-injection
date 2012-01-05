@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 
 /**
  * Annotate a Module with the GuiceModule-Annotation and it will be installed

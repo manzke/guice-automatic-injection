@@ -40,7 +40,7 @@ import de.devsurf.injection.guice.configuration.ConfigurationModule;
 import de.devsurf.injection.guice.configuration.PathConfig;
 import de.devsurf.injection.guice.configuration.PropertiesProvider;
 import de.devsurf.injection.guice.configuration.PropertiesReader;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
 import de.devsurf.injection.guice.install.bindjob.ConfigurationBindingJob;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
