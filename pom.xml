@@ -23,6 +23,7 @@
 	</properties>
 
 	<modules>
+		<module>annotations</module>
 		<module>core</module>
 		<module>examples</module>
 		<module>integrations</module>
