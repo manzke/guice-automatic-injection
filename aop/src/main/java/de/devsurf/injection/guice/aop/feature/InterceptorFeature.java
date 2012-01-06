@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javax.inject.Singleton;
 import javax.interceptor.Interceptor;
 
+import de.devsurf.injection.guice.install.BindingStage;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -39,7 +40,6 @@ import de.devsurf.injection.guice.aop.ClassMatcher;
 import de.devsurf.injection.guice.aop.GuiceMethodInterceptor;
 import de.devsurf.injection.guice.aop.Invoke;
 import de.devsurf.injection.guice.aop.MethodMatcher;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton

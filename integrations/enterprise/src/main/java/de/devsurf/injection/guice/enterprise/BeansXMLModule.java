@@ -37,7 +37,7 @@ import de.devsurf.injection.guice.enterprise.model.Alternatives;
 import de.devsurf.injection.guice.enterprise.model.Beans;
 import de.devsurf.injection.guice.enterprise.model.Decorators;
 import de.devsurf.injection.guice.enterprise.model.Interceptors;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 import de.devsurf.injection.guice.scanner.features.ScannerFeature;
 

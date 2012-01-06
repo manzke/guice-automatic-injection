@@ -29,11 +29,11 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import de.devsurf.injection.guice.install.BindingStage;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
 
 import de.devsurf.injection.guice.configuration.Configuration;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 /**

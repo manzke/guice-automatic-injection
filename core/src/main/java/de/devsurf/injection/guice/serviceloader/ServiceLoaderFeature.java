@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.inject.Singleton;
 
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;
 
 @Singleton

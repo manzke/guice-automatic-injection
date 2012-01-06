@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 import com.google.inject.Module;
 
 import de.devsurf.injection.guice.annotations.GuiceModule;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
 import de.devsurf.injection.guice.install.bindjob.ModuleBindingJob;
 import de.devsurf.injection.guice.scanner.features.BindingScannerFeature;

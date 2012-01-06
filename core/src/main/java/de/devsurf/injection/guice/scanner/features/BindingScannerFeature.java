@@ -34,9 +34,9 @@ import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.util.Providers;
 
 import de.devsurf.injection.guice.configuration.VariableResolver;
+import de.devsurf.injection.guice.install.BindingStage;
 import de.devsurf.injection.guice.install.BindingTracer;
 import de.devsurf.injection.guice.install.InstallationContext;
-import de.devsurf.injection.guice.install.InstallationContext.BindingStage;
 import de.devsurf.injection.guice.install.InstallationContext.StageableRequest;
 import de.devsurf.injection.guice.install.bindjob.BindingJob;
 import de.devsurf.injection.guice.install.bindjob.ConstantBindingJob;
