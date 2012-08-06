@@ -1,3 +1,7 @@
+THIS PROJECT WON'T BE MAINTAINED IN THE REPOSITORY ANYMORE!
+
+Have a look at 99soft / autobind (https://github.com/99soft/autobind)
+
 #guice-automatic-injection
 
 Google Guice-Extension for automatic Modules and Beans Binding.
